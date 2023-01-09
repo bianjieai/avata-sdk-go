@@ -4,6 +4,7 @@ import (
 	"avata-sdk-go/models"
 	"avata-sdk-go/services"
 	"avata-sdk-go/utils"
+	log "github.com/sirupsen/logrus"
 )
 
 type AvataClient struct {
@@ -15,8 +16,8 @@ type AvataClient struct {
 	Order   services.OrderService
 }
 
-func NewClient(domain, apiKey, apiSecret string) *AvataClient {
-	logger := utils.Logger()
+func NewClient(domain, apiKey, apiSecret string,level log.Level) *AvataClient {
+	logger := utils.Logger(level)
 
 	baseParams := models.BaseParams{
 		Domain:    domain,

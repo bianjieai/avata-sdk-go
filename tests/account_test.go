@@ -7,12 +7,13 @@ import (
 
 	client2 "avata-sdk-go"
 	"avata-sdk-go/models"
+	log "github.com/sirupsen/logrus"
 )
 
 var OperationID = fmt.Sprintf("%s%d", "operationID", time.Now().Unix())
 
 func GetClient() *client2.AvataClient {
-	client := client2.NewClient("域名", "项目参数 API KEY", "项目参数 API SECRET")
+	client := client2.NewClient("域名", "项目参数 API KEY", "项目参数 API SECRET", log.ErrorLevel)
 	return client
 }
 
