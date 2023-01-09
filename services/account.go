@@ -38,7 +38,7 @@ func (a AccountService) CreateAccount(params *models.CreateAccountReq) (*models.
 
 	// 非 200 请求失败
 	if statusCode != http.StatusOK {
-		errorResponse:= error.Response{}
+		errorResponse := error.Response{}
 		if err := json.Unmarshal(body, &errorResponse); err != nil {
 			log.WithError(err)
 			return nilRes, &error.Error{Exception: err}

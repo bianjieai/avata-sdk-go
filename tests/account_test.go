@@ -12,7 +12,7 @@ import (
 var OperationID = fmt.Sprintf("%s%d", "operationID", time.Now().Unix())
 
 func GetClient() *client2.AvataClient {
-	client := client2.NewClient("https://stage.apis.avata.bianjie.ai", "dAuB90yF9Wi6PY59nr4R7mvY2ngiWBC", "AKIDz8krbsJ5yKBZQpn74WFkmLPx3gn")
+	client := client2.NewClient("域名", "项目参数 API KEY", "项目参数 API SECRET")
 	return client
 }
 
