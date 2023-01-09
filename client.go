@@ -2,8 +2,8 @@ package avata_sdk_go
 
 import (
 	"avata-sdk-go/models"
-	"avata-sdk-go/pkgs/log"
 	"avata-sdk-go/services"
+	"avata-sdk-go/utils"
 )
 
 type AvataClient struct {
@@ -16,7 +16,7 @@ type AvataClient struct {
 }
 
 func NewClient(domain, apiKey, apiSecret string) *AvataClient {
-	logger := log.Logger()
+	logger := utils.Logger()
 
 	baseParams := models.BaseParams{
 		Domain:    domain,

@@ -5,7 +5,6 @@ import (
 	"net/http"
 
 	"avata-sdk-go/models"
-	"avata-sdk-go/pkgs/error"
 	"avata-sdk-go/utils"
 	"github.com/sirupsen/logrus"
 )
@@ -16,7 +15,7 @@ type AccountService struct {
 }
 
 // CreateAccount 创建链账户
-func (a AccountService) CreateAccount(params *models.CreateAccountReq) (*models.CreateAccountRes, *error.Error) {
+func (a AccountService) CreateAccount(params *models.CreateAccountReq) (*models.CreateAccountRes, *models.Error) {
 	log := a.Logger.WithFields(map[string]interface{}{
 		"module":   "Account",
 		"function": "CreateAccount",
@@ -27,23 +26,23 @@ func (a AccountService) CreateAccount(params *models.CreateAccountReq) (*models.
 	bytesData, err := json.Marshal(params)
 	if err != nil {
 		log.WithError(err)
-		return nilRes, &error.Error{Exception: err}
+		return nilRes, &models.Error{Exception: err}
 	}
 
 	statusCode, status, body, err := utils.DoHttpRequest(http.MethodPost, models.CreateAccount, a.BaseParams, bytesData)
 	if err != nil {
 		log.WithError(err)
-		return nilRes, &error.Error{Exception: err}
+		return nilRes, &models.Error{Exception: err}
 	}
 
 	// 非 200 请求失败
 	if statusCode != http.StatusOK {
-		errorResponse := error.Response{}
+		errorResponse := models.Response{}
 		if err := json.Unmarshal(body, &errorResponse); err != nil {
 			log.WithError(err)
-			return nilRes, &error.Error{Exception: err}
+			return nilRes, &models.Error{Exception: err}
 		}
-		return nilRes, &error.Error{HttpResponse: error.HttpResponse{
+		return nilRes, &models.Error{HttpResponse: models.HttpResponse{
 			Status:     status,
 			StatusCode: statusCode,
 			Response:   errorResponse,
@@ -54,7 +53,7 @@ func (a AccountService) CreateAccount(params *models.CreateAccountReq) (*models.
 	// 请求成功
 	if err := json.Unmarshal(body, &result); err != nil {
 		log.WithError(err)
-		return nilRes, &error.Error{Exception: err}
+		return nilRes, &models.Error{Exception: err}
 	}
 	return result, nil
 }

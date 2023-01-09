@@ -1,4 +1,4 @@
-package error
+package models
 
 type Error struct {
 	Exception    error        // 非接口返回的异常
