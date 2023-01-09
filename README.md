@@ -7,7 +7,7 @@
 编辑 go.mod
 
 ```
-
+github.com/aliyun/aliyun-oss-go-sdk v0.0.0
 ```
 
 ### 创建和使用客户端
