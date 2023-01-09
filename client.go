@@ -16,7 +16,7 @@ type AvataClient struct {
 	Order   services.OrderService
 }
 
-func NewClient(domain, apiKey, apiSecret string,level log.Level) *AvataClient {
+func NewClient(domain, apiKey, apiSecret string, level log.Level) *AvataClient {
 	logger := utils.Logger(level)
 
 	baseParams := models.BaseParams{
