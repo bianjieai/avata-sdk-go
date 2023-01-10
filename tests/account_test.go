@@ -28,7 +28,7 @@ func TestCreateAccount(t *testing.T) {
 	client := GetClient()
 
 	params := &models.CreateAccountReq{
-		//Name:        "链账户1",
+		Name:        "链账户1",
 		OperationID: OperationID,
 	}
 
