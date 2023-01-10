@@ -2,9 +2,13 @@ package services
 
 import (
 	"encoding/json"
+	"errors"
+	"fmt"
 	"net/http"
 
 	"avata-sdk-go/models"
+	"avata-sdk-go/pkgs/configs"
+	errors2 "avata-sdk-go/pkgs/errors"
 	"avata-sdk-go/utils"
 	"github.com/sirupsen/logrus"
 )
@@ -12,6 +16,7 @@ import (
 type AccountService struct {
 	*logrus.Logger    // 日志
 	models.BaseParams // 域名和项目参数
+	*configs.Config
 }
 
 // CreateAccount 创建链账户
@@ -24,13 +29,22 @@ func (a AccountService) CreateAccount(params *models.CreateAccountReq) (*models.
 	log.Info("CreateAccount start")
 
 	nilRes := &models.CreateAccountRes{}
+
+	// 校验必填参数
+	if params.Name == "" {
+		return nilRes, &models.Error{Exception: errors.New(fmt.Sprintf(errors2.ErrParam, "name"))}
+	}
+	if params.OperationID == "" {
+		return nilRes, &models.Error{Exception: errors.New(fmt.Sprintf(errors2.ErrParam, "operation_id"))}
+	}
+
 	bytesData, err := json.Marshal(params)
 	if err != nil {
 		log.WithError(err).Errorln("Marshal Params")
 		return nilRes, &models.Error{Exception: err}
 	}
 
-	statusCode, status, body, err := utils.DoHttpRequest(http.MethodPost, models.CreateAccount, a.BaseParams, bytesData, nil)
+	statusCode, status, body, err := utils.DoHttpRequest(http.MethodPost, models.CreateAccount, a.Config.HttpTimeout, a.BaseParams, bytesData, nil)
 	if err != nil {
 		log.WithError(err).Errorln("DoHttpRequest")
 		return nilRes, &models.Error{Exception: err}
@@ -73,13 +87,17 @@ func (a AccountService) BatchCreateAccounts(params *models.BatchCreateAccountsRe
 	log.Info("BatchCreateAccounts start")
 
 	nilRes := &models.BatchCreateAccountsRes{}
+
+	//校验必填参数
+	//todo
+
 	bytesData, err := json.Marshal(params)
 	if err != nil {
 		log.WithError(err).Errorln("Marshal Params")
 		return nilRes, &models.Error{Exception: err}
 	}
 
-	statusCode, status, body, err := utils.DoHttpRequest(http.MethodPost, models.BatchCreateAccounts, a.BaseParams, bytesData, nil)
+	statusCode, status, body, err := utils.DoHttpRequest(http.MethodPost, models.BatchCreateAccounts, a.Config.HttpTimeout, a.BaseParams, bytesData, nil)
 	if err != nil {
 		log.WithError(err).Errorln("DoHttpRequest")
 		return nilRes, &models.Error{Exception: err}
@@ -122,13 +140,17 @@ func (a AccountService) GetAccounts(params *models.GetAccountsReq) (*models.GetA
 	log.Info("GetAccounts start")
 
 	nilRes := &models.GetAccountsRes{}
+
+	//校验必填参数
+	//todo
+
 	bytesData, err := json.Marshal(params)
 	if err != nil {
 		log.WithError(err).Errorln("Marshal Params")
 		return nilRes, &models.Error{Exception: err}
 	}
 
-	statusCode, status, body, err := utils.DoHttpRequest(http.MethodGet, models.GetAccounts, a.BaseParams, nil, bytesData)
+	statusCode, status, body, err := utils.DoHttpRequest(http.MethodGet, models.GetAccounts, a.Config.HttpTimeout, a.BaseParams, nil, bytesData)
 	if err != nil {
 		log.WithError(err).Errorln("DoHttpRequest")
 		return nilRes, &models.Error{Exception: err}
@@ -171,13 +193,17 @@ func (a AccountService) GetAccountsHistory(params *models.GetAccountsHistoryReq)
 	log.Info("GetAccountsHistory start")
 
 	nilRes := &models.GetAccountsHistoryRes{}
+
+	//校验必填参数
+	//todo
+
 	bytesData, err := json.Marshal(params)
 	if err != nil {
 		log.WithError(err).Errorln("Marshal Params")
 		return nilRes, &models.Error{Exception: err}
 	}
 
-	statusCode, status, body, err := utils.DoHttpRequest(http.MethodGet, models.GetAccountsHistory, a.BaseParams, nil, bytesData)
+	statusCode, status, body, err := utils.DoHttpRequest(http.MethodGet, models.GetAccountsHistory, a.Config.HttpTimeout, a.BaseParams, nil, bytesData)
 	if err != nil {
 		log.WithError(err).Errorln("DoHttpRequest")
 		return nilRes, &models.Error{Exception: err}
