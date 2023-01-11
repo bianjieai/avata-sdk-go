@@ -1,9 +1,8 @@
 package avata_sdk_go
 
 import (
+	"avata-sdk-go/configs"
 	"avata-sdk-go/models"
-	"avata-sdk-go/pkgs/configs"
-	"avata-sdk-go/pkgs/errors"
 	"avata-sdk-go/services"
 	"avata-sdk-go/utils"
 )
@@ -35,24 +34,27 @@ func NewClient(domain, apiKey, apiSecret string, options ...configs.Options) *Av
 		APISecret: apiSecret,
 	}
 
+	// 初始化
+	httpClient := utils.NewHttpClient(cfg.HttpTimeout, baseParams)
+
 	return &AvataClient{
-		Account: services.AccountService{Logger: logger, BaseParams: baseParams, Config: cfg},
-		Tx:      services.TxService{Logger: logger, BaseParams: baseParams},
-		NFT:     services.NftService{Logger: logger, BaseParams: baseParams},
-		MT:      services.MtService{Logger: logger, BaseParams: baseParams},
-		Record:  services.RecordService{Logger: logger, BaseParams: baseParams},
-		Order:   services.OrderService{Logger: logger, BaseParams: baseParams},
+		Account: services.AccountService{Logger: logger, HttpClient: httpClient},
+		Tx:      services.TxService{Logger: logger, HttpClient: httpClient},
+		NFT:     services.NftService{Logger: logger, HttpClient: httpClient},
+		MT:      services.MtService{Logger: logger, HttpClient: httpClient},
+		Record:  services.RecordService{Logger: logger, HttpClient: httpClient},
+		Order:   services.OrderService{Logger: logger, HttpClient: httpClient},
 	}
 }
 
 func checkBaseParams(domain, apiKey, apiSecret string) {
 	if domain == "" {
-		panic(errors.ErrDomain)
+		panic(models.ErrDomain)
 	}
 	if apiKey == "" {
-		panic(errors.ErrAPIKey)
+		panic(models.ErrAPIKey)
 	}
 	if apiSecret == "" {
-		panic(errors.ErrAPISecret)
+		panic(models.ErrAPISecret)
 	}
 }

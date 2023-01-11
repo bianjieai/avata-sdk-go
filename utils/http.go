@@ -11,18 +11,35 @@ import (
 	"avata-sdk-go/models"
 )
 
+type HttpClient struct {
+	client     *http.Client
+	baseParams models.BaseParams
+}
+
+func NewHttpClient(httpTimeout int, baseParams models.BaseParams) *HttpClient {
+	return &HttpClient{
+		client:     &http.Client{Timeout: time.Duration(httpTimeout) * time.Second},
+		baseParams: baseParams,
+	}
+}
+
 // DoHttpRequest http 请求
-func DoHttpRequest(method, path string, httpTimeout int, baseParams models.BaseParams, bodyParams, queryParams []byte) (int, string, []byte, error) {
-	client := &http.Client{Timeout: time.Duration(httpTimeout) * time.Second}
-	r, err := http.NewRequest(method, fmt.Sprintf("%s%s", baseParams.Domain, path), bytes.NewReader(bodyParams))
+func (h HttpClient) DoHttpRequest(method, path string, bodyParams, queryParams []byte) ([]byte, models.BaseRes) {
+	baseRes := models.BaseRes{}
+
+	r, err := http.NewRequest(method, fmt.Sprintf("%s%s", h.baseParams.Domain, path), bytes.NewReader(bodyParams))
 	if err != nil {
-		return 0, "", nil, err
+		baseRes.Code = -1
+		baseRes.Message = err.Error()
+		return nil, baseRes
 	}
 
-	if method == http.MethodGet {
+	if method == http.MethodGet && queryParams != nil {
 		queryParamsMap := make(map[string]string)
 		if err = json.Unmarshal(queryParams, &queryParamsMap); err != nil {
-			return 0, "", nil, err
+			baseRes.Code = -1
+			baseRes.Message = err.Error()
+			return nil, baseRes
 		}
 		q := r.URL.Query()
 		for k, v := range queryParamsMap {
@@ -31,18 +48,34 @@ func DoHttpRequest(method, path string, httpTimeout int, baseParams models.BaseP
 		r.URL.RawQuery = q.Encode()
 	}
 
-	SignRequest(r, baseParams.APIKey, baseParams.APISecret)
+	SignRequest(r, h.baseParams.APIKey, h.baseParams.APISecret)
 
-	res, err := client.Do(r)
+	res, err := h.client.Do(r)
 	if err != nil {
-		return 0, "", nil, err
+		baseRes.Code = -1
+		baseRes.Message = err.Error()
+		return nil, baseRes
 	}
 	defer res.Body.Close()
 
+	baseRes.Http.Code = res.StatusCode
+	baseRes.Http.Message = res.Status
+
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
-		return 0, "", nil, err
+		baseRes.Code = -1
+		baseRes.Message = err.Error()
+		return nil, baseRes
 	}
 
-	return res.StatusCode, res.Status, body, nil
+	if res.StatusCode != http.StatusOK {
+		if err = json.Unmarshal(body, &baseRes); err != nil {
+			baseRes.Code = -1
+			baseRes.Message = err.Error()
+			return body, baseRes
+		}
+		return body, baseRes
+	}
+
+	return body, baseRes
 }

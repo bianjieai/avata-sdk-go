@@ -1,11 +1,11 @@
 package services
 
 import (
-	"avata-sdk-go/models"
+	"avata-sdk-go/utils"
 	"github.com/sirupsen/logrus"
 )
 
 type NftService struct {
-	*logrus.Logger    // 日志
-	models.BaseParams // 域名和项目参数
+	*logrus.Logger // 日志
+	*utils.HttpClient
 }

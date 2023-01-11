@@ -14,13 +14,16 @@ type CreateAccountReq struct {
 }
 
 // CreateAccountRes 创建链账户返回值
-type CreateAccountRes struct {
-	Data struct {
-		Account     string `json:"account"`
-		Name        string `json:"name"`
-		OperationID string `json:"operation_id"`
-	} `json:"data"`
-}
+type (
+	CreateAccountRes struct {
+		BaseRes
+		Data struct {
+			Account     string `json:"account"`
+			Name        string `json:"name"`
+			OperationID string `json:"operation_id"`
+		} `json:"data"`
+	}
+)
 
 // BatchCreateAccountsReq 批量创建链账户请求参数
 type BatchCreateAccountsReq struct {
@@ -30,6 +33,7 @@ type BatchCreateAccountsReq struct {
 
 // BatchCreateAccountsRes 批量创建链账户返回值
 type BatchCreateAccountsRes struct {
+	BaseRes
 	Data struct {
 		Accounts    []string `json:"accounts"`
 		OperationID string   `json:"operation_id"`
@@ -51,6 +55,7 @@ type GetAccountsReq struct {
 // GetAccountsRes 查询链账户返回值
 type (
 	GetAccountsRes struct {
+		BaseRes
 		Data struct {
 			Offset     int64      `json:"offset"`
 			Limit      int64      `json:"limit"`
@@ -85,6 +90,7 @@ type GetAccountsHistoryReq struct {
 // GetAccountsHistoryRes 查询链账户操作记录返回值
 type (
 	GetAccountsHistoryRes struct {
+		BaseRes
 		Data struct {
 			Offset           int64              `json:"offset"`
 			Limit            int64              `json:"limit"`
