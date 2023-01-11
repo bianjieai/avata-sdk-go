@@ -1,8 +1,9 @@
 package services
 
 import (
-	"avata-sdk-go/utils"
 	"github.com/sirupsen/logrus"
+
+	"avata-sdk-go/utils"
 )
 
 type NftService struct {

@@ -5,10 +5,11 @@ import (
 	"testing"
 	"time"
 
+	"github.com/sirupsen/logrus"
+
 	client2 "avata-sdk-go"
 	"avata-sdk-go/configs"
 	"avata-sdk-go/models"
-	"github.com/sirupsen/logrus"
 )
 
 var OperationID = fmt.Sprintf("%s%d", "operationID", time.Now().Unix())

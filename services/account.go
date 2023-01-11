@@ -5,9 +5,10 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/sirupsen/logrus"
+
 	"avata-sdk-go/models"
 	"avata-sdk-go/utils"
-	"github.com/sirupsen/logrus"
 )
 
 type AccountService struct {
