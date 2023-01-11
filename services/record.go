@@ -29,43 +29,43 @@ func (r RecordService) CreateRecord(params *models.CreateRecordReq) *models.TxRe
 	// 校验必填参数
 	if params == nil {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "params")
 		return result
 	}
 	if params.OperationId == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "operation_id")
 		return result
 	}
 	if params.Name == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "name"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "name")
 		return result
 	}
 	if params.Type == 0 {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "type"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "type")
 		return result
 	}
 	if params.Description == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "description"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "description")
 		return result
 	}
 	if params.HashType == 0 {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "hash_type"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "hash_type")
 		return result
 	}
 	if params.Hash == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "hash"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "hash")
 		return result
 	}
@@ -73,7 +73,7 @@ func (r RecordService) CreateRecord(params *models.CreateRecordReq) *models.TxRe
 	bytesData, err := json.Marshal(params)
 	if err != nil {
 		log.WithError(err).Errorln("Marshal Params")
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = err.Error()
 		return result
 	}
@@ -87,7 +87,7 @@ func (r RecordService) CreateRecord(params *models.CreateRecordReq) *models.TxRe
 	result.BaseRes = baseRes
 
 	// 记录错误日志
-	if baseRes.Code == -1 {
+	if baseRes.Code == models.CodeFailed {
 		log.WithField("error", baseRes.Message).Errorln("DoHttpRequest")
 		return result
 	}
@@ -95,7 +95,7 @@ func (r RecordService) CreateRecord(params *models.CreateRecordReq) *models.TxRe
 	if baseRes.Http.Code == http.StatusOK {
 		if err := json.Unmarshal(body, &result); err != nil {
 			log.WithError(err).Errorln("Unmarshal body")
-			result.Code = -1
+			result.Code = models.CodeFailed
 			result.Message = err.Error()
 			return result
 		}

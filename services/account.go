@@ -29,19 +29,19 @@ func (a AccountService) CreateAccount(params *models.CreateAccountReq) *models.C
 	// 校验必填参数
 	if params == nil {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "params")
 		return result
 	}
 	if params.Name == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "name"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "name")
 		return result
 	}
 	if params.OperationID == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "operation_id")
 		return result
 	}
@@ -49,7 +49,7 @@ func (a AccountService) CreateAccount(params *models.CreateAccountReq) *models.C
 	bytesData, err := json.Marshal(params)
 	if err != nil {
 		log.WithError(err).Errorln("Marshal Params")
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = err.Error()
 		return result
 	}
@@ -64,7 +64,7 @@ func (a AccountService) CreateAccount(params *models.CreateAccountReq) *models.C
 	result.BaseRes = baseRes
 
 	// 记录错误日志
-	if baseRes.Code == -1 {
+	if baseRes.Code == models.CodeFailed {
 		log.WithField("error", baseRes.Message).Errorln("DoHttpRequest")
 		return result
 	}
@@ -72,7 +72,7 @@ func (a AccountService) CreateAccount(params *models.CreateAccountReq) *models.C
 	if baseRes.Http.Code == http.StatusOK {
 		if err := json.Unmarshal(body, &result); err != nil {
 			log.WithError(err).Errorln("Unmarshal body")
-			result.Code = -1
+			result.Code = models.CodeFailed
 			result.Message = err.Error()
 			return result
 		}
@@ -96,13 +96,13 @@ func (a AccountService) BatchCreateAccounts(params *models.BatchCreateAccountsRe
 	// 校验必填参数
 	if params == nil {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "params")
 		return result
 	}
 	if params.OperationID == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "operation_id")
 		return result
 	}
@@ -110,7 +110,7 @@ func (a AccountService) BatchCreateAccounts(params *models.BatchCreateAccountsRe
 	bytesData, err := json.Marshal(params)
 	if err != nil {
 		log.WithError(err).Errorln("Marshal Params")
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = err.Error()
 		return result
 	}
@@ -124,7 +124,7 @@ func (a AccountService) BatchCreateAccounts(params *models.BatchCreateAccountsRe
 	result.BaseRes = baseRes
 
 	// 记录错误日志
-	if baseRes.Code == -1 {
+	if baseRes.Code == models.CodeFailed {
 		log.WithField("error", baseRes.Message).Errorln("DoHttpRequest")
 		return result
 	}
@@ -132,7 +132,7 @@ func (a AccountService) BatchCreateAccounts(params *models.BatchCreateAccountsRe
 	if baseRes.Http.Code == http.StatusOK {
 		if err := json.Unmarshal(body, &result); err != nil {
 			log.WithError(err).Errorln("Unmarshal body")
-			result.Code = -1
+			result.Code = models.CodeFailed
 			result.Message = err.Error()
 			return result
 		}
@@ -156,7 +156,7 @@ func (a AccountService) GetAccounts(params *models.GetAccountsReq) *models.GetAc
 	bytesData, err := json.Marshal(params)
 	if err != nil {
 		log.WithError(err).Errorln("Marshal Params")
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = err.Error()
 		return result
 	}
@@ -170,7 +170,7 @@ func (a AccountService) GetAccounts(params *models.GetAccountsReq) *models.GetAc
 	result.BaseRes = baseRes
 
 	// 记录错误日志
-	if baseRes.Code == -1 {
+	if baseRes.Code == models.CodeFailed {
 		log.WithField("error", baseRes.Message).Errorln("DoHttpRequest")
 		return result
 	}
@@ -178,7 +178,7 @@ func (a AccountService) GetAccounts(params *models.GetAccountsReq) *models.GetAc
 	if baseRes.Http.Code == http.StatusOK {
 		if err := json.Unmarshal(body, &result); err != nil {
 			log.WithError(err).Errorln("Unmarshal body")
-			result.Code = -1
+			result.Code = models.CodeFailed
 			result.Message = err.Error()
 			return result
 		}
@@ -202,7 +202,7 @@ func (a AccountService) GetAccountsHistory(params *models.GetAccountsHistoryReq)
 	bytesData, err := json.Marshal(params)
 	if err != nil {
 		log.WithError(err).Errorln("Marshal Params")
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = err.Error()
 		return result
 	}
@@ -216,7 +216,7 @@ func (a AccountService) GetAccountsHistory(params *models.GetAccountsHistoryReq)
 	result.BaseRes = baseRes
 
 	// 记录错误日志
-	if baseRes.Code == -1 {
+	if baseRes.Code == models.CodeFailed {
 		log.WithField("error", baseRes.Message).Errorln("DoHttpRequest")
 		return result
 	}
@@ -224,7 +224,7 @@ func (a AccountService) GetAccountsHistory(params *models.GetAccountsHistoryReq)
 	if baseRes.Http.Code == http.StatusOK {
 		if err := json.Unmarshal(body, &result); err != nil {
 			log.WithError(err).Errorln("Unmarshal body")
-			result.Code = -1
+			result.Code = models.CodeFailed
 			result.Message = err.Error()
 			return result
 		}

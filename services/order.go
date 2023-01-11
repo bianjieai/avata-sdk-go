@@ -29,31 +29,31 @@ func (o OrderService) CreateOrder(params *models.CreateOrderReq) *models.OrderRe
 	// 校验必填参数
 	if params == nil {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "params")
 		return result
 	}
 	if params.OrderId == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "order_id"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "order_id")
 		return result
 	}
 	if params.OrderType == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "order_type"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "order_type")
 		return result
 	}
 	if params.Account == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "account"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "account")
 		return result
 	}
 	if params.Amount <= 100 || params.Amount%100 != 0 {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "amount"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "amount")
 		return result
 	}
@@ -61,7 +61,7 @@ func (o OrderService) CreateOrder(params *models.CreateOrderReq) *models.OrderRe
 	bytesData, err := json.Marshal(params)
 	if err != nil {
 		log.WithError(err).Errorln("Marshal Params")
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = err.Error()
 		return result
 	}
@@ -75,7 +75,7 @@ func (o OrderService) CreateOrder(params *models.CreateOrderReq) *models.OrderRe
 	result.BaseRes = baseRes
 
 	// 记录错误日志
-	if baseRes.Code == -1 {
+	if baseRes.Code == models.CodeFailed {
 		log.WithField("error", baseRes.Message).Errorln("DoHttpRequest")
 		return result
 	}
@@ -83,7 +83,7 @@ func (o OrderService) CreateOrder(params *models.CreateOrderReq) *models.OrderRe
 	if baseRes.Http.Code == http.StatusOK {
 		if err := json.Unmarshal(body, &result); err != nil {
 			log.WithError(err).Errorln("Unmarshal body")
-			result.Code = -1
+			result.Code = models.CodeFailed
 			result.Message = err.Error()
 			return result
 		}
@@ -107,7 +107,7 @@ func (o OrderService) GetOrders(params *models.GetOrdersReq) *models.GetOrdersRe
 	bytesData, err := json.Marshal(params)
 	if err != nil {
 		log.WithError(err).Errorln("Marshal Params")
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = err.Error()
 		return result
 	}
@@ -121,7 +121,7 @@ func (o OrderService) GetOrders(params *models.GetOrdersReq) *models.GetOrdersRe
 	result.BaseRes = baseRes
 
 	// 记录错误日志
-	if baseRes.Code == -1 {
+	if baseRes.Code == models.CodeFailed {
 		log.WithField("error", baseRes.Message).Errorln("DoHttpRequest")
 		return result
 	}
@@ -129,7 +129,7 @@ func (o OrderService) GetOrders(params *models.GetOrdersReq) *models.GetOrdersRe
 	if baseRes.Http.Code == http.StatusOK {
 		if err := json.Unmarshal(body, &result); err != nil {
 			log.WithError(err).Errorln("Unmarshal body")
-			result.Code = -1
+			result.Code = models.CodeFailed
 			result.Message = err.Error()
 			return result
 		}
@@ -153,7 +153,7 @@ func (o OrderService) GetOrder(orderID string) *models.GetOrderRes {
 	// 校验必填参数
 	if orderID == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "order_id"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "order_id")
 		return result
 	}
@@ -167,7 +167,7 @@ func (o OrderService) GetOrder(orderID string) *models.GetOrderRes {
 	result.BaseRes = baseRes
 
 	// 记录错误日志
-	if baseRes.Code == -1 {
+	if baseRes.Code == models.CodeFailed {
 		log.WithField("error", baseRes.Message).Errorln("DoHttpRequest")
 		return result
 	}
@@ -175,7 +175,7 @@ func (o OrderService) GetOrder(orderID string) *models.GetOrderRes {
 	if baseRes.Http.Code == http.StatusOK {
 		if err := json.Unmarshal(body, &result); err != nil {
 			log.WithError(err).Errorln("Unmarshal body")
-			result.Code = -1
+			result.Code = models.CodeFailed
 			result.Message = err.Error()
 			return result
 		}
@@ -199,19 +199,19 @@ func (o OrderService) CreateBatchOrder(params *models.CreateBatchOrderReq) *mode
 	// 校验必填参数
 	if params == nil {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "params")
 		return result
 	}
 	if params.List == nil || len(params.List) < 1 {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "list"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "list")
 		return result
 	}
 	if params.OrderId == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "order_id"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "order_id")
 		return result
 	}
@@ -219,7 +219,7 @@ func (o OrderService) CreateBatchOrder(params *models.CreateBatchOrderReq) *mode
 	bytesData, err := json.Marshal(params)
 	if err != nil {
 		log.WithError(err).Errorln("Marshal Params")
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = err.Error()
 		return result
 	}
@@ -233,7 +233,7 @@ func (o OrderService) CreateBatchOrder(params *models.CreateBatchOrderReq) *mode
 	result.BaseRes = baseRes
 
 	// 记录错误日志
-	if baseRes.Code == -1 {
+	if baseRes.Code == models.CodeFailed {
 		log.WithField("error", baseRes.Message).Errorln("DoHttpRequest")
 		return result
 	}
@@ -241,7 +241,7 @@ func (o OrderService) CreateBatchOrder(params *models.CreateBatchOrderReq) *mode
 	if baseRes.Http.Code == http.StatusOK {
 		if err := json.Unmarshal(body, &result); err != nil {
 			log.WithError(err).Errorln("Unmarshal body")
-			result.Code = -1
+			result.Code = models.CodeFailed
 			result.Message = err.Error()
 			return result
 		}

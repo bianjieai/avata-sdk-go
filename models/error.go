@@ -1,5 +1,11 @@
 package models
 
+// Code
+const (
+	CodeSuccess = 0  // 成功
+	CodeFailed  = -1 // 失败
+)
+
 const (
 	ErrDomain    = "the avata domain address is required"
 	ErrAPIKey    = "the api key for the project is required"

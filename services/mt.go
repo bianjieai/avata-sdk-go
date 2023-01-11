@@ -29,25 +29,25 @@ func (m MtService) CreateMTClass(params *models.CreateMTClassReq) *models.TxRes 
 	// 校验必填参数
 	if params == nil {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "params")
 		return result
 	}
 	if params.OperationId == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "operation_id")
 		return result
 	}
 	if params.Name == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "name"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "name")
 		return result
 	}
 	if params.Owner == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "owner"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "owner")
 		return result
 	}
@@ -55,7 +55,7 @@ func (m MtService) CreateMTClass(params *models.CreateMTClassReq) *models.TxRes 
 	bytesData, err := json.Marshal(params)
 	if err != nil {
 		log.WithError(err).Errorln("Marshal Params")
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = err.Error()
 		return result
 	}
@@ -69,7 +69,7 @@ func (m MtService) CreateMTClass(params *models.CreateMTClassReq) *models.TxRes 
 	result.BaseRes = baseRes
 
 	// 记录错误日志
-	if baseRes.Code == -1 {
+	if baseRes.Code == models.CodeFailed {
 		log.WithField("error", baseRes.Message).Errorln("DoHttpRequest")
 		return result
 	}
@@ -77,7 +77,7 @@ func (m MtService) CreateMTClass(params *models.CreateMTClassReq) *models.TxRes 
 	if baseRes.Http.Code == http.StatusOK {
 		if err := json.Unmarshal(body, &result); err != nil {
 			log.WithError(err).Errorln("Unmarshal body")
-			result.Code = -1
+			result.Code = models.CodeFailed
 			result.Message = err.Error()
 			return result
 		}
@@ -101,7 +101,7 @@ func (m MtService) GetMTClasses(params *models.GetMTClassesReq) *models.GetMTCla
 	bytesData, err := json.Marshal(params)
 	if err != nil {
 		log.WithError(err).Errorln("Marshal Params")
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = err.Error()
 		return result
 	}
@@ -115,7 +115,7 @@ func (m MtService) GetMTClasses(params *models.GetMTClassesReq) *models.GetMTCla
 	result.BaseRes = baseRes
 
 	// 记录错误日志
-	if baseRes.Code == -1 {
+	if baseRes.Code == models.CodeFailed {
 		log.WithField("error", baseRes.Message).Errorln("DoHttpRequest")
 		return result
 	}
@@ -123,7 +123,7 @@ func (m MtService) GetMTClasses(params *models.GetMTClassesReq) *models.GetMTCla
 	if baseRes.Http.Code == http.StatusOK {
 		if err := json.Unmarshal(body, &result); err != nil {
 			log.WithError(err).Errorln("Unmarshal body")
-			result.Code = -1
+			result.Code = models.CodeFailed
 			result.Message = err.Error()
 			return result
 		}
@@ -147,7 +147,7 @@ func (m MtService) GetMTClass(id string) *models.GetMTClassRes {
 	// 校验必填参数
 	if id == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "id"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "id")
 		return result
 	}
@@ -161,7 +161,7 @@ func (m MtService) GetMTClass(id string) *models.GetMTClassRes {
 	result.BaseRes = baseRes
 
 	// 记录错误日志
-	if baseRes.Code == -1 {
+	if baseRes.Code == models.CodeFailed {
 		log.WithField("error", baseRes.Message).Errorln("DoHttpRequest")
 		return result
 	}
@@ -169,7 +169,7 @@ func (m MtService) GetMTClass(id string) *models.GetMTClassRes {
 	if baseRes.Http.Code == http.StatusOK {
 		if err := json.Unmarshal(body, &result); err != nil {
 			log.WithError(err).Errorln("Unmarshal body")
-			result.Code = -1
+			result.Code = models.CodeFailed
 			result.Message = err.Error()
 			return result
 		}
@@ -195,31 +195,31 @@ func (m MtService) TransferMTClass(classID, owner string, params *models.Transfe
 	// 校验必填参数
 	if classID == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "class_id"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "class_id")
 		return result
 	}
 	if owner == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "owner"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "owner")
 		return result
 	}
 	if params == nil {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "params")
 		return result
 	}
 	if params.Recipient == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "recipient"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "recipient")
 		return result
 	}
 	if params.OperationId == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "operation_id")
 		return result
 	}
@@ -227,7 +227,7 @@ func (m MtService) TransferMTClass(classID, owner string, params *models.Transfe
 	bytesData, err := json.Marshal(params)
 	if err != nil {
 		log.WithError(err).Errorln("Marshal Params")
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = err.Error()
 		return result
 	}
@@ -241,7 +241,7 @@ func (m MtService) TransferMTClass(classID, owner string, params *models.Transfe
 	result.BaseRes = baseRes
 
 	// 记录错误日志
-	if baseRes.Code == -1 {
+	if baseRes.Code == models.CodeFailed {
 		log.WithField("error", baseRes.Message).Errorln("DoHttpRequest")
 		return result
 	}
@@ -249,7 +249,7 @@ func (m MtService) TransferMTClass(classID, owner string, params *models.Transfe
 	if baseRes.Http.Code == http.StatusOK {
 		if err := json.Unmarshal(body, &result); err != nil {
 			log.WithError(err).Errorln("Unmarshal body")
-			result.Code = -1
+			result.Code = models.CodeFailed
 			result.Message = err.Error()
 			return result
 		}
@@ -274,19 +274,19 @@ func (m MtService) IssueMT(classID string, params *models.IssueMTReq) *models.Tx
 	// 校验必填参数
 	if classID == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "class_id"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "class_id")
 		return result
 	}
 	if params == nil {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "params")
 		return result
 	}
 	if params.OperationId == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "operation_id")
 		return result
 	}
@@ -294,7 +294,7 @@ func (m MtService) IssueMT(classID string, params *models.IssueMTReq) *models.Tx
 	bytesData, err := json.Marshal(params)
 	if err != nil {
 		log.WithError(err).Errorln("Marshal Params")
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = err.Error()
 		return result
 	}
@@ -308,7 +308,7 @@ func (m MtService) IssueMT(classID string, params *models.IssueMTReq) *models.Tx
 	result.BaseRes = baseRes
 
 	// 记录错误日志
-	if baseRes.Code == -1 {
+	if baseRes.Code == models.CodeFailed {
 		log.WithField("error", baseRes.Message).Errorln("DoHttpRequest")
 		return result
 	}
@@ -316,7 +316,7 @@ func (m MtService) IssueMT(classID string, params *models.IssueMTReq) *models.Tx
 	if baseRes.Http.Code == http.StatusOK {
 		if err := json.Unmarshal(body, &result); err != nil {
 			log.WithError(err).Errorln("Unmarshal body")
-			result.Code = -1
+			result.Code = models.CodeFailed
 			result.Message = err.Error()
 			return result
 		}
@@ -342,25 +342,25 @@ func (m MtService) MintMT(classID, mtID string, params *models.MintMTReq) *model
 	// 校验必填参数
 	if classID == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "class_id"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "class_id")
 		return result
 	}
 	if mtID == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "mt_id"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "mt_id")
 		return result
 	}
 	if params == nil {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "params")
 		return result
 	}
 	if params.OperationId == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "operation_id")
 		return result
 	}
@@ -368,7 +368,7 @@ func (m MtService) MintMT(classID, mtID string, params *models.MintMTReq) *model
 	bytesData, err := json.Marshal(params)
 	if err != nil {
 		log.WithError(err).Errorln("Marshal Params")
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = err.Error()
 		return result
 	}
@@ -382,7 +382,7 @@ func (m MtService) MintMT(classID, mtID string, params *models.MintMTReq) *model
 	result.BaseRes = baseRes
 
 	// 记录错误日志
-	if baseRes.Code == -1 {
+	if baseRes.Code == models.CodeFailed {
 		log.WithField("error", baseRes.Message).Errorln("DoHttpRequest")
 		return result
 	}
@@ -390,7 +390,7 @@ func (m MtService) MintMT(classID, mtID string, params *models.MintMTReq) *model
 	if baseRes.Http.Code == http.StatusOK {
 		if err := json.Unmarshal(body, &result); err != nil {
 			log.WithError(err).Errorln("Unmarshal body")
-			result.Code = -1
+			result.Code = models.CodeFailed
 			result.Message = err.Error()
 			return result
 		}
@@ -417,37 +417,37 @@ func (m MtService) TransferMT(classID, owner, mtID string, params *models.Transf
 	// 校验必填参数
 	if classID == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "class_id"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "class_id")
 		return result
 	}
 	if owner == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "owner"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "owner")
 		return result
 	}
 	if mtID == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "mt_id"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "mt_id")
 		return result
 	}
 	if params == nil {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "params")
 		return result
 	}
 	if params.OperationId == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "operation_id")
 		return result
 	}
 	if params.Recipient == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "recipient"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "recipient")
 		return result
 	}
@@ -455,7 +455,7 @@ func (m MtService) TransferMT(classID, owner, mtID string, params *models.Transf
 	bytesData, err := json.Marshal(params)
 	if err != nil {
 		log.WithError(err).Errorln("Marshal Params")
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = err.Error()
 		return result
 	}
@@ -469,7 +469,7 @@ func (m MtService) TransferMT(classID, owner, mtID string, params *models.Transf
 	result.BaseRes = baseRes
 
 	// 记录错误日志
-	if baseRes.Code == -1 {
+	if baseRes.Code == models.CodeFailed {
 		log.WithField("error", baseRes.Message).Errorln("DoHttpRequest")
 		return result
 	}
@@ -477,7 +477,7 @@ func (m MtService) TransferMT(classID, owner, mtID string, params *models.Transf
 	if baseRes.Http.Code == http.StatusOK {
 		if err := json.Unmarshal(body, &result); err != nil {
 			log.WithError(err).Errorln("Unmarshal body")
-			result.Code = -1
+			result.Code = models.CodeFailed
 			result.Message = err.Error()
 			return result
 		}
@@ -504,37 +504,37 @@ func (m MtService) EditMT(classID, owner, mtID string, params *models.EditMTReq)
 	// 校验必填参数
 	if classID == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "class_id"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "class_id")
 		return result
 	}
 	if owner == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "owner"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "owner")
 		return result
 	}
 	if mtID == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "mt_id"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "mt_id")
 		return result
 	}
 	if params == nil {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "params")
 		return result
 	}
 	if params.OperationId == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "operation_id")
 		return result
 	}
 	if params.Data == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "data"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "data")
 		return result
 	}
@@ -542,7 +542,7 @@ func (m MtService) EditMT(classID, owner, mtID string, params *models.EditMTReq)
 	bytesData, err := json.Marshal(params)
 	if err != nil {
 		log.WithError(err).Errorln("Marshal Params")
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = err.Error()
 		return result
 	}
@@ -556,7 +556,7 @@ func (m MtService) EditMT(classID, owner, mtID string, params *models.EditMTReq)
 	result.BaseRes = baseRes
 
 	// 记录错误日志
-	if baseRes.Code == -1 {
+	if baseRes.Code == models.CodeFailed {
 		log.WithField("error", baseRes.Message).Errorln("DoHttpRequest")
 		return result
 	}
@@ -564,7 +564,7 @@ func (m MtService) EditMT(classID, owner, mtID string, params *models.EditMTReq)
 	if baseRes.Http.Code == http.StatusOK {
 		if err := json.Unmarshal(body, &result); err != nil {
 			log.WithError(err).Errorln("Unmarshal body")
-			result.Code = -1
+			result.Code = models.CodeFailed
 			result.Message = err.Error()
 			return result
 		}
@@ -591,31 +591,31 @@ func (m MtService) BurnMT(classID, owner, mtID string, params *models.BurnMTReq)
 	// 校验必填参数
 	if classID == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "class_id"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "class_id")
 		return result
 	}
 	if owner == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "owner"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "owner")
 		return result
 	}
 	if mtID == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "mt_id"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "mt_id")
 		return result
 	}
 	if params == nil {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "params")
 		return result
 	}
 	if params.OperationId == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "operation_id")
 		return result
 	}
@@ -623,7 +623,7 @@ func (m MtService) BurnMT(classID, owner, mtID string, params *models.BurnMTReq)
 	bytesData, err := json.Marshal(params)
 	if err != nil {
 		log.WithError(err).Errorln("Marshal Params")
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = err.Error()
 		return result
 	}
@@ -637,7 +637,7 @@ func (m MtService) BurnMT(classID, owner, mtID string, params *models.BurnMTReq)
 	result.BaseRes = baseRes
 
 	// 记录错误日志
-	if baseRes.Code == -1 {
+	if baseRes.Code == models.CodeFailed {
 		log.WithField("error", baseRes.Message).Errorln("DoHttpRequest")
 		return result
 	}
@@ -645,7 +645,7 @@ func (m MtService) BurnMT(classID, owner, mtID string, params *models.BurnMTReq)
 	if baseRes.Http.Code == http.StatusOK {
 		if err := json.Unmarshal(body, &result); err != nil {
 			log.WithError(err).Errorln("Unmarshal body")
-			result.Code = -1
+			result.Code = models.CodeFailed
 			result.Message = err.Error()
 			return result
 		}
@@ -669,7 +669,7 @@ func (m MtService) GetMTs(params *models.GetMTsReq) *models.GetMTsRes {
 	bytesData, err := json.Marshal(params)
 	if err != nil {
 		log.WithError(err).Errorln("Marshal Params")
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = err.Error()
 		return result
 	}
@@ -683,7 +683,7 @@ func (m MtService) GetMTs(params *models.GetMTsReq) *models.GetMTsRes {
 	result.BaseRes = baseRes
 
 	// 记录错误日志
-	if baseRes.Code == -1 {
+	if baseRes.Code == models.CodeFailed {
 		log.WithField("error", baseRes.Message).Errorln("DoHttpRequest")
 		return result
 	}
@@ -691,7 +691,7 @@ func (m MtService) GetMTs(params *models.GetMTsReq) *models.GetMTsRes {
 	if baseRes.Http.Code == http.StatusOK {
 		if err := json.Unmarshal(body, &result); err != nil {
 			log.WithError(err).Errorln("Unmarshal body")
-			result.Code = -1
+			result.Code = models.CodeFailed
 			result.Message = err.Error()
 			return result
 		}
@@ -716,13 +716,13 @@ func (m MtService) GetMT(classID, mtID string) *models.GetMTRes {
 	// 校验必填参数
 	if classID == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "class_id"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "class_id")
 		return result
 	}
 	if mtID == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "mt_id"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "mt_id")
 		return result
 	}
@@ -736,7 +736,7 @@ func (m MtService) GetMT(classID, mtID string) *models.GetMTRes {
 	result.BaseRes = baseRes
 
 	// 记录错误日志
-	if baseRes.Code == -1 {
+	if baseRes.Code == models.CodeFailed {
 		log.WithField("error", baseRes.Message).Errorln("DoHttpRequest")
 		return result
 	}
@@ -744,7 +744,7 @@ func (m MtService) GetMT(classID, mtID string) *models.GetMTRes {
 	if baseRes.Http.Code == http.StatusOK {
 		if err := json.Unmarshal(body, &result); err != nil {
 			log.WithError(err).Errorln("Unmarshal body")
-			result.Code = -1
+			result.Code = models.CodeFailed
 			result.Message = err.Error()
 			return result
 		}
@@ -770,13 +770,13 @@ func (m MtService) GetMTHistory(classID, mtID string, params *models.GetAccounts
 	// 校验必填参数
 	if classID == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "class_id"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "class_id")
 		return result
 	}
 	if mtID == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "mt_id"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "mt_id")
 		return result
 	}
@@ -784,7 +784,7 @@ func (m MtService) GetMTHistory(classID, mtID string, params *models.GetAccounts
 	bytesData, err := json.Marshal(params)
 	if err != nil {
 		log.WithError(err).Errorln("Marshal Params")
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = err.Error()
 		return result
 	}
@@ -798,7 +798,7 @@ func (m MtService) GetMTHistory(classID, mtID string, params *models.GetAccounts
 	result.BaseRes = baseRes
 
 	// 记录错误日志
-	if baseRes.Code == -1 {
+	if baseRes.Code == models.CodeFailed {
 		log.WithField("error", baseRes.Message).Errorln("DoHttpRequest")
 		return result
 	}
@@ -806,7 +806,7 @@ func (m MtService) GetMTHistory(classID, mtID string, params *models.GetAccounts
 	if baseRes.Http.Code == http.StatusOK {
 		if err := json.Unmarshal(body, &result); err != nil {
 			log.WithError(err).Errorln("Unmarshal body")
-			result.Code = -1
+			result.Code = models.CodeFailed
 			result.Message = err.Error()
 			return result
 		}
@@ -831,13 +831,13 @@ func (m MtService) GetMTBalance(classID, account string, params *models.GetMTBal
 
 	if classID == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "class_id"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "class_id")
 		return result
 	}
 	if account == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "account"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "account")
 		return result
 	}
@@ -845,7 +845,7 @@ func (m MtService) GetMTBalance(classID, account string, params *models.GetMTBal
 	bytesData, err := json.Marshal(params)
 	if err != nil {
 		log.WithError(err).Errorln("Marshal Params")
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = err.Error()
 		return result
 	}
@@ -859,7 +859,7 @@ func (m MtService) GetMTBalance(classID, account string, params *models.GetMTBal
 	result.BaseRes = baseRes
 
 	// 记录错误日志
-	if baseRes.Code == -1 {
+	if baseRes.Code == models.CodeFailed {
 		log.WithField("error", baseRes.Message).Errorln("DoHttpRequest")
 		return result
 	}
@@ -867,7 +867,7 @@ func (m MtService) GetMTBalance(classID, account string, params *models.GetMTBal
 	if baseRes.Http.Code == http.StatusOK {
 		if err := json.Unmarshal(body, &result); err != nil {
 			log.WithError(err).Errorln("Unmarshal body")
-			result.Code = -1
+			result.Code = models.CodeFailed
 			result.Message = err.Error()
 			return result
 		}

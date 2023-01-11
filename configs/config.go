@@ -4,6 +4,8 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
+const httpTimeout = 10
+
 type Config struct {
 	Level       log.Level // 日志级别
 	HttpTimeout int       // 响应超时时间
@@ -14,7 +16,7 @@ type Options func(*Config)
 // SetDefaultConfig 默认配置
 func SetDefaultConfig(config *Config) *Config {
 	config.Level = log.ErrorLevel
-	config.HttpTimeout = 10
+	config.HttpTimeout = httpTimeout
 	return config
 }
 

@@ -29,7 +29,7 @@ func (t TxService) GetTxResult(operationID string) *models.GetTxResultRes {
 	//校验必填参数
 	if operationID == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "operation_id")
 		return result
 	}
@@ -69,7 +69,7 @@ func (t TxService) GetTxQueueInfo(params *models.GetTxQueueInfoReq) *models.GetT
 	bytesData, err := json.Marshal(params)
 	if err != nil {
 		log.WithError(err).Errorln("Marshal Params")
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = err.Error()
 		return result
 	}
@@ -83,7 +83,7 @@ func (t TxService) GetTxQueueInfo(params *models.GetTxQueueInfoReq) *models.GetT
 	result.BaseRes = baseRes
 
 	// 记录错误日志
-	if baseRes.Code == -1 {
+	if baseRes.Code == models.CodeFailed {
 		log.WithField("error", baseRes.Message).Errorln("DoHttpRequest")
 		return result
 	}
@@ -91,7 +91,7 @@ func (t TxService) GetTxQueueInfo(params *models.GetTxQueueInfoReq) *models.GetT
 	if baseRes.Http.Code == http.StatusOK {
 		if err := json.Unmarshal(body, &result); err != nil {
 			log.WithError(err).Errorln("Unmarshal body")
-			result.Code = -1
+			result.Code = models.CodeFailed
 			result.Message = err.Error()
 			return result
 		}
