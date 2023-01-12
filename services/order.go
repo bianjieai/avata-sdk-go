@@ -11,11 +11,12 @@ import (
 	"avata-sdk-go/utils"
 )
 
+// OrderService 充值接口
 type OrderService interface {
-	CreateOrder(params *models.CreateOrderReq) *models.OrderRes
-	GetOrders(params *models.GetOrdersReq) *models.GetOrdersRes
-	GetOrder(orderID string) *models.GetOrderRes
-	CreateBatchOrder(params *models.CreateBatchOrderReq) *models.OrderRes
+	CreateOrder(params *models.CreateOrderReq) *models.OrderRes           // 购买能量值/业务费
+	GetOrders(params *models.GetOrdersReq) *models.GetOrdersRes           // 查询能量值/业务费购买结果列表
+	GetOrder(orderID string) *models.GetOrderRes                          // 查询能量值/业务费购买结果
+	CreateBatchOrder(params *models.CreateBatchOrderReq) *models.OrderRes // 批量购买能量值
 }
 
 type orderService struct {

@@ -6,7 +6,7 @@ const (
 	CodeFailed  = -1 // 失败
 )
 
-// SDK 错误描述
+// Message
 const (
 	ErrDomain    = "the avata domain address is required"
 	ErrAPIKey    = "the api key for the project is required"

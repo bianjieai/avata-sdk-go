@@ -11,9 +11,10 @@ import (
 	"avata-sdk-go/utils"
 )
 
+// TxService 交易结果查询接口
 type TxService interface {
-	GetTxResult(operationID string) *models.GetTxResultRes // 上链交易结果查询
-	GetTxQueueInfo(params *models.GetTxQueueInfoReq) *models.GetTxQueueInfoRes
+	GetTxResult(operationID string) *models.GetTxResultRes                     // 上链交易结果查询
+	GetTxQueueInfo(params *models.GetTxQueueInfoReq) *models.GetTxQueueInfoRes // 上链交易排队状态查询
 }
 
 type txService struct {

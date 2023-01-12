@@ -11,6 +11,7 @@ import (
 	"avata-sdk-go/utils"
 )
 
+// AccountService 链账户接口
 type AccountService interface {
 	CreateAccount(params *models.CreateAccountReq) *models.CreateAccountRes                   // 创建链账户
 	BatchCreateAccounts(params *models.BatchCreateAccountsReq) *models.BatchCreateAccountsRes // 批量创建链账户

@@ -11,8 +11,9 @@ import (
 	"avata-sdk-go/utils"
 )
 
+// RecordService 存证接口
 type RecordService interface {
-	CreateRecord(params *models.CreateRecordReq) *models.TxRes
+	CreateRecord(params *models.CreateRecordReq) *models.TxRes //数字作品存证接口
 }
 
 type recordService struct {

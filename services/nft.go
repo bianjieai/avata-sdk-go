@@ -6,6 +6,7 @@ import (
 	"avata-sdk-go/utils"
 )
 
+// NFTService NFT 接口
 type NFTService interface {
 }
 

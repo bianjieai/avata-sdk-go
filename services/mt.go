@@ -11,20 +11,21 @@ import (
 	"avata-sdk-go/utils"
 )
 
+// MTService MT 接口
 type MTService interface {
-	CreateMTClass(params *models.CreateMTClassReq) *models.TxRes
-	GetMTClasses(params *models.GetMTClassesReq) *models.GetMTClassesRes
-	GetMTClass(id string) *models.GetMTClassRes
-	TransferMTClass(classID, owner string, params *models.TransferMTClassReq) *models.TxRes
-	IssueMT(classID string, params *models.IssueMTReq) *models.TxRes
-	MintMT(classID, mtID string, params *models.MintMTReq) *models.TxRes
-	TransferMT(classID, owner, mtID string, params *models.TransferMTReq) *models.TxRes
-	EditMT(classID, owner, mtID string, params *models.EditMTReq) *models.TxRes
-	BurnMT(classID, owner, mtID string, params *models.BurnMTReq) *models.TxRes
-	GetMTs(params *models.GetMTsReq) *models.GetMTsRes
-	GetMT(classID, mtID string) *models.GetMTRes
-	GetMTHistory(classID, mtID string, params *models.GetAccountsHistoryReq) *models.GetMTHistoryRes
-	GetMTBalance(classID, account string, params *models.GetMTBalanceReq) *models.GetMTBalanceRes
+	CreateMTClass(params *models.CreateMTClassReq) *models.TxRes                                     // 创建 MT 类别
+	GetMTClasses(params *models.GetMTClassesReq) *models.GetMTClassesRes                             // 查询 MT 类别
+	GetMTClass(id string) *models.GetMTClassRes                                                      // 查询 MT 类别详情
+	TransferMTClass(classID, owner string, params *models.TransferMTClassReq) *models.TxRes          // 转让 MT 类别
+	IssueMT(classID string, params *models.IssueMTReq) *models.TxRes                                 // 发行 MT
+	MintMT(classID, mtID string, params *models.MintMTReq) *models.TxRes                             // 增发 MT
+	TransferMT(classID, owner, mtID string, params *models.TransferMTReq) *models.TxRes              // 转让 MT
+	EditMT(classID, owner, mtID string, params *models.EditMTReq) *models.TxRes                      // 编辑 MT
+	BurnMT(classID, owner, mtID string, params *models.BurnMTReq) *models.TxRes                      // 销毁 MT
+	GetMTs(params *models.GetMTsReq) *models.GetMTsRes                                               // 查询 MT
+	GetMT(classID, mtID string) *models.GetMTRes                                                     // 查询 MT 详情
+	GetMTHistory(classID, mtID string, params *models.GetAccountsHistoryReq) *models.GetMTHistoryRes // 查询 MT 操作记录
+	GetMTBalance(classID, account string, params *models.GetMTBalanceReq) *models.GetMTBalanceRes    // 查询 MT 余额
 }
 
 type mtService struct {
