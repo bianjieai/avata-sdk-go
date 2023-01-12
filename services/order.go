@@ -67,10 +67,16 @@ func (o orderService) CreateOrder(params *models.CreateOrderReq) *models.OrderRe
 		result.Message = fmt.Sprintf(models.ErrParam, "account")
 		return result
 	}
-	if params.Amount <= 100 || params.Amount%100 != 0 {
+	if params.Amount < 100 {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "amount"))
 		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "amount")
+		return result
+	}
+	if params.Amount%100 != 0 {
+		log.Debugln(models.ErrAmount)
+		result.Code = models.CodeFailed
+		result.Message = models.ErrAmount
 		return result
 	}
 

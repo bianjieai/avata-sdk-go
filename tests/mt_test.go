@@ -16,6 +16,7 @@ func TestCreateMTClass(t *testing.T) {
 	params := &models.CreateMTClassReq{
 		Name:        "类别1",
 		Owner:       "iaa1k3lq9vxtvf8erkqm49zrqwqz2lv4u9sq4wku5e",
+		Data:        "创建类别",
 		OperationId: OperationID,
 		Tag:         tag,
 	}
@@ -33,7 +34,10 @@ func TestCreateMTClass(t *testing.T) {
 func TestQueryMTClasses(t *testing.T) {
 	client := GetClient()
 
-	result := client.MT.QueryMTClasses(nil)
+	params := &models.QueryMTClassesReq{
+		Limit: "1",
+	}
+	result := client.MT.QueryMTClasses(params)
 	if result.Code != 0 {
 		t.Log(result.Message)
 		return
@@ -59,9 +63,12 @@ func TestQueryMTClass(t *testing.T) {
 func TestTransferMtClass(t *testing.T) {
 	client := GetClient()
 
+	tag := make(map[string]string)
+	tag["20230112"] = "20230112"
 	params := &models.TransferMTClassReq{
 		Recipient:   "iaa1qtag7eh9z7l94am0fcn3te5s8wx5j8cggkkrjd",
 		OperationId: OperationID,
+		Tag:         tag,
 	}
 
 	result := client.MT.TransferMTClass("b68fe234f258a95855db3f8b2d37e291a874df65a6ac7a66c4fc3780b1ab0bda", "iaa1k3lq9vxtvf8erkqm49zrqwqz2lv4u9sq4wku5e", params)
@@ -163,7 +170,10 @@ func TestBurnMT(t *testing.T) {
 func TestQueryMTs(t *testing.T) {
 	client := GetClient()
 
-	result := client.MT.QueryMTs(nil)
+	params := &models.QueryMTsReq{
+		Limit: "1",
+	}
+	result := client.MT.QueryMTs(params)
 	if result.Code != 0 {
 		t.Log(result.Message)
 		return

@@ -16,7 +16,7 @@ func TestCreateOrder(t *testing.T) {
 
 	params := &models.CreateOrderReq{
 		Account:   "0x7982C2FEEECCB2A86C5346762AF9DCAC4DF79219",
-		Amount:    100,
+		Amount:    10100,
 		OrderType: "gas",
 		OrderId:   orderID,
 	}
@@ -34,7 +34,10 @@ func TestCreateOrder(t *testing.T) {
 func TestQueryOrders(t *testing.T) {
 	client := GetClient()
 
-	result := client.Order.QueryOrders(nil)
+	params := &models.QueryOrdersReq{
+		Limit: "1",
+	}
+	result := client.Order.QueryOrders(params)
 	if result.Code != 0 {
 		t.Log(result.Message)
 		return

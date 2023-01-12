@@ -59,7 +59,7 @@ func (t txService) QueryTxResult(operationID string) *models.QueryTxResultRes {
 	result.BaseRes = baseRes
 	// 请求成功
 	if body != nil {
-		if err := json.Unmarshal(body, &result.Data); err != nil {
+		if err := json.Unmarshal(body, &result); err != nil {
 			log.WithError(err).Errorln("Unmarshal body")
 			return result
 		}
