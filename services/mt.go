@@ -13,19 +13,19 @@ import (
 
 // MTService MT 接口
 type MTService interface {
-	CreateMTClass(params *models.CreateMTClassReq) *models.TxRes                                     // 创建 MT 类别
-	GetMTClasses(params *models.GetMTClassesReq) *models.GetMTClassesRes                             // 查询 MT 类别
-	GetMTClass(id string) *models.GetMTClassRes                                                      // 查询 MT 类别详情
-	TransferMTClass(classID, owner string, params *models.TransferMTClassReq) *models.TxRes          // 转让 MT 类别
-	IssueMT(classID string, params *models.IssueMTReq) *models.TxRes                                 // 发行 MT
-	MintMT(classID, mtID string, params *models.MintMTReq) *models.TxRes                             // 增发 MT
-	TransferMT(classID, owner, mtID string, params *models.TransferMTReq) *models.TxRes              // 转让 MT
-	EditMT(classID, owner, mtID string, params *models.EditMTReq) *models.TxRes                      // 编辑 MT
-	BurnMT(classID, owner, mtID string, params *models.BurnMTReq) *models.TxRes                      // 销毁 MT
-	GetMTs(params *models.GetMTsReq) *models.GetMTsRes                                               // 查询 MT
-	GetMT(classID, mtID string) *models.GetMTRes                                                     // 查询 MT 详情
-	GetMTHistory(classID, mtID string, params *models.GetAccountsHistoryReq) *models.GetMTHistoryRes // 查询 MT 操作记录
-	GetMTBalance(classID, account string, params *models.GetMTBalanceReq) *models.GetMTBalanceRes    // 查询 MT 余额
+	CreateMTClass(params *models.CreateMTClassReq) *models.TxRes                                           // 创建 MT 类别
+	QueryMTClasses(params *models.QueryMTClassesReq) *models.QueryMTClassesRes                             // 查询 MT 类别
+	QueryMTClass(id string) *models.QueryMTClassRes                                                        // 查询 MT 类别详情
+	TransferMTClass(classID, owner string, params *models.TransferMTClassReq) *models.TxRes                // 转让 MT 类别
+	IssueMT(classID string, params *models.IssueMTReq) *models.TxRes                                       // 发行 MT
+	MintMT(classID, mtID string, params *models.MintMTReq) *models.TxRes                                   // 增发 MT
+	TransferMT(classID, owner, mtID string, params *models.TransferMTReq) *models.TxRes                    // 转让 MT
+	EditMT(classID, owner, mtID string, params *models.EditMTReq) *models.TxRes                            // 编辑 MT
+	BurnMT(classID, owner, mtID string, params *models.BurnMTReq) *models.TxRes                            // 销毁 MT
+	QueryMTs(params *models.QueryMTsReq) *models.QueryMTsRes                                               // 查询 MT
+	QueryMT(classID, mtID string) *models.QueryMTRes                                                       // 查询 MT 详情
+	QueryMTHistory(classID, mtID string, params *models.QueryAccountsHistoryReq) *models.QueryMTHistoryRes // 查询 MT 操作记录
+	QueryMTBalance(classID, account string, params *models.QueryMTBalanceReq) *models.QueryMTBalanceRes    // 查询 MT 余额
 }
 
 type mtService struct {
@@ -112,16 +112,16 @@ func (m mtService) CreateMTClass(params *models.CreateMTClassReq) *models.TxRes 
 	return result
 }
 
-// GetMTClasses 查询 MT 类别
-func (m mtService) GetMTClasses(params *models.GetMTClassesReq) *models.GetMTClassesRes {
+// QueryMTClasses 查询 MT 类别
+func (m mtService) QueryMTClasses(params *models.QueryMTClassesReq) *models.QueryMTClassesRes {
 	log := m.Logger.WithFields(map[string]interface{}{
 		"module":   "MT",
-		"function": "GetMTClasses",
+		"function": "QueryMTClasses",
 		"params":   params,
 	})
-	log.Info("GetMTClasses start")
+	log.Info("QueryMTClasses start")
 
-	result := &models.GetMTClassesRes{}
+	result := &models.QueryMTClassesRes{}
 
 	bytesData, err := json.Marshal(params)
 	if err != nil {
@@ -131,7 +131,7 @@ func (m mtService) GetMTClasses(params *models.GetMTClassesReq) *models.GetMTCla
 		return result
 	}
 
-	body, baseRes := m.HttpClient.DoHttpRequest(http.MethodGet, models.GetMTClasses, nil, bytesData)
+	body, baseRes := m.HttpClient.DoHttpRequest(http.MethodGet, models.QueryMTClasses, nil, bytesData)
 	log.WithFields(map[string]interface{}{
 		"body":    string(body),
 		"baseRes": baseRes,
@@ -154,20 +154,20 @@ func (m mtService) GetMTClasses(params *models.GetMTClassesReq) *models.GetMTCla
 		}
 	}
 
-	log.Info("GetMTClasses end")
+	log.Info("QueryMTClasses end")
 	return result
 }
 
-// GetMTClass 查询 MT 类别详情
-func (m mtService) GetMTClass(id string) *models.GetMTClassRes {
+// QueryMTClass 查询 MT 类别详情
+func (m mtService) QueryMTClass(id string) *models.QueryMTClassRes {
 	log := m.Logger.WithFields(map[string]interface{}{
 		"module":   "MT",
-		"function": "GetMTClass",
+		"function": "QueryMTClass",
 		"id":       id,
 	})
-	log.Info("GetMTClass start")
+	log.Info("QueryMTClass start")
 
-	result := &models.GetMTClassRes{}
+	result := &models.QueryMTClassRes{}
 
 	// 校验必填参数
 	if id == "" {
@@ -177,7 +177,7 @@ func (m mtService) GetMTClass(id string) *models.GetMTClassRes {
 		return result
 	}
 
-	body, baseRes := m.HttpClient.DoHttpRequest(http.MethodGet, fmt.Sprintf(models.GetMTClass, id), nil, nil)
+	body, baseRes := m.HttpClient.DoHttpRequest(http.MethodGet, fmt.Sprintf(models.QueryMTClass, id), nil, nil)
 	log.WithFields(map[string]interface{}{
 		"body":    string(body),
 		"baseRes": baseRes,
@@ -200,7 +200,7 @@ func (m mtService) GetMTClass(id string) *models.GetMTClassRes {
 		}
 	}
 
-	log.Info("GetMTClass end")
+	log.Info("QueryMTClass end")
 	return result
 }
 
@@ -680,16 +680,16 @@ func (m mtService) BurnMT(classID, owner, mtID string, params *models.BurnMTReq)
 	return result
 }
 
-// GetMTs 查询 MT
-func (m mtService) GetMTs(params *models.GetMTsReq) *models.GetMTsRes {
+// QueryMTs 查询 MT
+func (m mtService) QueryMTs(params *models.QueryMTsReq) *models.QueryMTsRes {
 	log := m.Logger.WithFields(map[string]interface{}{
 		"module":   "MT",
-		"function": "GetMTs",
+		"function": "QueryMTs",
 		"params":   params,
 	})
-	log.Info("GetMTs start")
+	log.Info("QueryMTs start")
 
-	result := &models.GetMTsRes{}
+	result := &models.QueryMTsRes{}
 
 	bytesData, err := json.Marshal(params)
 	if err != nil {
@@ -699,7 +699,7 @@ func (m mtService) GetMTs(params *models.GetMTsReq) *models.GetMTsRes {
 		return result
 	}
 
-	body, baseRes := m.HttpClient.DoHttpRequest(http.MethodGet, models.GetMTs, nil, bytesData)
+	body, baseRes := m.HttpClient.DoHttpRequest(http.MethodGet, models.QueryMTs, nil, bytesData)
 	log.WithFields(map[string]interface{}{
 		"body":    string(body),
 		"baseRes": baseRes,
@@ -722,21 +722,21 @@ func (m mtService) GetMTs(params *models.GetMTsReq) *models.GetMTsRes {
 		}
 	}
 
-	log.Info("GetMTs end")
+	log.Info("QueryMTs end")
 	return result
 }
 
-// GetMT 查询 MT 详情
-func (m mtService) GetMT(classID, mtID string) *models.GetMTRes {
+// QueryMT 查询 MT 详情
+func (m mtService) QueryMT(classID, mtID string) *models.QueryMTRes {
 	log := m.Logger.WithFields(map[string]interface{}{
 		"module":   "MT",
-		"function": "GetMT",
+		"function": "QueryMT",
 		"classID":  classID,
 		"mtID":     mtID,
 	})
-	log.Info("GetMT start")
+	log.Info("QueryMT start")
 
-	result := &models.GetMTRes{}
+	result := &models.QueryMTRes{}
 
 	// 校验必填参数
 	if classID == "" {
@@ -752,7 +752,7 @@ func (m mtService) GetMT(classID, mtID string) *models.GetMTRes {
 		return result
 	}
 
-	body, baseRes := m.HttpClient.DoHttpRequest(http.MethodGet, fmt.Sprintf(models.GetMT, classID, mtID), nil, nil)
+	body, baseRes := m.HttpClient.DoHttpRequest(http.MethodGet, fmt.Sprintf(models.QueryMT, classID, mtID), nil, nil)
 	log.WithFields(map[string]interface{}{
 		"body":    string(body),
 		"baseRes": baseRes,
@@ -775,22 +775,22 @@ func (m mtService) GetMT(classID, mtID string) *models.GetMTRes {
 		}
 	}
 
-	log.Info("GetMT end")
+	log.Info("QueryMT end")
 	return result
 }
 
-// GetMTHistory 查询 MT 操作记录
-func (m mtService) GetMTHistory(classID, mtID string, params *models.GetAccountsHistoryReq) *models.GetMTHistoryRes {
+// QueryMTHistory 查询 MT 操作记录
+func (m mtService) QueryMTHistory(classID, mtID string, params *models.QueryAccountsHistoryReq) *models.QueryMTHistoryRes {
 	log := m.Logger.WithFields(map[string]interface{}{
 		"module":   "MT",
-		"function": "GetMTHistory",
+		"function": "QueryMTHistory",
 		"classID":  classID,
 		"mtID":     mtID,
 		"params":   params,
 	})
-	log.Info("GetMTHistory start")
+	log.Info("QueryMTHistory start")
 
-	result := &models.GetMTHistoryRes{}
+	result := &models.QueryMTHistoryRes{}
 
 	// 校验必填参数
 	if classID == "" {
@@ -814,7 +814,7 @@ func (m mtService) GetMTHistory(classID, mtID string, params *models.GetAccounts
 		return result
 	}
 
-	body, baseRes := m.HttpClient.DoHttpRequest(http.MethodGet, fmt.Sprintf(models.GetMTHistory, classID, mtID), nil, bytesData)
+	body, baseRes := m.HttpClient.DoHttpRequest(http.MethodGet, fmt.Sprintf(models.QueryMTHistory, classID, mtID), nil, bytesData)
 	log.WithFields(map[string]interface{}{
 		"body":    string(body),
 		"baseRes": baseRes,
@@ -837,22 +837,22 @@ func (m mtService) GetMTHistory(classID, mtID string, params *models.GetAccounts
 		}
 	}
 
-	log.Info("GetMTHistory end")
+	log.Info("QueryMTHistory end")
 	return result
 }
 
-// GetMTBalance 查询 MT 余额
-func (m mtService) GetMTBalance(classID, account string, params *models.GetMTBalanceReq) *models.GetMTBalanceRes {
+// QueryMTBalance 查询 MT 余额
+func (m mtService) QueryMTBalance(classID, account string, params *models.QueryMTBalanceReq) *models.QueryMTBalanceRes {
 	log := m.Logger.WithFields(map[string]interface{}{
 		"module":   "MT",
-		"function": "GetMTBalance",
+		"function": "QueryMTBalance",
 		"classID":  classID,
 		"account":  account,
 		"params":   params,
 	})
-	log.Info("GetMTBalance start")
+	log.Info("QueryMTBalance start")
 
-	result := &models.GetMTBalanceRes{}
+	result := &models.QueryMTBalanceRes{}
 
 	if classID == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "class_id"))
@@ -875,7 +875,7 @@ func (m mtService) GetMTBalance(classID, account string, params *models.GetMTBal
 		return result
 	}
 
-	body, baseRes := m.HttpClient.DoHttpRequest(http.MethodGet, fmt.Sprintf(models.GetMTBalance, classID, account), nil, bytesData)
+	body, baseRes := m.HttpClient.DoHttpRequest(http.MethodGet, fmt.Sprintf(models.QueryMTBalance, classID, account), nil, bytesData)
 	log.WithFields(map[string]interface{}{
 		"body":    string(body),
 		"baseRes": baseRes,
@@ -898,6 +898,6 @@ func (m mtService) GetMTBalance(classID, account string, params *models.GetMTBal
 		}
 	}
 
-	log.Info("GetMTBalance end")
+	log.Info("QueryMTBalance end")
 	return result
 }

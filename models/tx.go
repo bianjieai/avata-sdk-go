@@ -1,12 +1,12 @@
 package models
 
 const (
-	GetTxResult    = "/v1beta1/tx/%s"         // 上链交易结果查询接口
-	GetTxQueueInfo = "/v1beta1/tx/queue/info" // 上链交易排队状态查询接口
+	QueryTxResult    = "/v1beta1/tx/%s"         // 上链交易结果查询接口
+	QueryTxQueueInfo = "/v1beta1/tx/queue/info" // 上链交易排队状态查询接口
 )
 
-// GetTxResultRes 上链交易结果查询返回值
-type GetTxResultRes struct {
+// QueryTxResultRes 上链交易结果查询返回值
+type QueryTxResultRes struct {
 	BaseRes
 	Data struct {
 		Type        string            `json:"type"`
@@ -32,13 +32,13 @@ type GetTxResultRes struct {
 	} `json:"data"`
 }
 
-// GetTxQueueInfoReq 上链交易排队状态查询请求参数
-type GetTxQueueInfoReq struct {
+// QueryTxQueueInfoReq 上链交易排队状态查询请求参数
+type QueryTxQueueInfoReq struct {
 	OperationID string `json:"operation_id"`
 }
 
-// GetTxQueueInfoRes 上链交易排队状态查询返回值
-type GetTxQueueInfoRes struct {
+// QueryTxQueueInfoRes 上链交易排队状态查询返回值
+type QueryTxQueueInfoRes struct {
 	BaseRes
 	Data struct {
 		QueueTotal       int    `json:"queue_total"`

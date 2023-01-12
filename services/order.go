@@ -14,9 +14,9 @@ import (
 // OrderService 充值接口
 type OrderService interface {
 	CreateOrder(params *models.CreateOrderReq) *models.OrderRes           // 购买能量值/业务费
-	GetOrders(params *models.GetOrdersReq) *models.GetOrdersRes           // 查询能量值/业务费购买结果列表
-	GetOrder(orderID string) *models.GetOrderRes                          // 查询能量值/业务费购买结果
-	CreateBatchOrder(params *models.CreateBatchOrderReq) *models.OrderRes // 批量购买能量值
+	QueryOrders(params *models.QueryOrdersReq) *models.QueryOrdersRes     // 查询能量值/业务费购买结果列表
+	QueryOrder(orderID string) *models.QueryOrderRes                      // 查询能量值/业务费购买结果
+	BatchCreateOrder(params *models.BatchCreateOrderReq) *models.OrderRes // 批量购买能量值
 }
 
 type orderService struct {
@@ -109,16 +109,16 @@ func (o orderService) CreateOrder(params *models.CreateOrderReq) *models.OrderRe
 	return result
 }
 
-// GetOrders 查询能量值/业务费购买结果列表接口
-func (o orderService) GetOrders(params *models.GetOrdersReq) *models.GetOrdersRes {
+// QueryOrders 查询能量值/业务费购买结果列表接口
+func (o orderService) QueryOrders(params *models.QueryOrdersReq) *models.QueryOrdersRes {
 	log := o.Logger.WithFields(map[string]interface{}{
 		"module":   "Order",
-		"function": "GetOrders",
+		"function": "QueryOrders",
 		"params":   params,
 	})
-	log.Info("GetOrders start")
+	log.Info("QueryOrders start")
 
-	result := &models.GetOrdersRes{}
+	result := &models.QueryOrdersRes{}
 
 	bytesData, err := json.Marshal(params)
 	if err != nil {
@@ -128,7 +128,7 @@ func (o orderService) GetOrders(params *models.GetOrdersReq) *models.GetOrdersRe
 		return result
 	}
 
-	body, baseRes := o.HttpClient.DoHttpRequest(http.MethodGet, models.GetOrders, nil, bytesData)
+	body, baseRes := o.HttpClient.DoHttpRequest(http.MethodGet, models.QueryOrders, nil, bytesData)
 	log.WithFields(map[string]interface{}{
 		"body":    string(body),
 		"baseRes": baseRes,
@@ -151,20 +151,20 @@ func (o orderService) GetOrders(params *models.GetOrdersReq) *models.GetOrdersRe
 		}
 	}
 
-	log.Info("GetOrders end")
+	log.Info("QueryOrders end")
 	return result
 }
 
-// GetOrder 查询能量值/业务费购买结果接口
-func (o orderService) GetOrder(orderID string) *models.GetOrderRes {
+// QueryOrder 查询能量值/业务费购买结果接口
+func (o orderService) QueryOrder(orderID string) *models.QueryOrderRes {
 	log := o.Logger.WithFields(map[string]interface{}{
 		"module":   "Order",
-		"function": "GetOrder",
+		"function": "QueryOrder",
 		"orderID":  orderID,
 	})
-	log.Info("GetOrder start")
+	log.Info("QueryOrder start")
 
-	result := &models.GetOrderRes{}
+	result := &models.QueryOrderRes{}
 
 	// 校验必填参数
 	if orderID == "" {
@@ -174,7 +174,7 @@ func (o orderService) GetOrder(orderID string) *models.GetOrderRes {
 		return result
 	}
 
-	body, baseRes := o.HttpClient.DoHttpRequest(http.MethodGet, fmt.Sprintf(models.GetOrder, orderID), nil, nil)
+	body, baseRes := o.HttpClient.DoHttpRequest(http.MethodGet, fmt.Sprintf(models.QueryOrder, orderID), nil, nil)
 	log.WithFields(map[string]interface{}{
 		"body":    string(body),
 		"baseRes": baseRes,
@@ -197,18 +197,18 @@ func (o orderService) GetOrder(orderID string) *models.GetOrderRes {
 		}
 	}
 
-	log.Info("GetOrder end")
+	log.Info("QueryOrder end")
 	return result
 }
 
-// CreateBatchOrder 批量购买能量值接口
-func (o orderService) CreateBatchOrder(params *models.CreateBatchOrderReq) *models.OrderRes {
+// BatchCreateOrder 批量购买能量值接口
+func (o orderService) BatchCreateOrder(params *models.BatchCreateOrderReq) *models.OrderRes {
 	log := o.Logger.WithFields(map[string]interface{}{
 		"module":   "Order",
-		"function": "CreateBatchOrder",
+		"function": "BatchCreateOrder",
 		"params":   params,
 	})
-	log.Info("CreateBatchOrder start")
+	log.Info("BatchCreateOrder start")
 
 	result := &models.OrderRes{}
 
@@ -240,7 +240,7 @@ func (o orderService) CreateBatchOrder(params *models.CreateBatchOrderReq) *mode
 		return result
 	}
 
-	body, baseRes := o.HttpClient.DoHttpRequest(http.MethodPost, models.CreateBatchOrder, bytesData, nil)
+	body, baseRes := o.HttpClient.DoHttpRequest(http.MethodPost, models.BatchCreateOrder, bytesData, nil)
 	log.WithFields(map[string]interface{}{
 		"body":    string(body),
 		"baseRes": baseRes,
@@ -263,6 +263,6 @@ func (o orderService) CreateBatchOrder(params *models.CreateBatchOrderReq) *mode
 		}
 	}
 
-	log.Info("CreateBatchOrder end")
+	log.Info("BatchCreateOrder end")
 	return result
 }

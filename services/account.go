@@ -13,10 +13,10 @@ import (
 
 // AccountService 链账户接口
 type AccountService interface {
-	CreateAccount(params *models.CreateAccountReq) *models.CreateAccountRes                   // 创建链账户
-	BatchCreateAccounts(params *models.BatchCreateAccountsReq) *models.BatchCreateAccountsRes // 批量创建链账户
-	GetAccounts(params *models.GetAccountsReq) *models.GetAccountsRes                         // 查询链账户
-	GetAccountsHistory(params *models.GetAccountsHistoryReq) *models.GetAccountsHistoryRes    // 查询链账户操作记录
+	CreateAccount(params *models.CreateAccountReq) *models.CreateAccountRes                      // 创建链账户
+	BatchCreateAccounts(params *models.BatchCreateAccountsReq) *models.BatchCreateAccountsRes    // 批量创建链账户
+	QueryAccounts(params *models.QueryAccountsReq) *models.QueryAccountsRes                      // 查询链账户
+	QueryAccountsHistory(params *models.QueryAccountsHistoryReq) *models.QueryAccountsHistoryRes // 查询链账户操作记录
 }
 
 type accountService struct {
@@ -158,16 +158,16 @@ func (a accountService) BatchCreateAccounts(params *models.BatchCreateAccountsRe
 	return result
 }
 
-// GetAccounts 查询链账户
-func (a accountService) GetAccounts(params *models.GetAccountsReq) *models.GetAccountsRes {
+// QueryAccounts 查询链账户
+func (a accountService) QueryAccounts(params *models.QueryAccountsReq) *models.QueryAccountsRes {
 	log := a.Logger.WithFields(map[string]interface{}{
 		"module":   "Account",
-		"function": "GetAccounts",
+		"function": "QueryAccounts",
 		"params":   params,
 	})
-	log.Info("GetAccounts start")
+	log.Info("QueryAccounts start")
 
-	result := &models.GetAccountsRes{}
+	result := &models.QueryAccountsRes{}
 
 	bytesData, err := json.Marshal(params)
 	if err != nil {
@@ -177,7 +177,7 @@ func (a accountService) GetAccounts(params *models.GetAccountsReq) *models.GetAc
 		return result
 	}
 
-	body, baseRes := a.HttpClient.DoHttpRequest(http.MethodGet, models.GetAccounts, nil, bytesData)
+	body, baseRes := a.HttpClient.DoHttpRequest(http.MethodGet, models.QueryAccounts, nil, bytesData)
 	log.WithFields(map[string]interface{}{
 		"body":    string(body),
 		"baseRes": baseRes,
@@ -200,20 +200,20 @@ func (a accountService) GetAccounts(params *models.GetAccountsReq) *models.GetAc
 		}
 	}
 
-	log.Info("GetAccounts end")
+	log.Info("QueryAccounts end")
 	return result
 }
 
-// GetAccountsHistory 查询链账户操作记录
-func (a accountService) GetAccountsHistory(params *models.GetAccountsHistoryReq) *models.GetAccountsHistoryRes {
+// QueryAccountsHistory 查询链账户操作记录
+func (a accountService) QueryAccountsHistory(params *models.QueryAccountsHistoryReq) *models.QueryAccountsHistoryRes {
 	log := a.Logger.WithFields(map[string]interface{}{
 		"module":   "Account",
-		"function": "GetAccountsHistory",
+		"function": "QueryAccountsHistory",
 		"params":   params,
 	})
-	log.Info("GetAccountsHistory start")
+	log.Info("QueryAccountsHistory start")
 
-	result := &models.GetAccountsHistoryRes{}
+	result := &models.QueryAccountsHistoryRes{}
 
 	bytesData, err := json.Marshal(params)
 	if err != nil {
@@ -223,7 +223,7 @@ func (a accountService) GetAccountsHistory(params *models.GetAccountsHistoryReq)
 		return result
 	}
 
-	body, baseRes := a.HttpClient.DoHttpRequest(http.MethodGet, models.GetAccountsHistory, nil, bytesData)
+	body, baseRes := a.HttpClient.DoHttpRequest(http.MethodGet, models.QueryAccountsHistory, nil, bytesData)
 	log.WithFields(map[string]interface{}{
 		"body":    string(body),
 		"baseRes": baseRes,
@@ -246,6 +246,6 @@ func (a accountService) GetAccountsHistory(params *models.GetAccountsHistoryReq)
 		}
 	}
 
-	log.Info("GetAccountsHistory end")
+	log.Info("QueryAccountsHistory end")
 	return result
 }

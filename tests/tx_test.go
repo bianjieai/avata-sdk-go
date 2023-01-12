@@ -5,10 +5,10 @@ import (
 )
 
 // 上链交易结果查询示例
-func TestGetTxResult(t *testing.T) {
+func TestQueryTxResult(t *testing.T) {
 	client := GetClient()
 
-	result := client.Tx.GetTxResult("1655212905722")
+	result := client.Tx.QueryTxResult("1655212905722")
 	if result.Code != 0 {
 		t.Log(result.Message)
 		return
@@ -21,7 +21,7 @@ func TestGetTxResult(t *testing.T) {
 func TestGetTxQueueInfo(t *testing.T) {
 	client := GetClient()
 
-	result := client.Tx.GetTxQueueInfo(nil)
+	result := client.Tx.QueryTxQueueInfo(nil)
 	if result.Code != 0 {
 		t.Log(result.Message)
 		return

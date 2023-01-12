@@ -13,8 +13,8 @@ import (
 
 // TxService 交易结果查询接口
 type TxService interface {
-	GetTxResult(operationID string) *models.GetTxResultRes                     // 上链交易结果查询
-	GetTxQueueInfo(params *models.GetTxQueueInfoReq) *models.GetTxQueueInfoRes // 上链交易排队状态查询
+	QueryTxResult(operationID string) *models.QueryTxResultRes                       // 上链交易结果查询
+	QueryTxQueueInfo(params *models.QueryTxQueueInfoReq) *models.QueryTxQueueInfoRes // 上链交易排队状态查询
 }
 
 type txService struct {
@@ -29,16 +29,16 @@ func NewTxService(log *logrus.Logger, client utils.HttpClient) *txService {
 	}
 }
 
-// GetTxResult 上链交易结果查询
-func (t txService) GetTxResult(operationID string) *models.GetTxResultRes {
+// QueryTxResult 上链交易结果查询
+func (t txService) QueryTxResult(operationID string) *models.QueryTxResultRes {
 	log := t.Logger.WithFields(map[string]interface{}{
 		"module":      "Tx",
-		"function":    "GetTxResult",
+		"function":    "QueryTxResult",
 		"operationID": operationID,
 	})
-	log.Info("GetTxResult start")
+	log.Info("QueryTxResult start")
 
-	result := &models.GetTxResultRes{}
+	result := &models.QueryTxResultRes{}
 
 	//校验必填参数
 	if operationID == "" {
@@ -48,7 +48,7 @@ func (t txService) GetTxResult(operationID string) *models.GetTxResultRes {
 		return result
 	}
 
-	body, baseRes := t.HttpClient.DoHttpRequest(http.MethodGet, fmt.Sprintf(models.GetTxResult, operationID), nil, nil)
+	body, baseRes := t.HttpClient.DoHttpRequest(http.MethodGet, fmt.Sprintf(models.QueryTxResult, operationID), nil, nil)
 	if baseRes.Message != "" {
 		log.WithField("error", baseRes.Message).Errorln("DoHttpRequest")
 		return result
@@ -65,20 +65,20 @@ func (t txService) GetTxResult(operationID string) *models.GetTxResultRes {
 		}
 	}
 
-	log.Info("GetTxResult end")
+	log.Info("QueryTxResult end")
 	return result
 }
 
-// GetTxQueueInfo 上链交易结果查询
-func (t txService) GetTxQueueInfo(params *models.GetTxQueueInfoReq) *models.GetTxQueueInfoRes {
+// QueryTxQueueInfo 上链交易结果查询
+func (t txService) QueryTxQueueInfo(params *models.QueryTxQueueInfoReq) *models.QueryTxQueueInfoRes {
 	log := t.Logger.WithFields(map[string]interface{}{
 		"module":   "Tx",
-		"function": "GetTxQueueInfo",
+		"function": "QueryTxQueueInfo",
 		"params":   params,
 	})
-	log.Info("GetTxQueueInfo start")
+	log.Info("QueryTxQueueInfo start")
 
-	result := &models.GetTxQueueInfoRes{}
+	result := &models.QueryTxQueueInfoRes{}
 
 	bytesData, err := json.Marshal(params)
 	if err != nil {
@@ -88,7 +88,7 @@ func (t txService) GetTxQueueInfo(params *models.GetTxQueueInfoReq) *models.GetT
 		return result
 	}
 
-	body, baseRes := t.HttpClient.DoHttpRequest(http.MethodGet, models.GetTxQueueInfo, nil, bytesData)
+	body, baseRes := t.HttpClient.DoHttpRequest(http.MethodGet, models.QueryTxQueueInfo, nil, bytesData)
 	log.WithFields(map[string]interface{}{
 		"body":    string(body),
 		"baseRes": baseRes,
@@ -111,6 +111,6 @@ func (t txService) GetTxQueueInfo(params *models.GetTxQueueInfoReq) *models.GetT
 		}
 	}
 
-	log.Info("GetTxQueueInfo end")
+	log.Info("QueryTxQueueInfo end")
 	return result
 }

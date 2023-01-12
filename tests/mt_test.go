@@ -30,10 +30,10 @@ func TestCreateMTClass(t *testing.T) {
 }
 
 // 查询 MT 类别接口示例
-func TestGetMTClasses(t *testing.T) {
+func TestQueryMTClasses(t *testing.T) {
 	client := GetClient()
 
-	result := client.MT.GetMTClasses(nil)
+	result := client.MT.QueryMTClasses(nil)
 	if result.Code != 0 {
 		t.Log(result.Message)
 		return
@@ -43,10 +43,10 @@ func TestGetMTClasses(t *testing.T) {
 }
 
 // 查询 MT 类别详情接口示例
-func TestGetMTClass(t *testing.T) {
+func TestQueryMTClass(t *testing.T) {
 	client := GetClient()
 
-	result := client.MT.GetMTClass("b68fe234f258a95855db3f8b2d37e291a874df65a6ac7a66c4fc3780b1ab0bda")
+	result := client.MT.QueryMTClass("b68fe234f258a95855db3f8b2d37e291a874df65a6ac7a66c4fc3780b1ab0bda")
 	if result.Code != 0 {
 		t.Log(result.Message)
 		return
@@ -160,10 +160,10 @@ func TestBurnMT(t *testing.T) {
 }
 
 // 查询 MT 接口示例
-func TestGetMTs(t *testing.T) {
+func TestQueryMTs(t *testing.T) {
 	client := GetClient()
 
-	result := client.MT.GetMTs(nil)
+	result := client.MT.QueryMTs(nil)
 	if result.Code != 0 {
 		t.Log(result.Message)
 		return
@@ -173,10 +173,10 @@ func TestGetMTs(t *testing.T) {
 }
 
 // 查询 MT 详情接口示例
-func TestGetMT(t *testing.T) {
+func TestQueryMT(t *testing.T) {
 	client := GetClient()
 
-	result := client.MT.GetMT("b68fe234f258a95855db3f8b2d37e291a874df65a6ac7a66c4fc3780b1ab0bda", "12d129912d58426891a8549c6ba87e96deca33224acd7fedf64da70b36f90a69")
+	result := client.MT.QueryMT("b68fe234f258a95855db3f8b2d37e291a874df65a6ac7a66c4fc3780b1ab0bda", "12d129912d58426891a8549c6ba87e96deca33224acd7fedf64da70b36f90a69")
 	if result.Code != 0 {
 		t.Log(result.Message)
 		return
@@ -186,10 +186,10 @@ func TestGetMT(t *testing.T) {
 }
 
 // 查询 MT 操作记录接口示例
-func TestGetMTHistory(t *testing.T) {
+func TestQueryMTHistory(t *testing.T) {
 	client := GetClient()
 
-	result := client.MT.GetMTHistory("b68fe234f258a95855db3f8b2d37e291a874df65a6ac7a66c4fc3780b1ab0bda", "12d129912d58426891a8549c6ba87e96deca33224acd7fedf64da70b36f90a69", nil)
+	result := client.MT.QueryMTHistory("b68fe234f258a95855db3f8b2d37e291a874df65a6ac7a66c4fc3780b1ab0bda", "12d129912d58426891a8549c6ba87e96deca33224acd7fedf64da70b36f90a69", nil)
 	if result.Code != 0 {
 		t.Log(result.Message)
 		return
@@ -199,10 +199,10 @@ func TestGetMTHistory(t *testing.T) {
 }
 
 // 查询 MT 余额接口示例
-func TestGetMTBalance(t *testing.T) {
+func TestQueryMTBalance(t *testing.T) {
 	client := GetClient()
 
-	result := client.MT.GetMTBalance("b68fe234f258a95855db3f8b2d37e291a874df65a6ac7a66c4fc3780b1ab0bda", "iaa1qtag7eh9z7l94am0fcn3te5s8wx5j8cggkkrjd", nil)
+	result := client.MT.QueryMTBalance("b68fe234f258a95855db3f8b2d37e291a874df65a6ac7a66c4fc3780b1ab0bda", "iaa1qtag7eh9z7l94am0fcn3te5s8wx5j8cggkkrjd", nil)
 	if result.Code != 0 {
 		t.Log(result.Message)
 		return
