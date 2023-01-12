@@ -32,14 +32,6 @@ type CreateNFTClassReq struct {
 	OperationID string            `json:"operation_id"`
 }
 
-// CreateNFTClassResp 创建 NFT 类别：response
-type CreateNFTClassResp struct {
-	BaseRes
-	Data struct {
-		OperationID string `json:"operation_id"`
-	} `json:"data"`
-}
-
 // QueryNFTClassReq 查询 NFT 类别：request
 type QueryNFTClassReq struct {
 	Offset    string `json:"offset,omitempty"`
@@ -124,27 +116,11 @@ type CreateNFTReq struct {
 	OperationID string            `json:"operation_id"`
 }
 
-// CreateNFTResp 发行nft：response
-type CreateNFTResp struct {
-	BaseRes
-	Data struct {
-		OperationID string `json:"operation_id"`
-	} `json:"data"`
-}
-
 // TransfersNFTReq 转让 NFT ：request
 type TransfersNFTReq struct {
 	Recipient   string            `json:"recipient"`
 	OperationID string            `json:"operation_id"`
 	Tag         map[string]string `json:"tag,omitempty"`
-}
-
-// TransfersNFTResp 转让 NFT ：response
-type TransfersNFTResp struct {
-	BaseRes
-	Data struct {
-		OperationID string `json:"operation_id"`
-	} `json:"data"`
 }
 
 // EditNFTReq 编辑 NFT ：request
@@ -156,26 +132,10 @@ type EditNFTReq struct {
 	Tag         map[string]string `json:"tag,omitempty"`
 }
 
-// EditNFTResp 编辑 NFT ：response
-type EditNFTResp struct {
-	BaseRes
-	Data struct {
-		OperationID string `json:"operation_id"`
-	} `json:"data"`
-}
-
 // DeleteNFTReq 销毁 NFT ：request
 type DeleteNFTReq struct {
 	OperationID string            `json:"operation_id"`
 	Tag         map[string]string `json:"tag,omitempty"`
-}
-
-// DeleteNFTResp 销毁 NFT ：response
-type DeleteNFTResp struct {
-	BaseRes
-	Data struct {
-		OperationID string `json:"operation_id"`
-	} `json:"data"`
 }
 
 // BatchCreateNFTReq 批量发行nft：request
@@ -192,14 +152,6 @@ type BatchCreateNFTReq struct {
 	OperationID string            `json:"operation_id"`
 }
 
-// BatchCreateNFTResp 批量发行nft：response
-type BatchCreateNFTResp struct {
-	BaseRes
-	Data struct {
-		OperationID string `json:"operation_id"`
-	} `json:"data"`
-}
-
 // BatchTransfersNFTReq 批量转让 NFT ：request
 type BatchTransfersNFTReq struct {
 	Data []struct {
@@ -211,14 +163,6 @@ type BatchTransfersNFTReq struct {
 	} `json:"data"`
 	Tag         map[string]string `json:"tag,omitempty"`
 	OperationID string            `json:"operation_id"`
-}
-
-// BatchTransfersNFTResp 批量转让 NFT ：response
-type BatchTransfersNFTResp struct {
-	BaseRes
-	Data struct {
-		OperationID string `json:"operation_id"`
-	} `json:"data"`
 }
 
 // BatchEditNFTReq 批量编辑 NFT ：request
@@ -234,14 +178,6 @@ type BatchEditNFTReq struct {
 	OperationID string            `json:"operation_id"`
 }
 
-// BatchEditNFTResp 批量编辑 NFT ：response
-type BatchEditNFTResp struct {
-	BaseRes
-	Data struct {
-		OperationID string `json:"operation_id"`
-	} `json:"data"`
-}
-
 // BatchDeleteNFTReq 批量销毁 NFT ：request
 type BatchDeleteNFTReq struct {
 	NFTs []struct {
@@ -250,14 +186,6 @@ type BatchDeleteNFTReq struct {
 	} `json:"nfts"`
 	Tag         map[string]string `json:"tag,omitempty"`
 	OperationID string            `json:"operation_id"`
-}
-
-// BatchDeleteNFTResp 批量销毁 NFT ：response
-type BatchDeleteNFTResp struct {
-	BaseRes
-	Data struct {
-		OperationID string `json:"operation_id"`
-	} `json:"data"`
 }
 
 // QueryNFTReq 查询 NFT ：request
