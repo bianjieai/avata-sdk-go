@@ -34,6 +34,7 @@ type CreateNFTClassReq struct {
 
 //创建nft类别：response
 type CreateNFTClassResp struct {
+	BaseRes
 	Data struct {
 		OperationID string `json:"operation_id"`
 	} `json:"data"`
@@ -54,9 +55,10 @@ type QueryNFTClassReq struct {
 
 //查询nft类别：response
 type QueryNFTClassResp struct {
+	BaseRes
 	Data struct {
 		Offset     int `json:"offset"`
-		Limit      int `json:"limt"`
+		Limit      int `json:"limit"`
 		TotalCount int `json:"total_count"`
 		Classes    []struct {
 			ID        string `json:"id"`
@@ -78,6 +80,7 @@ type QueryNFTClassByIdReq struct {
 
 //查询nft类别详情：response
 type QueryNFTClassByIdResp struct {
+	BaseRes
 	Data struct {
 		ID          string `json:"id"`
 		Name        string `json:"name"`
@@ -104,6 +107,7 @@ type TransfersNFClassReq struct {
 
 //转让nft类别：response
 type TransfersNFClassResp struct {
+	BaseRes
 	Data struct {
 		OperationID string `json:"operation_id"`
 	} `json:"data"`
@@ -123,6 +127,7 @@ type CreateNFTReq struct {
 
 //发行nft：response
 type CreateNFTResp struct {
+	BaseRes
 	Data struct {
 		OperationID string `json:"operation_id"`
 	} `json:"data"`
@@ -140,6 +145,7 @@ type TransfersNFTReq struct {
 
 //转让nft：response
 type TransfersNFTResp struct {
+	BaseRes
 	Data struct {
 		OperationID string `json:"operation_id"`
 	} `json:"data"`
@@ -159,6 +165,7 @@ type EditorNFTReq struct {
 
 //编辑nft：response
 type EditorNFTResp struct {
+	BaseRes
 	Data struct {
 		OperationID string `json:"operation_id"`
 	} `json:"data"`
@@ -175,6 +182,7 @@ type DeleteNFTReq struct {
 
 //销毁nft：response
 type DeleteNFTResp struct {
+	BaseRes
 	Data struct {
 		OperationID string `json:"operation_id"`
 	} `json:"data"`
@@ -196,6 +204,7 @@ type CreateNFTBatchReq struct {
 
 //批量发行nft：response
 type CreateNFTBatchResp struct {
+	BaseRes
 	Data struct {
 		OperationID string `json:"operation_id"`
 	} `json:"data"`
@@ -216,6 +225,7 @@ type TransfersNFTBatchReq struct {
 
 //批量转让nft：response
 type TransfersNFTBatchResp struct {
+	BaseRes
 	Data struct {
 		OperationID string `json:"operation_id"`
 	} `json:"data"`
@@ -236,6 +246,7 @@ type EditorNFTBatchReq struct {
 
 //批量编辑nft：response
 type EditorNFTBatchResp struct {
+	BaseRes
 	Data struct {
 		OperationID string `json:"operation_id"`
 	} `json:"data"`
@@ -253,6 +264,7 @@ type DeleteNFTBatchReq struct {
 
 //批量销毁nft：response
 type DeleteNFTBatchResp struct {
+	BaseRes
 	Data struct {
 		OperationID string `json:"operation_id"`
 	} `json:"data"`
@@ -275,9 +287,10 @@ type QueryNFTReq struct {
 
 //查询nft：response
 type QueryNFTResp struct {
+	BaseRes
 	Data struct {
 		Offset     int `json:"offset"`
-		Limit      int `json:"limt"`
+		Limit      int `json:"limit"`
 		TotalCount int `json:"total_count"`
 		NFTs       []struct {
 			ID          string `json:"id"`
@@ -303,6 +316,7 @@ type QueryNFTByIdReq struct {
 
 //查询nft详情：response
 type QueryNFTByIdResp struct {
+	BaseRes
 	Data struct {
 		ID          string `json:"id"`
 		Name        string `json:"name"`
@@ -335,9 +349,10 @@ type QueryNFTHistoryReq struct {
 
 //查询nft操作记录：response
 type QueryNFTHistoryResp struct {
+	BaseRes
 	Data struct {
 		Offset           int `json:"offset"`
-		Limit            int `json:"limt"`
+		Limit            int `json:"limit"`
 		TotalCount       int `json:"total_count"`
 		OperationRecords []struct {
 			TxHash    string `json:"tx_hash"`
