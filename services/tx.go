@@ -11,13 +11,25 @@ import (
 	"avata-sdk-go/utils"
 )
 
-type TxService struct {
+type TxService interface {
+	GetTxResult(operationID string) *models.GetTxResultRes // 上链交易结果查询
+	GetTxQueueInfo(params *models.GetTxQueueInfoReq) *models.GetTxQueueInfoRes
+}
+
+type txService struct {
 	*logrus.Logger // 日志
-	*utils.HttpClient
+	utils.HttpClient
+}
+
+func NewTxService(log *logrus.Logger, client utils.HttpClient) *txService {
+	return &txService{
+		Logger:     log,
+		HttpClient: client,
+	}
 }
 
 // GetTxResult 上链交易结果查询
-func (t TxService) GetTxResult(operationID string) *models.GetTxResultRes {
+func (t txService) GetTxResult(operationID string) *models.GetTxResultRes {
 	log := t.Logger.WithFields(map[string]interface{}{
 		"module":      "Tx",
 		"function":    "GetTxResult",
@@ -57,7 +69,7 @@ func (t TxService) GetTxResult(operationID string) *models.GetTxResultRes {
 }
 
 // GetTxQueueInfo 上链交易结果查询
-func (t TxService) GetTxQueueInfo(params *models.GetTxQueueInfoReq) *models.GetTxQueueInfoRes {
+func (t txService) GetTxQueueInfo(params *models.GetTxQueueInfoReq) *models.GetTxQueueInfoRes {
 	log := t.Logger.WithFields(map[string]interface{}{
 		"module":   "Tx",
 		"function": "GetTxQueueInfo",

@@ -10,10 +10,14 @@ import (
 func TestCreateMTClass(t *testing.T) {
 	client := GetClient()
 
+	tag := make(map[string]string)
+	tag["123wwww"] = "werfdwerf"
+
 	params := &models.CreateMTClassReq{
 		Name:        "类别1",
 		Owner:       "iaa1k3lq9vxtvf8erkqm49zrqwqz2lv4u9sq4wku5e",
 		OperationId: OperationID,
+		Tag:         tag,
 	}
 
 	result := client.MT.CreateMTClass(params)

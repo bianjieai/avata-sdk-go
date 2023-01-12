@@ -6,7 +6,17 @@ import (
 	"avata-sdk-go/utils"
 )
 
-type NftService struct {
+type NFTService interface {
+}
+
+type nftService struct {
 	*logrus.Logger // 日志
-	*utils.HttpClient
+	utils.HttpClient
+}
+
+func NewNFTService(log *logrus.Logger, httpClient utils.HttpClient) *nftService {
+	return &nftService{
+		Logger:     log,
+		HttpClient: httpClient,
+	}
 }

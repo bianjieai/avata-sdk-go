@@ -9,19 +9,15 @@ const (
 type GetTxResultRes struct {
 	BaseRes
 	Data struct {
-		Type        string `json:"type"`
-		Module      string `json:"module"`
-		TxHash      string `json:"tx_hash"`
-		Status      int    `json:"status"`
-		Message     string `json:"message"`
-		BlockHeight int    `json:"block_height"`
-		Timestamp   string `json:"timestamp"`
-		Tag         struct {
-			Key1 string `json:"key1"`
-			Key2 string `json:"key2"`
-			Key3 string `json:"key3"`
-		} `json:"tag"`
-		Nft struct {
+		Type        string            `json:"type"`
+		Module      string            `json:"module"`
+		TxHash      string            `json:"tx_hash"`
+		Status      int               `json:"status"`
+		Message     string            `json:"message"`
+		BlockHeight int               `json:"block_height"`
+		Timestamp   string            `json:"timestamp"`
+		Tag         map[string]string `json:"tag"`
+		Nft         struct {
 			ClassId string `json:"class_id"`
 			NftId   string `json:"nft_id"`
 		} `json:"nft"`

@@ -10,8 +10,8 @@ import (
 type AvataClient struct {
 	Account services.AccountService
 	Tx      services.TxService
-	NFT     services.NftService
-	MT      services.MtService
+	NFT     services.NFTService
+	MT      services.MTService
 	Record  services.RecordService
 	Order   services.OrderService
 }
@@ -20,7 +20,7 @@ func NewClient(domain, apiKey, apiSecret string, options ...configs.Options) *Av
 	// 校验必填参数
 	checkBaseParams(domain, apiKey, apiSecret)
 	// 设置默认配置
-	cfg := configs.SetDefaultConfig(&configs.Config{})
+	cfg := configs.SetDefaultConfig()
 	// 遍历调用函数，调整配置
 	for _, option := range options {
 		option(cfg)
@@ -38,12 +38,12 @@ func NewClient(domain, apiKey, apiSecret string, options ...configs.Options) *Av
 	httpClient := utils.NewHttpClient(cfg.HttpTimeout, baseParams)
 
 	return &AvataClient{
-		Account: services.AccountService{Logger: logger, HttpClient: httpClient},
-		Tx:      services.TxService{Logger: logger, HttpClient: httpClient},
-		NFT:     services.NftService{Logger: logger, HttpClient: httpClient},
-		MT:      services.MtService{Logger: logger, HttpClient: httpClient},
-		Record:  services.RecordService{Logger: logger, HttpClient: httpClient},
-		Order:   services.OrderService{Logger: logger, HttpClient: httpClient},
+		Account: services.NewAccountService(logger, httpClient),
+		Tx:      services.NewTxService(logger, httpClient),
+		NFT:     services.NewNFTService(logger, httpClient),
+		MT:      services.NewMTService(logger, httpClient),
+		Record:  services.NewRecordService(logger, httpClient),
+		Order:   services.NewOrderService(logger, httpClient),
 	}
 }
 

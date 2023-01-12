@@ -11,13 +11,27 @@ import (
 	"avata-sdk-go/utils"
 )
 
-type AccountService struct {
+type AccountService interface {
+	CreateAccount(params *models.CreateAccountReq) *models.CreateAccountRes                   // 创建链账户
+	BatchCreateAccounts(params *models.BatchCreateAccountsReq) *models.BatchCreateAccountsRes // 批量创建链账户
+	GetAccounts(params *models.GetAccountsReq) *models.GetAccountsRes                         // 查询链账户
+	GetAccountsHistory(params *models.GetAccountsHistoryReq) *models.GetAccountsHistoryRes    // 查询链账户操作记录
+}
+
+type accountService struct {
 	*logrus.Logger // 日志
-	*utils.HttpClient
+	utils.HttpClient
+}
+
+func NewAccountService(log *logrus.Logger, httpClient utils.HttpClient) *accountService {
+	return &accountService{
+		Logger:     log,
+		HttpClient: httpClient,
+	}
 }
 
 // CreateAccount 创建链账户
-func (a AccountService) CreateAccount(params *models.CreateAccountReq) *models.CreateAccountRes {
+func (a accountService) CreateAccount(params *models.CreateAccountReq) *models.CreateAccountRes {
 	log := a.Logger.WithFields(map[string]interface{}{
 		"module":   "Account",
 		"function": "CreateAccount",
@@ -84,7 +98,7 @@ func (a AccountService) CreateAccount(params *models.CreateAccountReq) *models.C
 }
 
 // BatchCreateAccounts 批量创建链账户
-func (a AccountService) BatchCreateAccounts(params *models.BatchCreateAccountsReq) *models.BatchCreateAccountsRes {
+func (a accountService) BatchCreateAccounts(params *models.BatchCreateAccountsReq) *models.BatchCreateAccountsRes {
 	log := a.Logger.WithFields(map[string]interface{}{
 		"module":   "Account",
 		"function": "BatchCreateAccounts",
@@ -144,7 +158,7 @@ func (a AccountService) BatchCreateAccounts(params *models.BatchCreateAccountsRe
 }
 
 // GetAccounts 查询链账户
-func (a AccountService) GetAccounts(params *models.GetAccountsReq) *models.GetAccountsRes {
+func (a accountService) GetAccounts(params *models.GetAccountsReq) *models.GetAccountsRes {
 	log := a.Logger.WithFields(map[string]interface{}{
 		"module":   "Account",
 		"function": "GetAccounts",
@@ -190,7 +204,7 @@ func (a AccountService) GetAccounts(params *models.GetAccountsReq) *models.GetAc
 }
 
 // GetAccountsHistory 查询链账户操作记录
-func (a AccountService) GetAccountsHistory(params *models.GetAccountsHistoryReq) *models.GetAccountsHistoryRes {
+func (a accountService) GetAccountsHistory(params *models.GetAccountsHistoryReq) *models.GetAccountsHistoryRes {
 	log := a.Logger.WithFields(map[string]interface{}{
 		"module":   "Account",
 		"function": "GetAccountsHistory",

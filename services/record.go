@@ -11,13 +11,24 @@ import (
 	"avata-sdk-go/utils"
 )
 
-type RecordService struct {
+type RecordService interface {
+	CreateRecord(params *models.CreateRecordReq) *models.TxRes
+}
+
+type recordService struct {
 	*logrus.Logger // 日志
-	*utils.HttpClient
+	utils.HttpClient
+}
+
+func NewRecordService(log *logrus.Logger, client utils.HttpClient) *recordService {
+	return &recordService{
+		Logger:     log,
+		HttpClient: client,
+	}
 }
 
 // CreateRecord 数字作品存证接口
-func (r RecordService) CreateRecord(params *models.CreateRecordReq) *models.TxRes {
+func (r recordService) CreateRecord(params *models.CreateRecordReq) *models.TxRes {
 	log := r.Logger.WithFields(map[string]interface{}{
 		"module":   "Record",
 		"function": "CreateRecord",

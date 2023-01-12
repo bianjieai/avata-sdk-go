@@ -11,20 +11,26 @@ import (
 	"avata-sdk-go/models"
 )
 
-type HttpClient struct {
+type HttpClient interface {
+	DoHttpRequest(method, path string, bodyParams, queryParams []byte) ([]byte, models.BaseRes)
+}
+
+type httpClient struct {
 	client     *http.Client
 	baseParams models.BaseParams
 }
 
-func NewHttpClient(httpTimeout int, baseParams models.BaseParams) *HttpClient {
-	return &HttpClient{
-		client:     &http.Client{Timeout: time.Duration(httpTimeout) * time.Second},
+func NewHttpClient(httpTimeout time.Duration, baseParams models.BaseParams) *httpClient {
+	return &httpClient{
+		client: &http.Client{
+			Timeout: httpTimeout,
+		},
 		baseParams: baseParams,
 	}
 }
 
 // DoHttpRequest http 请求
-func (h HttpClient) DoHttpRequest(method, path string, bodyParams, queryParams []byte) ([]byte, models.BaseRes) {
+func (h httpClient) DoHttpRequest(method, path string, bodyParams, queryParams []byte) ([]byte, models.BaseRes) {
 	baseRes := models.BaseRes{}
 
 	r, err := http.NewRequest(method, fmt.Sprintf("%s%s", h.baseParams.Domain, path), bytes.NewReader(bodyParams))

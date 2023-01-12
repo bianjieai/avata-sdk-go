@@ -5,11 +5,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/sirupsen/logrus"
-
 	client2 "avata-sdk-go"
 	"avata-sdk-go/configs"
 	"avata-sdk-go/models"
+	"github.com/sirupsen/logrus"
 )
 
 var OperationID = fmt.Sprintf("%s%d", "operationID", time.Now().Unix())
@@ -17,7 +16,7 @@ var OperationID = fmt.Sprintf("%s%d", "operationID", time.Now().Unix())
 func GetClient() *client2.AvataClient {
 	options := []configs.Options{
 		configs.Level(logrus.DebugLevel),
-		configs.HttpTimeout(15),
+		configs.HttpTimeout(15 * time.Second),
 	}
 	//client := client2.NewClient("域名", "项目参数 API KEY", "项目参数 API SECRET", log.ErrorLevel,options...)
 	client := client2.NewClient("http://192.168.150.41:18081", "000001", "b2m2V1L1d1p8z0j3y5q4T5b4M4l0M45Y", options...)
@@ -29,7 +28,7 @@ func TestCreateAccount(t *testing.T) {
 	client := GetClient()
 
 	params := &models.CreateAccountReq{
-		//Name:        "链账户1",
+		Name:        "链账户1",
 		OperationID: OperationID,
 	}
 

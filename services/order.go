@@ -11,13 +11,27 @@ import (
 	"avata-sdk-go/utils"
 )
 
-type OrderService struct {
+type OrderService interface {
+	CreateOrder(params *models.CreateOrderReq) *models.OrderRes
+	GetOrders(params *models.GetOrdersReq) *models.GetOrdersRes
+	GetOrder(orderID string) *models.GetOrderRes
+	CreateBatchOrder(params *models.CreateBatchOrderReq) *models.OrderRes
+}
+
+type orderService struct {
 	*logrus.Logger // 日志
-	*utils.HttpClient
+	utils.HttpClient
+}
+
+func NewOrderService(log *logrus.Logger, httpClient utils.HttpClient) *orderService {
+	return &orderService{
+		Logger:     log,
+		HttpClient: httpClient,
+	}
 }
 
 // CreateOrder 购买能量值/业务费接口
-func (o OrderService) CreateOrder(params *models.CreateOrderReq) *models.OrderRes {
+func (o orderService) CreateOrder(params *models.CreateOrderReq) *models.OrderRes {
 	log := o.Logger.WithFields(map[string]interface{}{
 		"module":   "Order",
 		"function": "CreateOrder",
@@ -95,7 +109,7 @@ func (o OrderService) CreateOrder(params *models.CreateOrderReq) *models.OrderRe
 }
 
 // GetOrders 查询能量值/业务费购买结果列表接口
-func (o OrderService) GetOrders(params *models.GetOrdersReq) *models.GetOrdersRes {
+func (o orderService) GetOrders(params *models.GetOrdersReq) *models.GetOrdersRes {
 	log := o.Logger.WithFields(map[string]interface{}{
 		"module":   "Order",
 		"function": "GetOrders",
@@ -141,7 +155,7 @@ func (o OrderService) GetOrders(params *models.GetOrdersReq) *models.GetOrdersRe
 }
 
 // GetOrder 查询能量值/业务费购买结果接口
-func (o OrderService) GetOrder(orderID string) *models.GetOrderRes {
+func (o orderService) GetOrder(orderID string) *models.GetOrderRes {
 	log := o.Logger.WithFields(map[string]interface{}{
 		"module":   "Order",
 		"function": "GetOrder",
@@ -187,7 +201,7 @@ func (o OrderService) GetOrder(orderID string) *models.GetOrderRes {
 }
 
 // CreateBatchOrder 批量购买能量值接口
-func (o OrderService) CreateBatchOrder(params *models.CreateBatchOrderReq) *models.OrderRes {
+func (o orderService) CreateBatchOrder(params *models.CreateBatchOrderReq) *models.OrderRes {
 	log := o.Logger.WithFields(map[string]interface{}{
 		"module":   "Order",
 		"function": "CreateBatchOrder",

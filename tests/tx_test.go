@@ -8,7 +8,7 @@ import (
 func TestGetTxResult(t *testing.T) {
 	client := GetClient()
 
-	result := client.Tx.GetTxResult("operationID1673409104")
+	result := client.Tx.GetTxResult("1655212905722")
 	if result.Code != 0 {
 		t.Log(result.Message)
 		return

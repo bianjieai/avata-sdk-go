@@ -11,13 +11,36 @@ import (
 	"avata-sdk-go/utils"
 )
 
-type MtService struct {
+type MTService interface {
+	CreateMTClass(params *models.CreateMTClassReq) *models.TxRes
+	GetMTClasses(params *models.GetMTClassesReq) *models.GetMTClassesRes
+	GetMTClass(id string) *models.GetMTClassRes
+	TransferMTClass(classID, owner string, params *models.TransferMTClassReq) *models.TxRes
+	IssueMT(classID string, params *models.IssueMTReq) *models.TxRes
+	MintMT(classID, mtID string, params *models.MintMTReq) *models.TxRes
+	TransferMT(classID, owner, mtID string, params *models.TransferMTReq) *models.TxRes
+	EditMT(classID, owner, mtID string, params *models.EditMTReq) *models.TxRes
+	BurnMT(classID, owner, mtID string, params *models.BurnMTReq) *models.TxRes
+	GetMTs(params *models.GetMTsReq) *models.GetMTsRes
+	GetMT(classID, mtID string) *models.GetMTRes
+	GetMTHistory(classID, mtID string, params *models.GetAccountsHistoryReq) *models.GetMTHistoryRes
+	GetMTBalance(classID, account string, params *models.GetMTBalanceReq) *models.GetMTBalanceRes
+}
+
+type mtService struct {
 	*logrus.Logger // 日志
-	*utils.HttpClient
+	utils.HttpClient
+}
+
+func NewMTService(log *logrus.Logger, httpClient utils.HttpClient) *mtService {
+	return &mtService{
+		Logger:     log,
+		HttpClient: httpClient,
+	}
 }
 
 // CreateMTClass 创建 MT 类别
-func (m MtService) CreateMTClass(params *models.CreateMTClassReq) *models.TxRes {
+func (m mtService) CreateMTClass(params *models.CreateMTClassReq) *models.TxRes {
 	log := m.Logger.WithFields(map[string]interface{}{
 		"module":   "MT",
 		"function": "CreateMTClass",
@@ -89,7 +112,7 @@ func (m MtService) CreateMTClass(params *models.CreateMTClassReq) *models.TxRes 
 }
 
 // GetMTClasses 查询 MT 类别
-func (m MtService) GetMTClasses(params *models.GetMTClassesReq) *models.GetMTClassesRes {
+func (m mtService) GetMTClasses(params *models.GetMTClassesReq) *models.GetMTClassesRes {
 	log := m.Logger.WithFields(map[string]interface{}{
 		"module":   "MT",
 		"function": "GetMTClasses",
@@ -135,7 +158,7 @@ func (m MtService) GetMTClasses(params *models.GetMTClassesReq) *models.GetMTCla
 }
 
 // GetMTClass 查询 MT 类别详情
-func (m MtService) GetMTClass(id string) *models.GetMTClassRes {
+func (m mtService) GetMTClass(id string) *models.GetMTClassRes {
 	log := m.Logger.WithFields(map[string]interface{}{
 		"module":   "MT",
 		"function": "GetMTClass",
@@ -181,7 +204,7 @@ func (m MtService) GetMTClass(id string) *models.GetMTClassRes {
 }
 
 // TransferMTClass 转让 MT 类别
-func (m MtService) TransferMTClass(classID, owner string, params *models.TransferMTClassReq) *models.TxRes {
+func (m mtService) TransferMTClass(classID, owner string, params *models.TransferMTClassReq) *models.TxRes {
 	log := m.Logger.WithFields(map[string]interface{}{
 		"module":   "MT",
 		"function": "TransferMTClass",
@@ -261,7 +284,7 @@ func (m MtService) TransferMTClass(classID, owner string, params *models.Transfe
 }
 
 // IssueMT 发行 MT
-func (m MtService) IssueMT(classID string, params *models.IssueMTReq) *models.TxRes {
+func (m mtService) IssueMT(classID string, params *models.IssueMTReq) *models.TxRes {
 	log := m.Logger.WithFields(map[string]interface{}{
 		"module":   "MT",
 		"function": "IssueMT",
@@ -328,7 +351,7 @@ func (m MtService) IssueMT(classID string, params *models.IssueMTReq) *models.Tx
 }
 
 // MintMT 增发 MT
-func (m MtService) MintMT(classID, mtID string, params *models.MintMTReq) *models.TxRes {
+func (m mtService) MintMT(classID, mtID string, params *models.MintMTReq) *models.TxRes {
 	log := m.Logger.WithFields(map[string]interface{}{
 		"module":   "MT",
 		"function": "MintMT",
@@ -402,7 +425,7 @@ func (m MtService) MintMT(classID, mtID string, params *models.MintMTReq) *model
 }
 
 // TransferMT 转让 MT
-func (m MtService) TransferMT(classID, owner, mtID string, params *models.TransferMTReq) *models.TxRes {
+func (m mtService) TransferMT(classID, owner, mtID string, params *models.TransferMTReq) *models.TxRes {
 	log := m.Logger.WithFields(map[string]interface{}{
 		"module":   "MT",
 		"function": "TransferMT",
@@ -489,7 +512,7 @@ func (m MtService) TransferMT(classID, owner, mtID string, params *models.Transf
 }
 
 // EditMT 编辑 MT
-func (m MtService) EditMT(classID, owner, mtID string, params *models.EditMTReq) *models.TxRes {
+func (m mtService) EditMT(classID, owner, mtID string, params *models.EditMTReq) *models.TxRes {
 	log := m.Logger.WithFields(map[string]interface{}{
 		"module":   "MT",
 		"function": "EditMT",
@@ -576,7 +599,7 @@ func (m MtService) EditMT(classID, owner, mtID string, params *models.EditMTReq)
 }
 
 // BurnMT 销毁 MT
-func (m MtService) BurnMT(classID, owner, mtID string, params *models.BurnMTReq) *models.TxRes {
+func (m mtService) BurnMT(classID, owner, mtID string, params *models.BurnMTReq) *models.TxRes {
 	log := m.Logger.WithFields(map[string]interface{}{
 		"module":   "MT",
 		"function": "BurnMT",
@@ -657,7 +680,7 @@ func (m MtService) BurnMT(classID, owner, mtID string, params *models.BurnMTReq)
 }
 
 // GetMTs 查询 MT
-func (m MtService) GetMTs(params *models.GetMTsReq) *models.GetMTsRes {
+func (m mtService) GetMTs(params *models.GetMTsReq) *models.GetMTsRes {
 	log := m.Logger.WithFields(map[string]interface{}{
 		"module":   "MT",
 		"function": "GetMTs",
@@ -703,7 +726,7 @@ func (m MtService) GetMTs(params *models.GetMTsReq) *models.GetMTsRes {
 }
 
 // GetMT 查询 MT 详情
-func (m MtService) GetMT(classID, mtID string) *models.GetMTRes {
+func (m mtService) GetMT(classID, mtID string) *models.GetMTRes {
 	log := m.Logger.WithFields(map[string]interface{}{
 		"module":   "MT",
 		"function": "GetMT",
@@ -756,7 +779,7 @@ func (m MtService) GetMT(classID, mtID string) *models.GetMTRes {
 }
 
 // GetMTHistory 查询 MT 操作记录
-func (m MtService) GetMTHistory(classID, mtID string, params *models.GetAccountsHistoryReq) *models.GetMTHistoryRes {
+func (m mtService) GetMTHistory(classID, mtID string, params *models.GetAccountsHistoryReq) *models.GetMTHistoryRes {
 	log := m.Logger.WithFields(map[string]interface{}{
 		"module":   "MT",
 		"function": "GetMTHistory",
@@ -818,7 +841,7 @@ func (m MtService) GetMTHistory(classID, mtID string, params *models.GetAccounts
 }
 
 // GetMTBalance 查询 MT 余额
-func (m MtService) GetMTBalance(classID, account string, params *models.GetMTBalanceReq) *models.GetMTBalanceRes {
+func (m mtService) GetMTBalance(classID, account string, params *models.GetMTBalanceReq) *models.GetMTBalanceRes {
 	log := m.Logger.WithFields(map[string]interface{}{
 		"module":   "MT",
 		"function": "GetMTBalance",
