@@ -105,7 +105,7 @@ func (nft NftService) QueryNFTClassById(id string) *models.QueryNFTClassByIdResp
 	result := &models.QueryNFTClassByIdResp{}
 	log.Info("QueryNFTClassByIdReq start")
 	//错误结果集合
-	body, baseRes := nft.HttpClient.DoHttpRequest(http.MethodGet, models.CreateNFTClass+"/"+id, nil, nil)
+	body, baseRes := nft.HttpClient.DoHttpRequest(http.MethodGet, models.QueryNFTClassById+"/"+id, nil, nil)
 	log.WithFields(map[string]interface{}{
 		"body":    string(body),
 		"baseRes": baseRes,
@@ -596,7 +596,7 @@ func (nft NftService) QueryNFTHistory(params *models.QueryNFTHistoryReq, class_i
 		result.Message = err.Error()
 		return result
 	}
-	body, baseRes := nft.HttpClient.DoHttpRequest(http.MethodGet, models.QueryNFTById+"/"+class_id+"/"+nft_id+"/history", nil, bytesData)
+	body, baseRes := nft.HttpClient.DoHttpRequest(http.MethodGet, models.QueryNFTHistory+"/"+class_id+"/"+nft_id+"/history", nil, bytesData)
 	log.WithFields(map[string]interface{}{
 		"body":    string(body),
 		"baseRes": baseRes,

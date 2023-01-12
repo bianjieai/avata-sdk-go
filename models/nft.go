@@ -98,8 +98,6 @@ type QueryNFTClassByIdResp struct {
 
 //转让nft类别：request
 type TransfersNFClassReq struct {
-	//ClassID     string            `json:"class_id"`
-	//Owner       string            `json:"owner"`
 	Recipient   string            `json:"recipient"`
 	OperationID string            `json:"operation_id"`
 	Tag         map[string]string `json:"tag"`
@@ -115,7 +113,6 @@ type TransfersNFClassResp struct {
 
 //发行nft：request
 type CreateNFTReq struct {
-	//ClassID     string            `json:"class_id"`
 	Name        string            `json:"name"`
 	Uri         string            `json:"uri"`
 	UriHash     string            `json:"uri_hash"`
@@ -135,9 +132,6 @@ type CreateNFTResp struct {
 
 //转让nft：request
 type TransfersNFTReq struct {
-	//ClassID     string            `json:"class_id"`
-	//Owner       string            `json:"owner"`
-	//NFTID       string            `json:"nft_id"`
 	Recipient   string            `json:"recipient"`
 	OperationID string            `json:"operation_id"`
 	Tag         map[string]string `json:"tag"`
@@ -153,9 +147,6 @@ type TransfersNFTResp struct {
 
 //编辑ft：request
 type EditorNFTReq struct {
-	//ClassID     string            `json:"class_id"`
-	//Owner       string            `json:"owner"`
-	//NFTID       string            `json:"nft_id"`
 	Name        string            `json:"name"`
 	Uri         string            `json:"uri"`
 	Data        string            `json:"data"`
@@ -173,9 +164,6 @@ type EditorNFTResp struct {
 
 //销毁nft：request
 type DeleteNFTReq struct {
-	//ClassID     string            `json:"class_id"`
-	//Owner       string            `json:"owner"`
-	//NFTID       string            `json:"nft_id"`
 	OperationID string            `json:"operation_id"`
 	Tag         map[string]string `json:"tag"`
 }
@@ -189,18 +177,21 @@ type DeleteNFTResp struct {
 }
 
 //批量发行nft：request
-type CreateNFTBatchReq struct {
-	Name       string `json:"name"`
-	Uri        string `json:"uri"`
-	UriHash    string `json:"uri_hash"`
-	Data       string `json:"data"`
-	Recipients []struct {
+type (
+	CreateNFTBatchReq struct {
+		Name                        string `json:"name"`
+		Uri                         string `json:"uri"`
+		UriHash                     string `json:"uri_hash"`
+		Data                        string `json:"data"`
+		CreateNFTBatchReqRecipients `json:"recipients"`
+		Tag                         map[string]string `json:"tag"`
+		OperationID                 string            `json:"operation_id"`
+	}
+	CreateNFTBatchReqRecipients []struct {
 		Amount    int    `json:"amount"`
 		Recipient string `json:"recipient"`
-	} `json:"recipients"`
-	Tag         map[string]string `json:"tag"`
-	OperationID string            `json:"operation_id"`
-}
+	}
+)
 
 //批量发行nft：response
 type CreateNFTBatchResp struct {
@@ -211,17 +202,21 @@ type CreateNFTBatchResp struct {
 }
 
 //批量转让nft：request
-type TransfersNFTBatchReq struct {
-	Data []struct {
-		NFTs []struct {
-			ClassID string `json:"class_id"`
-			NFTID   string `json:"nft_id"`
-		} `json:"nfts"`
-		Recipient string `json:"recipient"`
-	} `json:"data"`
-	Tag         map[string]string `json:"tag"`
-	OperationID string            `json:"operation_id"`
-}
+type (
+	TransfersNFTBatchReq struct {
+		TransfersNFTBatchReqData `json:"data"`
+		Tag                      map[string]string `json:"tag"`
+		OperationID              string            `json:"operation_id"`
+	}
+	TransfersNFTBatchReqData []struct {
+		TransfersNFTBatchReqNFTs `json:"nfts"`
+		Recipient                string `json:"recipient"`
+	}
+	TransfersNFTBatchReqNFTs []struct {
+		ClassID string `json:"class_id"`
+		NFTID   string `json:"nft_id"`
+	}
+)
 
 //批量转让nft：response
 type TransfersNFTBatchResp struct {
@@ -232,17 +227,20 @@ type TransfersNFTBatchResp struct {
 }
 
 //批量编辑nft：request
-type EditorNFTBatchReq struct {
-	NFTs []struct {
+type (
+	EditorNFTBatchReq struct {
+		EditorNFTBatchReqNFTs `json:"nfts"`
+		Tag                   map[string]string `json:"tag"`
+		OperationID           string            `json:"operation_id"`
+	}
+	EditorNFTBatchReqNFTs []struct {
 		ClassID string `json:"class_id"`
 		NFTID   string `json:"nft_id"`
 		Name    string `json:"name"`
 		Uri     string `json:"uri"`
 		Data    string `json:"data"`
-	} `json:"nfts"`
-	Tag         map[string]string `json:"tag"`
-	OperationID string            `json:"operation_id"`
-}
+	}
+)
 
 //批量编辑nft：response
 type EditorNFTBatchResp struct {
@@ -253,14 +251,17 @@ type EditorNFTBatchResp struct {
 }
 
 //批量销毁nft：request
-type DeleteNFTBatchReq struct {
-	NFTs []struct {
+type (
+	DeleteNFTBatchReq struct {
+		DeleteNFTBatchReqNFTs `json:"nfts"`
+		Tag                   map[string]string `json:"tag"`
+		OperationID           string            `json:"operation_id"`
+	}
+	DeleteNFTBatchReqNFTs []struct {
 		ClassID string `json:"class_id"`
 		NFTID   string `json:"nft_id"`
-	} `json:"nfts"`
-	Tag         map[string]string `json:"tag"`
-	OperationID string            `json:"operation_id"`
-}
+	}
+)
 
 //批量销毁nft：response
 type DeleteNFTBatchResp struct {
@@ -335,8 +336,6 @@ type QueryNFTByIdResp struct {
 
 //查询nft操作记录：request
 type QueryNFTHistoryReq struct {
-	// ClassID   string `json:"class_id"`
-	// NFTID     string `json:"nft_id"`
 	Offset    string `json:"offset"`
 	Limit     string `json:"limit"`
 	Signer    string `json:"signer"`

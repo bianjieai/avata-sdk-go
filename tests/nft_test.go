@@ -108,16 +108,14 @@ func TestDeleteNFT(t *testing.T) {
 func TestCreateNFTBatch(t *testing.T) {
 	client := GetClient()
 	class_id := "avatauuj0hj53thkyahiaitfmctsensn"
+	recipients := models.CreateNFTBatchReqRecipients{
+		{Amount: 2, Recipient: "iaa1p8c9xc2mjdmwxrugtgqhl4dfqnvxfkkezt68av"},
+		{Amount: 2, Recipient: "iaa1h5et0sduvt06kmz5e7lf3ts8l8areem00dpudy"},
+	}
 	params := &models.CreateNFTBatchReq{
-		Name: "TestCreateNFTBatch1",
-		Recipients: []struct {
-			Amount    int    "json:\"amount\""
-			Recipient string "json:\"recipient\""
-		}{
-			{Amount: 1, Recipient: "iaa1tu0gve9se3qgqkadn22d7ar74pal7vqt3yvna9"},
-			{Amount: 1, Recipient: "iaa10ldfc2n60ngfpwxnm8qgy5y5hh3vmse6mk4y6v"},
-		},
-		OperationID: "TestCreateNFTBatch2",
+		Name:                        "TestCreateNFTBatch3",
+		CreateNFTBatchReqRecipients: recipients,
+		OperationID:                 "TestCreateNFTBatch3",
 	}
 	result := client.NFT.CreateNFTBatch(params, class_id)
 	t.Logf("%+v \n", result)
@@ -126,24 +124,17 @@ func TestCreateNFTBatch(t *testing.T) {
 //批量转让nft
 func TestTransfersNFTBatch(t *testing.T) {
 	client := GetClient()
-	owner := "iaa1tu0gve9se3qgqkadn22d7ar74pal7vqt3yvna9"
+	owner := "iaa1h5et0sduvt06kmz5e7lf3ts8l8areem00dpudy"
+	nfts := models.TransfersNFTBatchReqNFTs{
+		{ClassID: "avatauuj0hj53thkyahiaitfmctsensn", NFTID: "avatamulu4fg1l6xtnxqfywcgdxms3x8"},
+		{ClassID: "avatauuj0hj53thkyahiaitfmctsensn", NFTID: "avata6aks4j6maqkhsgorfcdvemagrmi"},
+	}
+	data := models.TransfersNFTBatchReqData{
+		{TransfersNFTBatchReqNFTs: nfts, Recipient: "iaa1p8c9xc2mjdmwxrugtgqhl4dfqnvxfkkezt68av"},
+	}
 	params := &models.TransfersNFTBatchReq{
-		Data: []struct {
-			NFTs []struct {
-				ClassID string "json:\"class_id\""
-				NFTID   string "json:\"nft_id\""
-			} "json:\"nfts\""
-			Recipient string "json:\"recipient\""
-		}{
-			{Recipient: "iaa153uyr6ghtumt3lrtdwndplk4ggal9r6gm6953g", NFTs: []struct {
-				ClassID string "json:\"class_id\""
-				NFTID   string "json:\"nft_id\""
-			}{
-				{ClassID: "avatauuj0hj53thkyahiaitfmctsensn", NFTID: "avataj5h7algcaibxiz5ipbi5o97kfqs"},
-				{ClassID: "avatauuj0hj53thkyahiaitfmctsensn", NFTID: "avatarxamgw6sqwvclfqfnvkgkwkp6zf"},
-			}},
-		},
-		OperationID: "TestTransfersNFTBatch",
+		TransfersNFTBatchReqData: data,
+		OperationID:              "TestTransfersNFTBatch3",
 	}
 	result := client.NFT.TransfersNFTBatch(params, owner)
 	t.Logf("%+v \n", result)
@@ -152,19 +143,14 @@ func TestTransfersNFTBatch(t *testing.T) {
 //批量编辑nft
 func TestEditorNFTBatch(t *testing.T) {
 	client := GetClient()
-	owner := "iaa153uyr6ghtumt3lrtdwndplk4ggal9r6gm6953g"
+	owner := "iaa1p8c9xc2mjdmwxrugtgqhl4dfqnvxfkkezt68av"
+	nfts := models.EditorNFTBatchReqNFTs{
+		{ClassID: "avatauuj0hj53thkyahiaitfmctsensn", NFTID: "avatas5164fzfgupo9uylwpo47btvifo", Name: "TestEditorNFTBatch3"},
+		{ClassID: "avatauuj0hj53thkyahiaitfmctsensn", NFTID: "avatalbb94fsgw1cquf3svhlob3jgcox", Name: "TestEditorNFTBatch3"},
+	}
 	params := &models.EditorNFTBatchReq{
-		NFTs: []struct {
-			ClassID string "json:\"class_id\""
-			NFTID   string "json:\"nft_id\""
-			Name    string "json:\"name\""
-			Uri     string "json:\"uri\""
-			Data    string "json:\"data\""
-		}{
-			{ClassID: "avatauuj0hj53thkyahiaitfmctsensn", NFTID: "avataj5h7algcaibxiz5ipbi5o97kfqs", Name: "TestEditorNFTBatch"},
-			{ClassID: "avatauuj0hj53thkyahiaitfmctsensn", NFTID: "avatarxamgw6sqwvclfqfnvkgkwkp6zf", Name: "TestEditorNFTBatch"},
-		},
-		OperationID: "TestEditorNFTBatch",
+		EditorNFTBatchReqNFTs: nfts,
+		OperationID:           "TestEditorNFTBatch3",
 	}
 	result := client.NFT.EditorNFTBatch(params, owner)
 	t.Logf("%+v \n", result)
@@ -173,16 +159,14 @@ func TestEditorNFTBatch(t *testing.T) {
 //批量销毁nft
 func TestDeleteNFTBatch(t *testing.T) {
 	client := GetClient()
-	owner := "iaa153uyr6ghtumt3lrtdwndplk4ggal9r6gm6953g"
+	owner := "iaa1p8c9xc2mjdmwxrugtgqhl4dfqnvxfkkezt68av"
+	nfts := models.DeleteNFTBatchReqNFTs{
+		{ClassID: "avatauuj0hj53thkyahiaitfmctsensn", NFTID: "avatas5164fzfgupo9uylwpo47btvifo"},
+		{ClassID: "avatauuj0hj53thkyahiaitfmctsensn", NFTID: "avatalbb94fsgw1cquf3svhlob3jgcox"},
+	}
 	params := &models.DeleteNFTBatchReq{
-		NFTs: []struct {
-			ClassID string "json:\"class_id\""
-			NFTID   string "json:\"nft_id\""
-		}{
-			{ClassID: "avatauuj0hj53thkyahiaitfmctsensn", NFTID: "avataj5h7algcaibxiz5ipbi5o97kfqs"},
-			{ClassID: "avatauuj0hj53thkyahiaitfmctsensn", NFTID: "avatarxamgw6sqwvclfqfnvkgkwkp6zf"},
-		},
-		OperationID: "TestDeleteNFTBatch",
+		DeleteNFTBatchReqNFTs: nfts,
+		OperationID:           "TestDeleteNFTBatch3",
 	}
 	result := client.NFT.DeleteNFTBatch(params, owner)
 	t.Logf("%+v \n", result)
