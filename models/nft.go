@@ -90,19 +90,9 @@ type QueryNFTClassByIdResp struct {
 
 // TransfersNFClassReq 转让 NFT 类别：request
 type TransfersNFClassReq struct {
-	//ClassID     string            `json:"class_id"`
-	//Owner       string            `json:"owner"`
 	Recipient   string            `json:"recipient"`
 	OperationID string            `json:"operation_id"`
 	Tag         map[string]string `json:"tag,omitempty"`
-}
-
-// TransfersNFClassResp 转让 NFT 类别：response
-type TransfersNFClassResp struct {
-	BaseRes
-	Data struct {
-		OperationID string `json:"operation_id"`
-	} `json:"data"`
 }
 
 // CreateNFTReq 发行nft：request

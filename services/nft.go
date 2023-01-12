@@ -12,21 +12,21 @@ import (
 
 // NFTService NFT 接口
 type NFTService interface {
-	CreateNFTClass(params *models.CreateNFTClassReq) *models.TxRes                                           // 创建 NFT 类别
-	QueryNFTClass(params *models.QueryNFTClassReq) *models.QueryNFTClassResp                                 // 查询 NFT 类别
-	QueryNFTClassById(id string) *models.QueryNFTClassByIdResp                                               // 查询 NFT 类别详情
-	TransfersNFClass(params *models.TransfersNFClassReq, classID, owner string) *models.TransfersNFClassResp // 转让 NFT 类别
-	CreateNFT(params *models.CreateNFTReq, classID string) *models.TxRes                                     // 发行 NFT
-	TransferNFT(params *models.TransferNFTReq, classID, owner, nftID string) *models.TxRes                   // 转让 NFT
-	EditNFT(params *models.EditNFTReq, classID, owner, nftID string) *models.TxRes                           // 编辑 NFT
-	DeleteNFT(params *models.DeleteNFTReq, classID, owner, nftID string) *models.TxRes                       // 销毁 NFT
-	BatchCreateNFT(params *models.BatchCreateNFTReq, classID string) *models.TxRes                           // 批量发行 NFT
-	BatchTransferNFT(params *models.BatchTransferNFTReq, owner string) *models.TxRes                         // 批量转让 NFT
-	BatchEditNFT(params *models.BatchEditNFTReq, owner string) *models.TxRes                                 // 批量编辑 NFT
-	BatchDeleteNFT(params *models.BatchDeleteNFTReq, owner string) *models.TxRes                             // 批量销毁 NFT
-	QueryNFT(params *models.QueryNFTReq) *models.QueryNFTResp                                                // 查询 NFT
-	QueryNFTById(classID, nftID string) *models.QueryNFTByIdResp                                             // 查询 NFT 详情
-	QueryNFTHistory(params *models.QueryNFTHistoryReq, classID, nftID string) *models.QueryNFTHistoryResp    // 查询 NFT 操作记录
+	CreateNFTClass(params *models.CreateNFTClassReq) *models.TxRes                                        // 创建 NFT 类别
+	QueryNFTClass(params *models.QueryNFTClassReq) *models.QueryNFTClassResp                              // 查询 NFT 类别
+	QueryNFTClassById(id string) *models.QueryNFTClassByIdResp                                            // 查询 NFT 类别详情
+	TransfersNFClass(params *models.TransfersNFClassReq, classID, owner string) *models.TxRes             // 转让 NFT 类别
+	CreateNFT(params *models.CreateNFTReq, classID string) *models.TxRes                                  // 发行 NFT
+	TransferNFT(params *models.TransferNFTReq, classID, owner, nftID string) *models.TxRes                // 转让 NFT
+	EditNFT(params *models.EditNFTReq, classID, owner, nftID string) *models.TxRes                        // 编辑 NFT
+	DeleteNFT(params *models.DeleteNFTReq, classID, owner, nftID string) *models.TxRes                    // 销毁 NFT
+	BatchCreateNFT(params *models.BatchCreateNFTReq, classID string) *models.TxRes                        // 批量发行 NFT
+	BatchTransferNFT(params *models.BatchTransferNFTReq, owner string) *models.TxRes                      // 批量转让 NFT
+	BatchEditNFT(params *models.BatchEditNFTReq, owner string) *models.TxRes                              // 批量编辑 NFT
+	BatchDeleteNFT(params *models.BatchDeleteNFTReq, owner string) *models.TxRes                          // 批量销毁 NFT
+	QueryNFT(params *models.QueryNFTReq) *models.QueryNFTResp                                             // 查询 NFT
+	QueryNFTById(classID, nftID string) *models.QueryNFTByIdResp                                          // 查询 NFT 详情
+	QueryNFTHistory(params *models.QueryNFTHistoryReq, classID, nftID string) *models.QueryNFTHistoryResp // 查询 NFT 操作记录
 }
 
 type nftService struct {
@@ -156,7 +156,7 @@ func (n nftService) QueryNFTClassById(id string) *models.QueryNFTClassByIdResp {
 }
 
 // TransfersNFClass 转让 NFT 类别
-func (n nftService) TransfersNFClass(params *models.TransfersNFClassReq, classID, owner string) *models.TransfersNFClassResp {
+func (n nftService) TransfersNFClass(params *models.TransfersNFClassReq, classID, owner string) *models.TxRes {
 	log := n.Logger.WithFields(map[string]interface{}{
 		"module":   "NFT",
 		"function": "TransfersNFClass",
@@ -164,7 +164,7 @@ func (n nftService) TransfersNFClass(params *models.TransfersNFClassReq, classID
 		"class_id": classID,
 		"owner":    owner,
 	})
-	result := &models.TransfersNFClassResp{}
+	result := &models.TxRes{}
 	log.Info("TransfersNFClass start")
 	bytesData, err := json.Marshal(params)
 	if err != nil {
