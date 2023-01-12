@@ -18,7 +18,7 @@ func TestQueryTxResult(t *testing.T) {
 }
 
 // 上链交易排队状态查询示例
-func TestGetTxQueueInfo(t *testing.T) {
+func TestQueryTxQueueInfo(t *testing.T) {
 	client := GetClient()
 
 	result := client.Tx.QueryTxQueueInfo(nil)

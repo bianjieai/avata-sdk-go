@@ -17,11 +17,11 @@ type NFTService interface {
 	QueryNFTClassById(id string) *models.QueryNFTClassByIdResp                                               // 查询 NFT 类别详情
 	TransfersNFClass(params *models.TransfersNFClassReq, classID, owner string) *models.TransfersNFClassResp // 转让 NFT 类别
 	CreateNFT(params *models.CreateNFTReq, classID string) *models.TxRes                                     // 发行 NFT
-	TransfersNFT(params *models.TransfersNFTReq, classID, owner, nftID string) *models.TxRes                 // 转让 NFT
+	TransferNFT(params *models.TransferNFTReq, classID, owner, nftID string) *models.TxRes                   // 转让 NFT
 	EditNFT(params *models.EditNFTReq, classID, owner, nftID string) *models.TxRes                           // 编辑 NFT
 	DeleteNFT(params *models.DeleteNFTReq, classID, owner, nftID string) *models.TxRes                       // 销毁 NFT
 	BatchCreateNFT(params *models.BatchCreateNFTReq, classID string) *models.TxRes                           // 批量发行 NFT
-	BatchTransfersNFT(params *models.BatchTransfersNFTReq, owner string) *models.TxRes                       // 批量转让 NFT
+	BatchTransferNFT(params *models.BatchTransferNFTReq, owner string) *models.TxRes                         // 批量转让 NFT
 	BatchEditNFT(params *models.BatchEditNFTReq, owner string) *models.TxRes                                 // 批量编辑 NFT
 	BatchDeleteNFT(params *models.BatchDeleteNFTReq, owner string) *models.TxRes                             // 批量销毁 NFT
 	QueryNFT(params *models.QueryNFTReq) *models.QueryNFTResp                                                // 查询 NFT
@@ -42,8 +42,8 @@ func NewNFTService(log *logrus.Logger, httpClient utils.HttpClient) *nftService 
 }
 
 // CreateNFTClass 创建 NFT 类别
-func (nft nftService) CreateNFTClass(params *models.CreateNFTClassReq) *models.TxRes {
-	log := nft.Logger.WithFields(map[string]interface{}{
+func (n nftService) CreateNFTClass(params *models.CreateNFTClassReq) *models.TxRes {
+	log := n.Logger.WithFields(map[string]interface{}{
 		"module":   "NFT",
 		"function": "CreateNFTClass",
 		"params":   params,
@@ -57,32 +57,32 @@ func (nft nftService) CreateNFTClass(params *models.CreateNFTClassReq) *models.T
 		result.Message = err.Error()
 		return result
 	}
-	body, baseRes := nft.HttpClient.DoHttpRequest(http.MethodPost, models.CreateNFTClass, bytesData, nil)
+	body, baseRes := n.HttpClient.DoHttpRequest(http.MethodPost, models.CreateNFTClass, bytesData, nil)
 	log.WithFields(map[string]interface{}{
 		"body":    string(body),
 		"baseRes": baseRes,
 	}).Debug()
 	result.BaseRes = baseRes
 	if baseRes.Code == -1 {
-		nft.Logger.WithField("error", baseRes.Message).Errorln("DoHttpRequest")
+		log.WithField("error", baseRes.Message).Errorln("DoHttpRequest")
 		return result
 	}
 	// 请求成功
 	if baseRes.Http.Code == http.StatusOK {
 		if err := json.Unmarshal(body, &result); err != nil {
-			nft.Logger.WithError(err).Errorln("Unmarshal body")
+			log.WithError(err).Errorln("Unmarshal body")
 			result.Code = -1
 			result.Message = err.Error()
 			return result
 		}
 	}
-	nft.Logger.Info("CreateNFTClass end")
+	log.Info("CreateNFTClass end")
 	return result
 }
 
 // QueryNFTClass 查询 NFT 类别
-func (nft nftService) QueryNFTClass(params *models.QueryNFTClassReq) *models.QueryNFTClassResp {
-	log := nft.Logger.WithFields(map[string]interface{}{
+func (n nftService) QueryNFTClass(params *models.QueryNFTClassReq) *models.QueryNFTClassResp {
+	log := n.Logger.WithFields(map[string]interface{}{
 		"module":   "NFT",
 		"function": "QueryNFTClassReq",
 		"params":   params,
@@ -97,7 +97,7 @@ func (nft nftService) QueryNFTClass(params *models.QueryNFTClassReq) *models.Que
 		result.Message = err.Error()
 		return result
 	}
-	body, baseRes := nft.HttpClient.DoHttpRequest(http.MethodGet, models.QueryNFTClass, nil, bytesData)
+	body, baseRes := n.HttpClient.DoHttpRequest(http.MethodGet, models.QueryNFTClass, nil, bytesData)
 	log.WithFields(map[string]interface{}{
 		"body":    string(body),
 		"baseRes": baseRes,
@@ -122,8 +122,8 @@ func (nft nftService) QueryNFTClass(params *models.QueryNFTClassReq) *models.Que
 }
 
 // QueryNFTClassById 查询 NFT 类别详情
-func (nft nftService) QueryNFTClassById(id string) *models.QueryNFTClassByIdResp {
-	log := nft.Logger.WithFields(map[string]interface{}{
+func (n nftService) QueryNFTClassById(id string) *models.QueryNFTClassByIdResp {
+	log := n.Logger.WithFields(map[string]interface{}{
 		"module":   "NFT",
 		"function": "QueryNFTClassByIdReq",
 		"id":       id,
@@ -131,7 +131,7 @@ func (nft nftService) QueryNFTClassById(id string) *models.QueryNFTClassByIdResp
 	result := &models.QueryNFTClassByIdResp{}
 	log.Info("QueryNFTClassByIdReq start")
 	//错误结果集合
-	body, baseRes := nft.HttpClient.DoHttpRequest(http.MethodGet, models.QueryNFTClassById+"/"+id, nil, nil)
+	body, baseRes := n.HttpClient.DoHttpRequest(http.MethodGet, models.QueryNFTClassById+"/"+id, nil, nil)
 	log.WithFields(map[string]interface{}{
 		"body":    string(body),
 		"baseRes": baseRes,
@@ -156,8 +156,8 @@ func (nft nftService) QueryNFTClassById(id string) *models.QueryNFTClassByIdResp
 }
 
 // TransfersNFClass 转让 NFT 类别
-func (nft nftService) TransfersNFClass(params *models.TransfersNFClassReq, classID, owner string) *models.TransfersNFClassResp {
-	log := nft.Logger.WithFields(map[string]interface{}{
+func (n nftService) TransfersNFClass(params *models.TransfersNFClassReq, classID, owner string) *models.TransfersNFClassResp {
+	log := n.Logger.WithFields(map[string]interface{}{
 		"module":   "NFT",
 		"function": "TransfersNFClass",
 		"params":   params,
@@ -173,7 +173,7 @@ func (nft nftService) TransfersNFClass(params *models.TransfersNFClassReq, class
 		result.Message = err.Error()
 		return result
 	}
-	body, baseRes := nft.HttpClient.DoHttpRequest(http.MethodPost, models.TransfersNFClass+"/"+classID+"/"+owner, bytesData, nil)
+	body, baseRes := n.HttpClient.DoHttpRequest(http.MethodPost, models.TransfersNFClass+"/"+classID+"/"+owner, bytesData, nil)
 	log.WithFields(map[string]interface{}{
 		"body":    string(body),
 		"baseRes": baseRes,
@@ -198,8 +198,8 @@ func (nft nftService) TransfersNFClass(params *models.TransfersNFClassReq, class
 }
 
 // CreateNFT 发行 NFT
-func (nft nftService) CreateNFT(params *models.CreateNFTReq, classID string) *models.TxRes {
-	log := nft.Logger.WithFields(map[string]interface{}{
+func (n nftService) CreateNFT(params *models.CreateNFTReq, classID string) *models.TxRes {
+	log := n.Logger.WithFields(map[string]interface{}{
 		"module":   "NFT",
 		"function": "CreateNFT",
 		"params":   params,
@@ -214,7 +214,7 @@ func (nft nftService) CreateNFT(params *models.CreateNFTReq, classID string) *mo
 		result.Message = err.Error()
 		return result
 	}
-	body, baseRes := nft.HttpClient.DoHttpRequest(http.MethodPost, models.CreateNFT+"/"+classID, bytesData, nil)
+	body, baseRes := n.HttpClient.DoHttpRequest(http.MethodPost, models.CreateNFT+"/"+classID, bytesData, nil)
 	log.WithFields(map[string]interface{}{
 		"body":    string(body),
 		"baseRes": baseRes,
@@ -238,18 +238,18 @@ func (nft nftService) CreateNFT(params *models.CreateNFTReq, classID string) *mo
 	return result
 }
 
-// TransfersNFT 转让 NFT
-func (nft nftService) TransfersNFT(params *models.TransfersNFTReq, classID, owner, nftID string) *models.TxRes {
-	log := nft.Logger.WithFields(map[string]interface{}{
+// TransferNFT 转让 NFT
+func (n nftService) TransferNFT(params *models.TransferNFTReq, classID, owner, nftID string) *models.TxRes {
+	log := n.Logger.WithFields(map[string]interface{}{
 		"module":   "NFT",
-		"function": "TransfersNFT",
+		"function": "TransferNFT",
 		"params":   params,
 		"class_id": classID,
 		"owner":    owner,
 		"nft_id":   nftID,
 	})
 	result := &models.TxRes{}
-	log.Info("TransfersNFT start")
+	log.Info("TransferNFT start")
 	bytesData, err := json.Marshal(params)
 	if err != nil {
 		log.WithError(err).Errorln("Marshal Params")
@@ -257,7 +257,7 @@ func (nft nftService) TransfersNFT(params *models.TransfersNFTReq, classID, owne
 		result.Message = err.Error()
 		return result
 	}
-	body, baseRes := nft.HttpClient.DoHttpRequest(http.MethodPost, models.TransfersNFT+"/"+classID+"/"+owner+"/"+nftID, bytesData, nil)
+	body, baseRes := n.HttpClient.DoHttpRequest(http.MethodPost, models.TransferNFT+"/"+classID+"/"+owner+"/"+nftID, bytesData, nil)
 	log.WithFields(map[string]interface{}{
 		"body":    string(body),
 		"baseRes": baseRes,
@@ -277,13 +277,13 @@ func (nft nftService) TransfersNFT(params *models.TransfersNFTReq, classID, owne
 			return result
 		}
 	}
-	log.Info("TransfersNFT end")
+	log.Info("TransferNFT end")
 	return result
 }
 
 // EditNFT 编辑 NFT
-func (nft nftService) EditNFT(params *models.EditNFTReq, classID, owner, nftID string) *models.TxRes {
-	log := nft.Logger.WithFields(map[string]interface{}{
+func (n nftService) EditNFT(params *models.EditNFTReq, classID, owner, nftID string) *models.TxRes {
+	log := n.Logger.WithFields(map[string]interface{}{
 		"module":   "NFT",
 		"function": "EditNFT",
 		"params":   params,
@@ -300,7 +300,7 @@ func (nft nftService) EditNFT(params *models.EditNFTReq, classID, owner, nftID s
 		result.Message = err.Error()
 		return result
 	}
-	body, baseRes := nft.HttpClient.DoHttpRequest(http.MethodPatch, models.EditNFT+"/"+classID+"/"+owner+"/"+nftID, bytesData, nil)
+	body, baseRes := n.HttpClient.DoHttpRequest(http.MethodPatch, models.EditNFT+"/"+classID+"/"+owner+"/"+nftID, bytesData, nil)
 	log.WithFields(map[string]interface{}{
 		"body":    string(body),
 		"baseRes": baseRes,
@@ -325,8 +325,8 @@ func (nft nftService) EditNFT(params *models.EditNFTReq, classID, owner, nftID s
 }
 
 // DeleteNFT 销毁 NFT
-func (nft nftService) DeleteNFT(params *models.DeleteNFTReq, classID, owner, nftID string) *models.TxRes {
-	log := nft.Logger.WithFields(map[string]interface{}{
+func (n nftService) DeleteNFT(params *models.DeleteNFTReq, classID, owner, nftID string) *models.TxRes {
+	log := n.Logger.WithFields(map[string]interface{}{
 		"module":   "NFT",
 		"function": "DeleteNFT",
 		"params":   params,
@@ -343,7 +343,7 @@ func (nft nftService) DeleteNFT(params *models.DeleteNFTReq, classID, owner, nft
 		result.Message = err.Error()
 		return result
 	}
-	body, baseRes := nft.HttpClient.DoHttpRequest(http.MethodDelete, models.DeleteNFT+"/"+classID+"/"+owner+"/"+nftID, bytesData, nil)
+	body, baseRes := n.HttpClient.DoHttpRequest(http.MethodDelete, models.DeleteNFT+"/"+classID+"/"+owner+"/"+nftID, bytesData, nil)
 	log.WithFields(map[string]interface{}{
 		"body":    string(body),
 		"baseRes": baseRes,
@@ -368,8 +368,8 @@ func (nft nftService) DeleteNFT(params *models.DeleteNFTReq, classID, owner, nft
 }
 
 // BatchCreateNFT 批量发行 NFT
-func (nft nftService) BatchCreateNFT(params *models.BatchCreateNFTReq, classID string) *models.TxRes {
-	log := nft.Logger.WithFields(map[string]interface{}{
+func (n nftService) BatchCreateNFT(params *models.BatchCreateNFTReq, classID string) *models.TxRes {
+	log := n.Logger.WithFields(map[string]interface{}{
 		"module":   "NFT",
 		"function": "BatchCreateNFT",
 		"params":   params,
@@ -384,7 +384,7 @@ func (nft nftService) BatchCreateNFT(params *models.BatchCreateNFTReq, classID s
 		result.Message = err.Error()
 		return result
 	}
-	body, baseRes := nft.HttpClient.DoHttpRequest(http.MethodPost, models.BatchCreateNFT+"/"+classID, bytesData, nil)
+	body, baseRes := n.HttpClient.DoHttpRequest(http.MethodPost, models.BatchCreateNFT+"/"+classID, bytesData, nil)
 	log.WithFields(map[string]interface{}{
 		"body":    string(body),
 		"baseRes": baseRes,
@@ -408,16 +408,16 @@ func (nft nftService) BatchCreateNFT(params *models.BatchCreateNFTReq, classID s
 	return result
 }
 
-// BatchTransfersNFT 批量转让 NFT
-func (nft nftService) BatchTransfersNFT(params *models.BatchTransfersNFTReq, owner string) *models.TxRes {
-	log := nft.Logger.WithFields(map[string]interface{}{
+// BatchTransferNFT 批量转让 NFT
+func (n nftService) BatchTransferNFT(params *models.BatchTransferNFTReq, owner string) *models.TxRes {
+	log := n.Logger.WithFields(map[string]interface{}{
 		"module":   "NFT",
-		"function": "DeleteNFT",
+		"function": "BatchTransferNFT",
 		"params":   params,
 		"owner":    owner,
 	})
 	result := &models.TxRes{}
-	log.Info("BatchTransfersNFT start")
+	log.Info("BatchTransferNFT start")
 	bytesData, err := json.Marshal(params)
 	if err != nil {
 		log.WithError(err).Errorln("Marshal Params")
@@ -425,7 +425,7 @@ func (nft nftService) BatchTransfersNFT(params *models.BatchTransfersNFTReq, own
 		result.Message = err.Error()
 		return result
 	}
-	body, baseRes := nft.HttpClient.DoHttpRequest(http.MethodPost, models.BatchTransfersNFT+"/"+owner, bytesData, nil)
+	body, baseRes := n.HttpClient.DoHttpRequest(http.MethodPost, models.BatchTransferNFT+"/"+owner, bytesData, nil)
 	log.WithFields(map[string]interface{}{
 		"body":    string(body),
 		"baseRes": baseRes,
@@ -445,15 +445,15 @@ func (nft nftService) BatchTransfersNFT(params *models.BatchTransfersNFTReq, own
 			return result
 		}
 	}
-	log.Info("BatchTransfersNFT end")
+	log.Info("BatchTransferNFT end")
 	return result
 }
 
 // BatchEditNFT 批量编辑 NFT
-func (nft nftService) BatchEditNFT(params *models.BatchEditNFTReq, owner string) *models.TxRes {
-	log := nft.Logger.WithFields(map[string]interface{}{
+func (n nftService) BatchEditNFT(params *models.BatchEditNFTReq, owner string) *models.TxRes {
+	log := n.Logger.WithFields(map[string]interface{}{
 		"module":   "NFT",
-		"function": "DeleteNFT",
+		"function": "BatchEditNFT",
 		"params":   params,
 		"owner":    owner,
 	})
@@ -466,7 +466,7 @@ func (nft nftService) BatchEditNFT(params *models.BatchEditNFTReq, owner string)
 		result.Message = err.Error()
 		return result
 	}
-	body, baseRes := nft.HttpClient.DoHttpRequest(http.MethodPatch, models.BatchEditNFT+"/"+owner, bytesData, nil)
+	body, baseRes := n.HttpClient.DoHttpRequest(http.MethodPatch, models.BatchEditNFT+"/"+owner, bytesData, nil)
 	log.WithFields(map[string]interface{}{
 		"body":    string(body),
 		"baseRes": baseRes,
@@ -491,10 +491,10 @@ func (nft nftService) BatchEditNFT(params *models.BatchEditNFTReq, owner string)
 }
 
 // BatchDeleteNFT 批量销毁 NFT
-func (nft nftService) BatchDeleteNFT(params *models.BatchDeleteNFTReq, owner string) *models.TxRes {
-	log := nft.Logger.WithFields(map[string]interface{}{
+func (n nftService) BatchDeleteNFT(params *models.BatchDeleteNFTReq, owner string) *models.TxRes {
+	log := n.Logger.WithFields(map[string]interface{}{
 		"module":   "NFT",
-		"function": "DeleteNFT",
+		"function": "BatchDeleteNFT",
 		"params":   params,
 		"owner":    owner,
 	})
@@ -507,7 +507,7 @@ func (nft nftService) BatchDeleteNFT(params *models.BatchDeleteNFTReq, owner str
 		result.Message = err.Error()
 		return result
 	}
-	body, baseRes := nft.HttpClient.DoHttpRequest(http.MethodDelete, models.BatchDeleteNFT+"/"+owner, bytesData, nil)
+	body, baseRes := n.HttpClient.DoHttpRequest(http.MethodDelete, models.BatchDeleteNFT+"/"+owner, bytesData, nil)
 	log.WithFields(map[string]interface{}{
 		"body":    string(body),
 		"baseRes": baseRes,
@@ -532,10 +532,10 @@ func (nft nftService) BatchDeleteNFT(params *models.BatchDeleteNFTReq, owner str
 }
 
 // QueryNFT 查询 NFT
-func (nft nftService) QueryNFT(params *models.QueryNFTReq) *models.QueryNFTResp {
-	log := nft.Logger.WithFields(map[string]interface{}{
+func (n nftService) QueryNFT(params *models.QueryNFTReq) *models.QueryNFTResp {
+	log := n.Logger.WithFields(map[string]interface{}{
 		"module":   "NFT",
-		"function": "DeleteNFT",
+		"function": "QueryNFT",
 		"params":   params,
 	})
 	result := &models.QueryNFTResp{}
@@ -547,7 +547,7 @@ func (nft nftService) QueryNFT(params *models.QueryNFTReq) *models.QueryNFTResp 
 		result.Message = err.Error()
 		return result
 	}
-	body, baseRes := nft.HttpClient.DoHttpRequest(http.MethodGet, models.QueryNFT, nil, bytesData)
+	body, baseRes := n.HttpClient.DoHttpRequest(http.MethodGet, models.QueryNFT, nil, bytesData)
 	log.WithFields(map[string]interface{}{
 		"body":    string(body),
 		"baseRes": baseRes,
@@ -572,16 +572,16 @@ func (nft nftService) QueryNFT(params *models.QueryNFTReq) *models.QueryNFTResp 
 }
 
 // QueryNFTById 查询 NFT 详情
-func (nft nftService) QueryNFTById(classID, nftID string) *models.QueryNFTByIdResp {
-	log := nft.Logger.WithFields(map[string]interface{}{
+func (n nftService) QueryNFTById(classID, nftID string) *models.QueryNFTByIdResp {
+	log := n.Logger.WithFields(map[string]interface{}{
 		"module":   "NFT",
-		"function": "DeleteNFT",
+		"function": "QueryNFTById",
 		"class_id": classID,
 		"nft_id":   nftID,
 	})
 	result := &models.QueryNFTByIdResp{}
 	log.Info("QueryNFTById start")
-	body, baseRes := nft.HttpClient.DoHttpRequest(http.MethodGet, models.QueryNFTById+"/"+classID+"/"+nftID, nil, nil)
+	body, baseRes := n.HttpClient.DoHttpRequest(http.MethodGet, models.QueryNFTById+"/"+classID+"/"+nftID, nil, nil)
 	log.WithFields(map[string]interface{}{
 		"body":    string(body),
 		"baseRes": baseRes,
@@ -594,7 +594,7 @@ func (nft nftService) QueryNFTById(classID, nftID string) *models.QueryNFTByIdRe
 	}
 	// 请求成功
 	if baseRes.Http.Code == http.StatusOK {
-		if err := json.Unmarshal(body, &result.Data); err != nil {
+		if err := json.Unmarshal(body, &result); err != nil {
 			log.WithError(err).Errorln("Unmarshal body")
 			result.Code = -1
 			result.Message = err.Error()
@@ -606,10 +606,10 @@ func (nft nftService) QueryNFTById(classID, nftID string) *models.QueryNFTByIdRe
 }
 
 // QueryNFTHistory 查询 NFT 操作记录
-func (nft nftService) QueryNFTHistory(params *models.QueryNFTHistoryReq, classID, nftID string) *models.QueryNFTHistoryResp {
-	log := nft.Logger.WithFields(map[string]interface{}{
+func (n nftService) QueryNFTHistory(params *models.QueryNFTHistoryReq, classID, nftID string) *models.QueryNFTHistoryResp {
+	log := n.Logger.WithFields(map[string]interface{}{
 		"module":   "NFT",
-		"function": "DeleteNFT",
+		"function": "QueryNFTHistory",
 		"class_id": classID,
 		"nft_id":   nftID,
 	})
@@ -622,7 +622,7 @@ func (nft nftService) QueryNFTHistory(params *models.QueryNFTHistoryReq, classID
 		result.Message = err.Error()
 		return result
 	}
-	body, baseRes := nft.HttpClient.DoHttpRequest(http.MethodGet, models.QueryNFTHistory+"/"+classID+"/"+nftID+"/history", nil, bytesData)
+	body, baseRes := n.HttpClient.DoHttpRequest(http.MethodGet, models.QueryNFTHistory+"/"+classID+"/"+nftID+"/history", nil, bytesData)
 	log.WithFields(map[string]interface{}{
 		"body":    string(body),
 		"baseRes": baseRes,
