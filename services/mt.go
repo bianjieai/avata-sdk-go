@@ -7,8 +7,8 @@ import (
 
 	"github.com/sirupsen/logrus"
 
-	"avata-sdk-go/models"
-	"avata-sdk-go/utils"
+	"github.com/bianjieai/avata-sdk-go/models"
+	"github.com/bianjieai/avata-sdk-go/utils"
 )
 
 // MTService MT 接口

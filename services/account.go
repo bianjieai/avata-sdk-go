@@ -7,8 +7,8 @@ import (
 
 	"github.com/sirupsen/logrus"
 
-	"avata-sdk-go/models"
-	"avata-sdk-go/utils"
+	"github.com/bianjieai/avata-sdk-go/models"
+	"github.com/bianjieai/avata-sdk-go/utils"
 )
 
 // AccountService 链账户接口
@@ -77,7 +77,10 @@ func (a accountService) CreateAccount(params *models.CreateAccountReq) *models.C
 		"baseRes": baseRes,
 	}).Debug()
 
-	result.BaseRes = baseRes
+	result.Code = baseRes.Code
+	result.Error = baseRes.Error
+	result.Message = baseRes.Message
+	result.Http = baseRes.Http
 
 	// 记录错误日志
 	if baseRes.Code == models.CodeFailed {

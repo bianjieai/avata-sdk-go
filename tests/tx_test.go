@@ -3,7 +3,7 @@ package tests
 import (
 	"testing"
 
-	"avata-sdk-go/models"
+	"github.com/bianjieai/avata-sdk-go/models"
 )
 
 // 上链交易结果查询示例

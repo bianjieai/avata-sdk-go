@@ -16,8 +16,11 @@ type CreateAccountReq struct {
 // CreateAccountRes 创建链账户返回值
 type (
 	CreateAccountRes struct {
-		BaseRes
-		Data struct {
+		Code    int    `json:"code"`    // 调用 SDK 方法是否成功
+		Http    Http   `json:"http"`    // HTTP 响应状态码
+		Message string `json:"message"` // 调用 SDK 方法失败提示信息
+		Error   Error  `json:"error"`   // 接口返回的错误提示信息
+		Data    struct {
 			Account     string `json:"account"`
 			Name        string `json:"name"`
 			OperationID string `json:"operation_id"`

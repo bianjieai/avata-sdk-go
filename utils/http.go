@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"time"
 
-	"avata-sdk-go/models"
+	"github.com/bianjieai/avata-sdk-go/models"
 )
 
 type HttpClient interface {

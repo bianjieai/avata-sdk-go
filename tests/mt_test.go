@@ -3,7 +3,7 @@ package tests
 import (
 	"testing"
 
-	"avata-sdk-go/models"
+	"github.com/bianjieai/avata-sdk-go/models"
 )
 
 // 创建 MT 类别接口示例

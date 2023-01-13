@@ -4,10 +4,10 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"avata-sdk-go/models"
 	"github.com/sirupsen/logrus"
 
-	"avata-sdk-go/utils"
+	"github.com/bianjieai/avata-sdk-go/models"
+	"github.com/bianjieai/avata-sdk-go/utils"
 )
 
 // NFTService NFT 接口
