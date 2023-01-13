@@ -16,7 +16,7 @@ type CreateAccountReq struct {
 // CreateAccountRes 创建链账户返回值
 type (
 	CreateAccountRes struct {
-		Data    struct {
+		Data struct {
 			Account     string `json:"account"`
 			Name        string `json:"name"`
 			OperationID string `json:"operation_id"`

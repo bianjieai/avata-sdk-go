@@ -13,7 +13,7 @@ import (
 
 // TxService 交易结果查询接口
 type TxService interface {
-	QueryTxResult(operationID string) *models.Response                       // 上链交易结果查询
+	QueryTxResult(operationID string) *models.Response                    // 上链交易结果查询
 	QueryTxQueueInfo(params *models.QueryTxQueueInfoReq) *models.Response // 上链交易排队状态查询
 }
 

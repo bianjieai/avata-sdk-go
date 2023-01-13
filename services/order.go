@@ -14,8 +14,8 @@ import (
 // OrderService 充值接口
 type OrderService interface {
 	CreateOrder(params *models.CreateOrderReq) *models.Response           // 购买能量值/业务费
-	QueryOrders(params *models.QueryOrdersReq) *models.Response     // 查询能量值/业务费购买结果列表
-	QueryOrder(orderID string) *models.Response                      // 查询能量值/业务费购买结果
+	QueryOrders(params *models.QueryOrdersReq) *models.Response           // 查询能量值/业务费购买结果列表
+	QueryOrder(orderID string) *models.Response                           // 查询能量值/业务费购买结果
 	BatchCreateOrder(params *models.BatchCreateOrderReq) *models.Response // 批量购买能量值
 }
 

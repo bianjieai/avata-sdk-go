@@ -13,17 +13,17 @@ import (
 
 // MTService MT 接口
 type MTService interface {
-	CreateMTClass(params *models.CreateMTClassReq) *models.Response                                           // 创建 MT 类别
+	CreateMTClass(params *models.CreateMTClassReq) *models.Response                               // 创建 MT 类别
 	QueryMTClasses(params *models.QueryMTClassesReq) *models.Response                             // 查询 MT 类别
-	QueryMTClass(id string) *models.Response                                                        // 查询 MT 类别详情
-	TransferMTClass(classID, owner string, params *models.TransferMTClassReq) *models.Response                // 转让 MT 类别
-	IssueMT(classID string, params *models.IssueMTReq) *models.Response                                       // 发行 MT
-	MintMT(classID, mtID string, params *models.MintMTReq) *models.Response                                   // 增发 MT
-	TransferMT(classID, owner, mtID string, params *models.TransferMTReq) *models.Response                    // 转让 MT
-	EditMT(classID, owner, mtID string, params *models.EditMTReq) *models.Response                            // 编辑 MT
-	BurnMT(classID, owner, mtID string, params *models.BurnMTReq) *models.Response                            // 销毁 MT
-	QueryMTs(params *models.QueryMTsReq) *models.Response                                               // 查询 MT
-	QueryMT(classID, mtID string) *models.Response                                                       // 查询 MT 详情
+	QueryMTClass(id string) *models.Response                                                      // 查询 MT 类别详情
+	TransferMTClass(classID, owner string, params *models.TransferMTClassReq) *models.Response    // 转让 MT 类别
+	IssueMT(classID string, params *models.IssueMTReq) *models.Response                           // 发行 MT
+	MintMT(classID, mtID string, params *models.MintMTReq) *models.Response                       // 增发 MT
+	TransferMT(classID, owner, mtID string, params *models.TransferMTReq) *models.Response        // 转让 MT
+	EditMT(classID, owner, mtID string, params *models.EditMTReq) *models.Response                // 编辑 MT
+	BurnMT(classID, owner, mtID string, params *models.BurnMTReq) *models.Response                // 销毁 MT
+	QueryMTs(params *models.QueryMTsReq) *models.Response                                         // 查询 MT
+	QueryMT(classID, mtID string) *models.Response                                                // 查询 MT 详情
 	QueryMTHistory(classID, mtID string, params *models.QueryAccountsHistoryReq) *models.Response // 查询 MT 操作记录
 	QueryMTBalance(classID, account string, params *models.QueryMTBalanceReq) *models.Response    // 查询 MT 余额
 }

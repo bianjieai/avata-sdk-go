@@ -47,7 +47,7 @@ func TestCreateAccount(t *testing.T) {
 	t.Logf("%+v \n", result.Data)
 
 	var account models.CreateAccountRes
-	dataBytes,_:=json.Marshal(result)
+	dataBytes, _ := json.Marshal(result)
 	_ = json.Unmarshal(dataBytes, &account)
 
 	t.Logf("%+v \n", account)
@@ -74,7 +74,7 @@ func TestBatchCreateAccounts(t *testing.T) {
 	t.Logf("%+v \n", result.Data)
 
 	var account models.BatchCreateAccountsRes
-	dataBytes,_:=json.Marshal(result)
+	dataBytes, _ := json.Marshal(result)
 	_ = json.Unmarshal(dataBytes, &account)
 
 	t.Logf("%+v \n", account)
@@ -100,7 +100,7 @@ func TestQueryAccounts(t *testing.T) {
 	t.Logf("%+v \n", result.Data)
 
 	var accounts models.QueryAccountsRes
-	dataBytes,_:=json.Marshal(result)
+	dataBytes, _ := json.Marshal(result)
 	_ = json.Unmarshal(dataBytes, &accounts)
 
 	t.Logf("%+v \n", accounts)
@@ -126,7 +126,7 @@ func TestQueryAccountsHistory(t *testing.T) {
 	t.Logf("%+v \n", result.Data)
 
 	var accountsHistory models.QueryAccountsHistoryRes
-	dataBytes,_:=json.Marshal(result)
+	dataBytes, _ := json.Marshal(result)
 	_ = json.Unmarshal(dataBytes, &accountsHistory)
 
 	t.Logf("%+v \n", accountsHistory)

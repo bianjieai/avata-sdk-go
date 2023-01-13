@@ -7,15 +7,15 @@ const (
 	TransfersNFClass  = "/v1beta1/nft/class-transfers/%s/%s"  // 转让 NFT 类别
 	CreateNFT         = "/v1beta1/nft/nfts/%s"                // 发行 NFT
 	TransferNFT       = "/v1beta1/nft/nft-transfers/%s/%s/%s" // 转让 NFT
-	EditNFT           = "/v1beta1/nft/nfts/%s/%s/%s"                   // 编辑 NFT
-	DeleteNFT         = "/v1beta1/nft/nfts/%s/%s/%s"                   // 销毁 NFT
-	BatchCreateNFT    = "/v1beta1/nft/batch/nfts/%s"             // 批量发行 NFT
-	BatchTransferNFT  = "/v1beta1/nft/batch/nft-transfers/%s"    // 批量转让 NFT
-	BatchEditNFT      = "/v1beta1/nft/batch/nfts/%s"             // 批量编辑 NFT
-	BatchDeleteNFT    = "/v1beta1/nft/batch/nfts/%s"             // 批量销毁 NFT
+	EditNFT           = "/v1beta1/nft/nfts/%s/%s/%s"          // 编辑 NFT
+	DeleteNFT         = "/v1beta1/nft/nfts/%s/%s/%s"          // 销毁 NFT
+	BatchCreateNFT    = "/v1beta1/nft/batch/nfts/%s"          // 批量发行 NFT
+	BatchTransferNFT  = "/v1beta1/nft/batch/nft-transfers/%s" // 批量转让 NFT
+	BatchEditNFT      = "/v1beta1/nft/batch/nfts/%s"          // 批量编辑 NFT
+	BatchDeleteNFT    = "/v1beta1/nft/batch/nfts/%s"          // 批量销毁 NFT
 	QueryNFT          = "/v1beta1/nft/nfts"                   // 查询 NFT
-	QueryNFTById      = "/v1beta1/nft/nfts/%s/%s"                   // 查询 NFT 详情
-	QueryNFTHistory   = "/v1beta1/nft/nfts/%s/%s/history"                   // 查询 NFT 历史记录
+	QueryNFTById      = "/v1beta1/nft/nfts/%s/%s"             // 查询 NFT 详情
+	QueryNFTHistory   = "/v1beta1/nft/nfts/%s/%s/history"     // 查询 NFT 历史记录
 )
 
 // CreateNFTClassReq 创建 NFT 类别：request
