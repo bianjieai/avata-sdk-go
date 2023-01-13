@@ -1,6 +1,8 @@
 package tests
 
 import (
+	"encoding/json"
+	"net/http"
 	"testing"
 
 	"github.com/bianjieai/avata-sdk-go/models"
@@ -20,8 +22,17 @@ func TestCreateNFTClass(t *testing.T) {
 		t.Log(result.Message)
 		return
 	}
+	if result.Http.Code != http.StatusOK {
+		t.Log(result.Error)
+		return
+	}
+	t.Logf("%+v \n", result.Data)
 
-	t.Logf("%+v \n", result)
+	var txRes models.TxRes
+	dataBytes, _ := json.Marshal(result)
+	_ = json.Unmarshal(dataBytes, &txRes)
+
+	t.Logf("%+v \n", txRes)
 }
 
 // 查询 NFT 类别示例
@@ -36,8 +47,17 @@ func TestQueryNFTClass(t *testing.T) {
 		t.Log(result.Message)
 		return
 	}
+	if result.Http.Code != http.StatusOK {
+		t.Log(result.Error)
+		return
+	}
+	t.Logf("%+v \n", result.Data)
 
-	t.Logf("%+v \n", result)
+	var nftClassRes models.QueryNFTClassRes
+	dataBytes, _ := json.Marshal(result)
+	_ = json.Unmarshal(dataBytes, &nftClassRes)
+
+	t.Logf("%+v \n", nftClassRes)
 }
 
 // 查询 NFT 类别详情示例
@@ -49,8 +69,17 @@ func TestQueryNFTClassById(t *testing.T) {
 		t.Log(result.Message)
 		return
 	}
+	if result.Http.Code != http.StatusOK {
+		t.Log(result.Error)
+		return
+	}
+	t.Logf("%+v \n", result.Data)
 
-	t.Logf("%+v \n", result)
+	var nftClassByIdRes models.QueryNFTClassByIdRes
+	dataBytes, _ := json.Marshal(result)
+	_ = json.Unmarshal(dataBytes, &nftClassByIdRes)
+
+	t.Logf("%+v \n", nftClassByIdRes)
 }
 
 // 转让 NFT 类别示例
@@ -67,8 +96,17 @@ func TestTransfersNFClass(t *testing.T) {
 		t.Log(result.Message)
 		return
 	}
+	if result.Http.Code != http.StatusOK {
+		t.Log(result.Error)
+		return
+	}
+	t.Logf("%+v \n", result.Data)
 
-	t.Logf("%+v \n", result)
+	var txRes models.TxRes
+	dataBytes, _ := json.Marshal(result)
+	_ = json.Unmarshal(dataBytes, &txRes)
+
+	t.Logf("%+v \n", txRes)
 }
 
 // 发行 NFT 示例
@@ -87,8 +125,17 @@ func TestCreateNFT(t *testing.T) {
 		t.Log(result.Message)
 		return
 	}
+	if result.Http.Code != http.StatusOK {
+		t.Log(result.Error)
+		return
+	}
+	t.Logf("%+v \n", result.Data)
 
-	t.Logf("%+v \n", result)
+	var txRes models.TxRes
+	dataBytes, _ := json.Marshal(result)
+	_ = json.Unmarshal(dataBytes, &txRes)
+
+	t.Logf("%+v \n", txRes)
 }
 
 // 转让 NFT 示例
@@ -106,8 +153,17 @@ func TestTransferNFT(t *testing.T) {
 		t.Log(result.Message)
 		return
 	}
+	if result.Http.Code != http.StatusOK {
+		t.Log(result.Error)
+		return
+	}
+	t.Logf("%+v \n", result.Data)
 
-	t.Logf("%+v \n", result)
+	var txRes models.TxRes
+	dataBytes, _ := json.Marshal(result)
+	_ = json.Unmarshal(dataBytes, &txRes)
+
+	t.Logf("%+v \n", txRes)
 }
 
 // 编辑 NFT 示例
@@ -125,8 +181,17 @@ func TestEditNFT(t *testing.T) {
 		t.Log(result.Message)
 		return
 	}
+	if result.Http.Code != http.StatusOK {
+		t.Log(result.Error)
+		return
+	}
+	t.Logf("%+v \n", result.Data)
 
-	t.Logf("%+v \n", result)
+	var txRes models.TxRes
+	dataBytes, _ := json.Marshal(result)
+	_ = json.Unmarshal(dataBytes, &txRes)
+
+	t.Logf("%+v \n", txRes)
 }
 
 // 销毁 NFT 示例
@@ -143,8 +208,17 @@ func TestDeleteNFT(t *testing.T) {
 		t.Log(result.Message)
 		return
 	}
+	if result.Http.Code != http.StatusOK {
+		t.Log(result.Error)
+		return
+	}
+	t.Logf("%+v \n", result.Data)
 
-	t.Logf("%+v \n", result)
+	var txRes models.TxRes
+	dataBytes, _ := json.Marshal(result)
+	_ = json.Unmarshal(dataBytes, &txRes)
+
+	t.Logf("%+v \n", txRes)
 }
 
 // 批量发行 NFT 示例
@@ -167,8 +241,17 @@ func TestBatchCreateNFT(t *testing.T) {
 		t.Log(result.Message)
 		return
 	}
+	if result.Http.Code != http.StatusOK {
+		t.Log(result.Error)
+		return
+	}
+	t.Logf("%+v \n", result.Data)
 
-	t.Logf("%+v \n", result)
+	var txRes models.TxRes
+	dataBytes, _ := json.Marshal(result)
+	_ = json.Unmarshal(dataBytes, &txRes)
+
+	t.Logf("%+v \n", txRes)
 }
 
 // 批量转让 NFT 示例
@@ -198,8 +281,17 @@ func TestBatchTransferNFT(t *testing.T) {
 		t.Log(result.Message)
 		return
 	}
+	if result.Http.Code != http.StatusOK {
+		t.Log(result.Error)
+		return
+	}
+	t.Logf("%+v \n", result.Data)
 
-	t.Logf("%+v \n", result)
+	var txRes models.TxRes
+	dataBytes, _ := json.Marshal(result)
+	_ = json.Unmarshal(dataBytes, &txRes)
+
+	t.Logf("%+v \n", txRes)
 }
 
 // 批量编辑 NFT 示例
@@ -226,8 +318,17 @@ func TestBatchEditNFT(t *testing.T) {
 		t.Log(result.Message)
 		return
 	}
+	if result.Http.Code != http.StatusOK {
+		t.Log(result.Error)
+		return
+	}
+	t.Logf("%+v \n", result.Data)
 
-	t.Logf("%+v \n", result)
+	var txRes models.TxRes
+	dataBytes, _ := json.Marshal(result)
+	_ = json.Unmarshal(dataBytes, &txRes)
+
+	t.Logf("%+v \n", txRes)
 }
 
 // 批量销毁 NFT 示例
@@ -253,8 +354,17 @@ func TestBatchDeleteNFT(t *testing.T) {
 		t.Log(result.Message)
 		return
 	}
+	if result.Http.Code != http.StatusOK {
+		t.Log(result.Error)
+		return
+	}
+	t.Logf("%+v \n", result.Data)
 
-	t.Logf("%+v \n", result)
+	var txRes models.TxRes
+	dataBytes, _ := json.Marshal(result)
+	_ = json.Unmarshal(dataBytes, &txRes)
+
+	t.Logf("%+v \n", txRes)
 }
 
 // 查询 NFT 示例
@@ -266,8 +376,17 @@ func TestQueryNFT(t *testing.T) {
 		t.Log(result.Message)
 		return
 	}
+	if result.Http.Code != http.StatusOK {
+		t.Log(result.Error)
+		return
+	}
+	t.Logf("%+v \n", result.Data)
 
-	t.Logf("%+v \n", result)
+	var nftRes models.QueryNFTRes
+	dataBytes, _ := json.Marshal(result)
+	_ = json.Unmarshal(dataBytes, &nftRes)
+
+	t.Logf("%+v \n", nftRes)
 }
 
 // 查询 NFT 详情示例
@@ -280,8 +399,17 @@ func TestQueryNFTById(t *testing.T) {
 		t.Log(result.Message)
 		return
 	}
+	if result.Http.Code != http.StatusOK {
+		t.Log(result.Error)
+		return
+	}
+	t.Logf("%+v \n", result.Data)
 
-	t.Logf("%+v \n", result)
+	var nftByIdRes models.QueryNFTByIdRes
+	dataBytes, _ := json.Marshal(result)
+	_ = json.Unmarshal(dataBytes, &nftByIdRes)
+
+	t.Logf("%+v \n", nftByIdRes)
 }
 
 // 查询 NFT 操作记录示例
@@ -295,6 +423,15 @@ func TestQueryNFTHistory(t *testing.T) {
 		t.Log(result.Message)
 		return
 	}
+	if result.Http.Code != http.StatusOK {
+		t.Log(result.Error)
+		return
+	}
+	t.Logf("%+v \n", result.Data)
 
-	t.Logf("%+v \n", result)
+	var nftHistoryRes models.QueryNFTHistoryRes
+	dataBytes, _ := json.Marshal(result)
+	_ = json.Unmarshal(dataBytes, &nftHistoryRes)
+
+	t.Logf("%+v \n", nftHistoryRes)
 }

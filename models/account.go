@@ -16,10 +16,6 @@ type CreateAccountReq struct {
 // CreateAccountRes 创建链账户返回值
 type (
 	CreateAccountRes struct {
-		Code    int    `json:"code"`    // 调用 SDK 方法是否成功
-		Http    Http   `json:"http"`    // HTTP 响应状态码
-		Message string `json:"message"` // 调用 SDK 方法失败提示信息
-		Error   Error  `json:"error"`   // 接口返回的错误提示信息
 		Data    struct {
 			Account     string `json:"account"`
 			Name        string `json:"name"`
@@ -36,7 +32,6 @@ type BatchCreateAccountsReq struct {
 
 // BatchCreateAccountsRes 批量创建链账户返回值
 type BatchCreateAccountsRes struct {
-	BaseRes
 	Data struct {
 		Accounts    []string `json:"accounts"`
 		OperationID string   `json:"operation_id"`
@@ -58,7 +53,6 @@ type QueryAccountsReq struct {
 // QueryAccountsRes 查询链账户返回值
 type (
 	QueryAccountsRes struct {
-		BaseRes
 		Data struct {
 			Offset     int64      `json:"offset"`
 			Limit      int64      `json:"limit"`
@@ -93,7 +87,6 @@ type QueryAccountsHistoryReq struct {
 // QueryAccountsHistoryRes 查询链账户操作记录返回值
 type (
 	QueryAccountsHistoryRes struct {
-		BaseRes
 		Data struct {
 			Offset           int64              `json:"offset"`
 			Limit            int64              `json:"limit"`

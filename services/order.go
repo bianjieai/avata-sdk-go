@@ -13,10 +13,10 @@ import (
 
 // OrderService 充值接口
 type OrderService interface {
-	CreateOrder(params *models.CreateOrderReq) *models.OrderRes           // 购买能量值/业务费
-	QueryOrders(params *models.QueryOrdersReq) *models.QueryOrdersRes     // 查询能量值/业务费购买结果列表
-	QueryOrder(orderID string) *models.QueryOrderRes                      // 查询能量值/业务费购买结果
-	BatchCreateOrder(params *models.BatchCreateOrderReq) *models.OrderRes // 批量购买能量值
+	CreateOrder(params *models.CreateOrderReq) *models.Response           // 购买能量值/业务费
+	QueryOrders(params *models.QueryOrdersReq) *models.Response     // 查询能量值/业务费购买结果列表
+	QueryOrder(orderID string) *models.Response                      // 查询能量值/业务费购买结果
+	BatchCreateOrder(params *models.BatchCreateOrderReq) *models.Response // 批量购买能量值
 }
 
 type orderService struct {
@@ -32,7 +32,7 @@ func NewOrderService(log *logrus.Logger, httpClient utils.HttpClient) *orderServ
 }
 
 // CreateOrder 购买能量值/业务费接口
-func (o orderService) CreateOrder(params *models.CreateOrderReq) *models.OrderRes {
+func (o orderService) CreateOrder(params *models.CreateOrderReq) *models.Response {
 	log := o.Logger.WithFields(map[string]interface{}{
 		"module":   "Order",
 		"function": "CreateOrder",
@@ -40,7 +40,7 @@ func (o orderService) CreateOrder(params *models.CreateOrderReq) *models.OrderRe
 	})
 	log.Info("CreateOrder start")
 
-	result := &models.OrderRes{}
+	result := &models.Response{}
 
 	// 校验必填参数
 	if params == nil {
@@ -88,27 +88,16 @@ func (o orderService) CreateOrder(params *models.CreateOrderReq) *models.OrderRe
 		return result
 	}
 
-	body, baseRes := o.HttpClient.DoHttpRequest(http.MethodPost, models.CreateOrder, bytesData, nil)
+	body, result := o.HttpClient.DoHttpRequest(http.MethodPost, models.CreateOrder, bytesData, nil)
 	log.WithFields(map[string]interface{}{
-		"body":    string(body),
-		"baseRes": baseRes,
+		"body":   string(body),
+		"result": result,
 	}).Debug()
 
-	result.BaseRes = baseRes
-
 	// 记录错误日志
-	if baseRes.Code == models.CodeFailed {
-		log.WithField("error", baseRes.Message).Errorln("DoHttpRequest")
+	if result.Code == models.CodeFailed {
+		log.WithField("error", result.Message).Errorln("DoHttpRequest")
 		return result
-	}
-	// 请求成功
-	if baseRes.Http.Code == http.StatusOK {
-		if err := json.Unmarshal(body, &result); err != nil {
-			log.WithError(err).Errorln("Unmarshal body")
-			result.Code = models.CodeFailed
-			result.Message = err.Error()
-			return result
-		}
 	}
 
 	log.Info("CreateOrder end")
@@ -116,7 +105,7 @@ func (o orderService) CreateOrder(params *models.CreateOrderReq) *models.OrderRe
 }
 
 // QueryOrders 查询能量值/业务费购买结果列表接口
-func (o orderService) QueryOrders(params *models.QueryOrdersReq) *models.QueryOrdersRes {
+func (o orderService) QueryOrders(params *models.QueryOrdersReq) *models.Response {
 	log := o.Logger.WithFields(map[string]interface{}{
 		"module":   "Order",
 		"function": "QueryOrders",
@@ -124,7 +113,7 @@ func (o orderService) QueryOrders(params *models.QueryOrdersReq) *models.QueryOr
 	})
 	log.Info("QueryOrders start")
 
-	result := &models.QueryOrdersRes{}
+	result := &models.Response{}
 
 	bytesData, err := json.Marshal(params)
 	if err != nil {
@@ -134,27 +123,16 @@ func (o orderService) QueryOrders(params *models.QueryOrdersReq) *models.QueryOr
 		return result
 	}
 
-	body, baseRes := o.HttpClient.DoHttpRequest(http.MethodGet, models.QueryOrders, nil, bytesData)
+	body, result := o.HttpClient.DoHttpRequest(http.MethodGet, models.QueryOrders, nil, bytesData)
 	log.WithFields(map[string]interface{}{
-		"body":    string(body),
-		"baseRes": baseRes,
+		"body":   string(body),
+		"result": result,
 	}).Debug()
 
-	result.BaseRes = baseRes
-
 	// 记录错误日志
-	if baseRes.Code == models.CodeFailed {
-		log.WithField("error", baseRes.Message).Errorln("DoHttpRequest")
+	if result.Code == models.CodeFailed {
+		log.WithField("error", result.Message).Errorln("DoHttpRequest")
 		return result
-	}
-	// 请求成功
-	if baseRes.Http.Code == http.StatusOK {
-		if err := json.Unmarshal(body, &result); err != nil {
-			log.WithError(err).Errorln("Unmarshal body")
-			result.Code = models.CodeFailed
-			result.Message = err.Error()
-			return result
-		}
 	}
 
 	log.Info("QueryOrders end")
@@ -162,7 +140,7 @@ func (o orderService) QueryOrders(params *models.QueryOrdersReq) *models.QueryOr
 }
 
 // QueryOrder 查询能量值/业务费购买结果接口
-func (o orderService) QueryOrder(orderID string) *models.QueryOrderRes {
+func (o orderService) QueryOrder(orderID string) *models.Response {
 	log := o.Logger.WithFields(map[string]interface{}{
 		"module":   "Order",
 		"function": "QueryOrder",
@@ -170,7 +148,7 @@ func (o orderService) QueryOrder(orderID string) *models.QueryOrderRes {
 	})
 	log.Info("QueryOrder start")
 
-	result := &models.QueryOrderRes{}
+	result := &models.Response{}
 
 	// 校验必填参数
 	if orderID == "" {
@@ -180,27 +158,16 @@ func (o orderService) QueryOrder(orderID string) *models.QueryOrderRes {
 		return result
 	}
 
-	body, baseRes := o.HttpClient.DoHttpRequest(http.MethodGet, fmt.Sprintf(models.QueryOrder, orderID), nil, nil)
+	body, result := o.HttpClient.DoHttpRequest(http.MethodGet, fmt.Sprintf(models.QueryOrder, orderID), nil, nil)
 	log.WithFields(map[string]interface{}{
-		"body":    string(body),
-		"baseRes": baseRes,
+		"body":   string(body),
+		"result": result,
 	}).Debug()
 
-	result.BaseRes = baseRes
-
 	// 记录错误日志
-	if baseRes.Code == models.CodeFailed {
-		log.WithField("error", baseRes.Message).Errorln("DoHttpRequest")
+	if result.Code == models.CodeFailed {
+		log.WithField("error", result.Message).Errorln("DoHttpRequest")
 		return result
-	}
-	// 请求成功
-	if baseRes.Http.Code == http.StatusOK {
-		if err := json.Unmarshal(body, &result); err != nil {
-			log.WithError(err).Errorln("Unmarshal body")
-			result.Code = models.CodeFailed
-			result.Message = err.Error()
-			return result
-		}
 	}
 
 	log.Info("QueryOrder end")
@@ -208,7 +175,7 @@ func (o orderService) QueryOrder(orderID string) *models.QueryOrderRes {
 }
 
 // BatchCreateOrder 批量购买能量值接口
-func (o orderService) BatchCreateOrder(params *models.BatchCreateOrderReq) *models.OrderRes {
+func (o orderService) BatchCreateOrder(params *models.BatchCreateOrderReq) *models.Response {
 	log := o.Logger.WithFields(map[string]interface{}{
 		"module":   "Order",
 		"function": "BatchCreateOrder",
@@ -216,7 +183,7 @@ func (o orderService) BatchCreateOrder(params *models.BatchCreateOrderReq) *mode
 	})
 	log.Info("BatchCreateOrder start")
 
-	result := &models.OrderRes{}
+	result := &models.Response{}
 
 	// 校验必填参数
 	if params == nil {
@@ -246,27 +213,16 @@ func (o orderService) BatchCreateOrder(params *models.BatchCreateOrderReq) *mode
 		return result
 	}
 
-	body, baseRes := o.HttpClient.DoHttpRequest(http.MethodPost, models.BatchCreateOrder, bytesData, nil)
+	body, result := o.HttpClient.DoHttpRequest(http.MethodPost, models.BatchCreateOrder, bytesData, nil)
 	log.WithFields(map[string]interface{}{
-		"body":    string(body),
-		"baseRes": baseRes,
+		"body":   string(body),
+		"result": result,
 	}).Debug()
 
-	result.BaseRes = baseRes
-
 	// 记录错误日志
-	if baseRes.Code == models.CodeFailed {
-		log.WithField("error", baseRes.Message).Errorln("DoHttpRequest")
+	if result.Code == models.CodeFailed {
+		log.WithField("error", result.Message).Errorln("DoHttpRequest")
 		return result
-	}
-	// 请求成功
-	if baseRes.Http.Code == http.StatusOK {
-		if err := json.Unmarshal(body, &result); err != nil {
-			log.WithError(err).Errorln("Unmarshal body")
-			result.Code = models.CodeFailed
-			result.Message = err.Error()
-			return result
-		}
 	}
 
 	log.Info("BatchCreateOrder end")

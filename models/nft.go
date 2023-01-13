@@ -1,21 +1,21 @@
 package models
 
 const (
-	CreateNFTClass    = "/v1beta1/nft/classes"             // 创建 NFT 类别
-	QueryNFTClass     = "/v1beta1/nft/classes"             // 查询 NFT 类别
-	QueryNFTClassById = "/v1beta1/nft/classes"             // 查询 NFT 类别详情
-	TransfersNFClass  = "/v1beta1/nft/class-transfers"     // 转让 NFT 类别
-	CreateNFT         = "/v1beta1/nft/nfts"                // 发行 NFT
-	TransferNFT       = "/v1beta1/nft/nft-transfers"       // 转让 NFT
-	EditNFT           = "/v1beta1/nft/nfts"                // 编辑 NFT
-	DeleteNFT         = "/v1beta1/nft/nfts"                // 销毁 NFT
-	BatchCreateNFT    = "/v1beta1/nft/batch/nfts"          // 批量发行 NFT
-	BatchTransferNFT  = "/v1beta1/nft/batch/nft-transfers" // 批量转让 NFT
-	BatchEditNFT      = "/v1beta1/nft/batch/nfts"          // 批量编辑 NFT
-	BatchDeleteNFT    = "/v1beta1/nft/batch/nfts"          // 批量销毁 NFT
-	QueryNFT          = "/v1beta1/nft/nfts"                // 查询 NFT
-	QueryNFTById      = "/v1beta1/nft/nfts"                // 查询 NFT 详情
-	QueryNFTHistory   = "/v1beta1/nft/nfts"                // 查询 NFT 历史记录
+	CreateNFTClass    = "/v1beta1/nft/classes"                // 创建 NFT 类别
+	QueryNFTClass     = "/v1beta1/nft/classes"                // 查询 NFT 类别
+	QueryNFTClassById = "/v1beta1/nft/classes/%s"             // 查询 NFT 类别详情
+	TransfersNFClass  = "/v1beta1/nft/class-transfers/%s/%s"  // 转让 NFT 类别
+	CreateNFT         = "/v1beta1/nft/nfts/%s"                // 发行 NFT
+	TransferNFT       = "/v1beta1/nft/nft-transfers/%s/%s/%s" // 转让 NFT
+	EditNFT           = "/v1beta1/nft/nfts/%s/%s/%s"                   // 编辑 NFT
+	DeleteNFT         = "/v1beta1/nft/nfts/%s/%s/%s"                   // 销毁 NFT
+	BatchCreateNFT    = "/v1beta1/nft/batch/nfts/%s"             // 批量发行 NFT
+	BatchTransferNFT  = "/v1beta1/nft/batch/nft-transfers/%s"    // 批量转让 NFT
+	BatchEditNFT      = "/v1beta1/nft/batch/nfts/%s"             // 批量编辑 NFT
+	BatchDeleteNFT    = "/v1beta1/nft/batch/nfts/%s"             // 批量销毁 NFT
+	QueryNFT          = "/v1beta1/nft/nfts"                   // 查询 NFT
+	QueryNFTById      = "/v1beta1/nft/nfts/%s/%s"                   // 查询 NFT 详情
+	QueryNFTHistory   = "/v1beta1/nft/nfts/%s/%s/history"                   // 查询 NFT 历史记录
 )
 
 // CreateNFTClassReq 创建 NFT 类别：request
@@ -45,9 +45,8 @@ type QueryNFTClassReq struct {
 	SortBy    string `json:"sort_by,omitempty"`
 }
 
-// QueryNFTClassResp 查询 NFT 类别：response
-type QueryNFTClassResp struct {
-	BaseRes
+// QueryNFTClassRes 查询 NFT 类别：Response
+type QueryNFTClassRes struct {
 	Data struct {
 		Offset     int `json:"offset"`
 		Limit      int `json:"limit"`
@@ -70,9 +69,8 @@ type QueryNFTClassByIdReq struct {
 	ID string `json:"id"`
 }
 
-// QueryNFTClassByIdResp 查询 NFT 类别详情：response
-type QueryNFTClassByIdResp struct {
-	BaseRes
+// QueryNFTClassByIdRes 查询 NFT 类别详情：Response
+type QueryNFTClassByIdRes struct {
 	Data struct {
 		ID          string `json:"id"`
 		Name        string `json:"name"`
@@ -199,9 +197,8 @@ type QueryNFTReq struct {
 	SortBy    string `json:"sort_by,omitempty"`
 }
 
-// QueryNFTResp 查询 NFT ：response
-type QueryNFTResp struct {
-	BaseRes
+// QueryNFTRes 查询 NFT ：Response
+type QueryNFTRes struct {
 	Data struct {
 		Offset     int `json:"offset"`
 		Limit      int `json:"limit"`
@@ -228,9 +225,8 @@ type QueryNFTByIdReq struct {
 	NFTID   string `json:"nft_id"`
 }
 
-// QueryNFTByIdResp 查询 NFT 详情：response
-type QueryNFTByIdResp struct {
-	BaseRes
+// QueryNFTByIdRes 查询 NFT 详情：Response
+type QueryNFTByIdRes struct {
 	Data struct {
 		ID          string `json:"id"`
 		Name        string `json:"name"`
@@ -259,9 +255,8 @@ type QueryNFTHistoryReq struct {
 	SortBy    string `json:"sort_by,omitempty"`
 }
 
-// QueryNFTHistoryResp 查询 NFT 操作记录：response
-type QueryNFTHistoryResp struct {
-	BaseRes
+// QueryNFTHistoryRes 查询 NFT 操作记录：Response
+type QueryNFTHistoryRes struct {
 	Data struct {
 		Offset           int `json:"offset"`
 		Limit            int `json:"limit"`

@@ -17,7 +17,6 @@ type CreateOrderReq struct {
 
 // OrderRes 购买能量值/业务费接口返回值/批量购买能量值接口返回值
 type OrderRes struct {
-	BaseRes
 	Data struct {
 		OrderId string `json:"order_id"`
 	} `json:"data"`
@@ -35,7 +34,6 @@ type QueryOrdersReq struct {
 
 // QueryOrdersRes 查询能量值/业务费购买结果列表接口返回值
 type QueryOrdersRes struct {
-	BaseRes
 	Data struct {
 		Offset     int `json:"offset"`
 		Limit      int `json:"limit"`
@@ -56,7 +54,6 @@ type QueryOrdersRes struct {
 
 // QueryOrderRes 查询能量值/业务费购买结果接口返回值
 type QueryOrderRes struct {
-	BaseRes
 	Data struct {
 		OrderId    string `json:"order_id"`
 		Status     string `json:"status"`

@@ -40,7 +40,6 @@ type QueryMTClassesReq struct {
 
 // QueryMTClassesRes 查询 MT 类别返回值
 type QueryMTClassesRes struct {
-	BaseRes
 	Data struct {
 		Offset     int `json:"offset"`
 		Limit      int `json:"limit"`
@@ -58,7 +57,6 @@ type QueryMTClassesRes struct {
 
 // QueryMTClassRes 查询 MT 类别详情返回值
 type QueryMTClassRes struct {
-	BaseRes
 	Data struct {
 		Id        string `json:"id"`
 		Name      string `json:"name"`
@@ -133,7 +131,6 @@ type QueryMTsReq struct {
 
 // QueryMTsRes 查询 MT 返回值
 type QueryMTsRes struct {
-	BaseRes
 	Data struct {
 		Offset     int `json:"offset"`
 		Limit      int `json:"limit"`
@@ -151,7 +148,6 @@ type QueryMTsRes struct {
 
 // QueryMTRes 查询 MT 详情返回值
 type QueryMTRes struct {
-	BaseRes
 	Data struct {
 		Id         string `json:"id"`
 		ClassId    string `json:"class_id"`
@@ -184,7 +180,6 @@ type QueryMTHistoryReq struct {
 
 // QueryMTHistoryRes 查询 MT 操作记录返回值
 type QueryMTHistoryRes struct {
-	BaseRes
 	Data struct {
 		Offset           int `json:"offset"`
 		Limit            int `json:"limit"`
@@ -209,7 +204,6 @@ type QueryMTBalanceReq struct {
 
 // QueryMTBalanceRes 查询 MT 余额返回值
 type QueryMTBalanceRes struct {
-	BaseRes
 	Data struct {
 		Offset     int `json:"offset"`
 		Limit      int `json:"limit"`

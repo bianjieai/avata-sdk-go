@@ -1,7 +1,9 @@
 package tests
 
 import (
+	"encoding/json"
 	"fmt"
+	"net/http"
 	"testing"
 	"time"
 
@@ -23,11 +25,20 @@ func TestCreateOrder(t *testing.T) {
 
 	result := client.Order.CreateOrder(params)
 	if result.Code != 0 {
-		t.Log(result.Message)
+		t.Log(result)
 		return
 	}
+	if result.Http.Code != http.StatusOK {
+		t.Log(result)
+		return
+	}
+	t.Logf("%+v \n", result.Data)
 
-	t.Logf("%+v \n", result)
+	var orderRes models.OrderRes
+	dataBytes, _ := json.Marshal(result)
+	_ = json.Unmarshal(dataBytes, &orderRes)
+
+	t.Logf("%+v \n", orderRes)
 }
 
 // 查询能量值/业务费购买结果列表接口
@@ -39,11 +50,20 @@ func TestQueryOrders(t *testing.T) {
 	}
 	result := client.Order.QueryOrders(params)
 	if result.Code != 0 {
-		t.Log(result.Message)
+		t.Log(result)
 		return
 	}
+	if result.Http.Code != http.StatusOK {
+		t.Log(result)
+		return
+	}
+	t.Logf("%+v \n", result.Data)
 
-	t.Logf("%+v \n", result)
+	var orderRes models.QueryOrdersRes
+	dataBytes, _ := json.Marshal(result)
+	_ = json.Unmarshal(dataBytes, &orderRes)
+
+	t.Logf("%+v \n", orderRes)
 }
 
 // 查询能量值/业务费购买结果接口示例
@@ -52,11 +72,20 @@ func TestQueryOrder(t *testing.T) {
 
 	result := client.Order.QueryOrder("orderID_1673342033")
 	if result.Code != 0 {
-		t.Log(result.Message)
+		t.Log(result)
 		return
 	}
+	if result.Http.Code != http.StatusOK {
+		t.Log(result)
+		return
+	}
+	t.Logf("%+v \n", result.Data)
 
-	t.Logf("%+v \n", result)
+	var orderRes models.QueryOrderRes
+	dataBytes, _ := json.Marshal(result)
+	_ = json.Unmarshal(dataBytes, &orderRes)
+
+	t.Logf("%+v \n", orderRes)
 }
 
 // 批量购买能量值接口示例
@@ -75,9 +104,18 @@ func TestCreateBatchOrder(t *testing.T) {
 
 	result := client.Order.BatchCreateOrder(params)
 	if result.Code != 0 {
-		t.Log(result.Message)
+		t.Log(result)
 		return
 	}
+	if result.Http.Code != http.StatusOK {
+		t.Log(result)
+		return
+	}
+	t.Logf("%+v \n", result.Data)
 
-	t.Logf("%+v \n", result)
+	var orderRes models.OrderRes
+	dataBytes, _ := json.Marshal(result)
+	_ = json.Unmarshal(dataBytes, &orderRes)
+
+	t.Logf("%+v \n", orderRes)
 }

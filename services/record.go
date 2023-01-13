@@ -13,7 +13,7 @@ import (
 
 // RecordService 存证接口
 type RecordService interface {
-	CreateRecord(params *models.CreateRecordReq) *models.TxRes //数字作品存证接口
+	CreateRecord(params *models.CreateRecordReq) *models.Response //数字作品存证接口
 }
 
 type recordService struct {
@@ -29,7 +29,7 @@ func NewRecordService(log *logrus.Logger, client utils.HttpClient) *recordServic
 }
 
 // CreateRecord 数字作品存证接口
-func (r recordService) CreateRecord(params *models.CreateRecordReq) *models.TxRes {
+func (r recordService) CreateRecord(params *models.CreateRecordReq) *models.Response {
 	log := r.Logger.WithFields(map[string]interface{}{
 		"module":   "Record",
 		"function": "CreateRecord",
@@ -37,7 +37,7 @@ func (r recordService) CreateRecord(params *models.CreateRecordReq) *models.TxRe
 	})
 	log.Info("CreateRecord start")
 
-	result := &models.TxRes{}
+	result := &models.Response{}
 
 	// 校验必填参数
 	if params == nil {
@@ -91,27 +91,16 @@ func (r recordService) CreateRecord(params *models.CreateRecordReq) *models.TxRe
 		return result
 	}
 
-	body, baseRes := r.HttpClient.DoHttpRequest(http.MethodPost, models.CreateRecord, bytesData, nil)
+	body, result := r.HttpClient.DoHttpRequest(http.MethodPost, models.CreateRecord, bytesData, nil)
 	log.WithFields(map[string]interface{}{
-		"body":    string(body),
-		"baseRes": baseRes,
+		"body":   string(body),
+		"result": result,
 	}).Debug()
 
-	result.BaseRes = baseRes
-
 	// 记录错误日志
-	if baseRes.Code == models.CodeFailed {
-		log.WithField("error", baseRes.Message).Errorln("DoHttpRequest")
+	if result.Code == models.CodeFailed {
+		log.WithField("error", result.Message).Errorln("DoHttpRequest")
 		return result
-	}
-	// 请求成功
-	if baseRes.Http.Code == http.StatusOK {
-		if err := json.Unmarshal(body, &result); err != nil {
-			log.WithError(err).Errorln("Unmarshal body")
-			result.Code = models.CodeFailed
-			result.Message = err.Error()
-			return result
-		}
 	}
 
 	log.Info("CreateRecord end")

@@ -7,7 +7,6 @@ const (
 
 // QueryTxResultRes 上链交易结果查询返回值
 type QueryTxResultRes struct {
-	BaseRes
 	Data struct {
 		Type        string            `json:"type"`
 		Module      string            `json:"module"`
@@ -39,7 +38,6 @@ type QueryTxQueueInfoReq struct {
 
 // QueryTxQueueInfoRes 上链交易排队状态查询返回值
 type QueryTxQueueInfoRes struct {
-	BaseRes
 	Data struct {
 		QueueTotal       int    `json:"queue_total"`
 		QueueRequestTime string `json:"queue_request_time"`

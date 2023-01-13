@@ -1,6 +1,6 @@
 package models
 
-// Code
+// Code  SDK 响应状态码
 const (
 	CodeSuccess = 0  // 成功
 	CodeFailed  = -1 // 失败

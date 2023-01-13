@@ -13,19 +13,19 @@ import (
 
 // MTService MT 接口
 type MTService interface {
-	CreateMTClass(params *models.CreateMTClassReq) *models.TxRes                                           // 创建 MT 类别
-	QueryMTClasses(params *models.QueryMTClassesReq) *models.QueryMTClassesRes                             // 查询 MT 类别
-	QueryMTClass(id string) *models.QueryMTClassRes                                                        // 查询 MT 类别详情
-	TransferMTClass(classID, owner string, params *models.TransferMTClassReq) *models.TxRes                // 转让 MT 类别
-	IssueMT(classID string, params *models.IssueMTReq) *models.TxRes                                       // 发行 MT
-	MintMT(classID, mtID string, params *models.MintMTReq) *models.TxRes                                   // 增发 MT
-	TransferMT(classID, owner, mtID string, params *models.TransferMTReq) *models.TxRes                    // 转让 MT
-	EditMT(classID, owner, mtID string, params *models.EditMTReq) *models.TxRes                            // 编辑 MT
-	BurnMT(classID, owner, mtID string, params *models.BurnMTReq) *models.TxRes                            // 销毁 MT
-	QueryMTs(params *models.QueryMTsReq) *models.QueryMTsRes                                               // 查询 MT
-	QueryMT(classID, mtID string) *models.QueryMTRes                                                       // 查询 MT 详情
-	QueryMTHistory(classID, mtID string, params *models.QueryAccountsHistoryReq) *models.QueryMTHistoryRes // 查询 MT 操作记录
-	QueryMTBalance(classID, account string, params *models.QueryMTBalanceReq) *models.QueryMTBalanceRes    // 查询 MT 余额
+	CreateMTClass(params *models.CreateMTClassReq) *models.Response                                           // 创建 MT 类别
+	QueryMTClasses(params *models.QueryMTClassesReq) *models.Response                             // 查询 MT 类别
+	QueryMTClass(id string) *models.Response                                                        // 查询 MT 类别详情
+	TransferMTClass(classID, owner string, params *models.TransferMTClassReq) *models.Response                // 转让 MT 类别
+	IssueMT(classID string, params *models.IssueMTReq) *models.Response                                       // 发行 MT
+	MintMT(classID, mtID string, params *models.MintMTReq) *models.Response                                   // 增发 MT
+	TransferMT(classID, owner, mtID string, params *models.TransferMTReq) *models.Response                    // 转让 MT
+	EditMT(classID, owner, mtID string, params *models.EditMTReq) *models.Response                            // 编辑 MT
+	BurnMT(classID, owner, mtID string, params *models.BurnMTReq) *models.Response                            // 销毁 MT
+	QueryMTs(params *models.QueryMTsReq) *models.Response                                               // 查询 MT
+	QueryMT(classID, mtID string) *models.Response                                                       // 查询 MT 详情
+	QueryMTHistory(classID, mtID string, params *models.QueryAccountsHistoryReq) *models.Response // 查询 MT 操作记录
+	QueryMTBalance(classID, account string, params *models.QueryMTBalanceReq) *models.Response    // 查询 MT 余额
 }
 
 type mtService struct {
@@ -41,7 +41,7 @@ func NewMTService(log *logrus.Logger, httpClient utils.HttpClient) *mtService {
 }
 
 // CreateMTClass 创建 MT 类别
-func (m mtService) CreateMTClass(params *models.CreateMTClassReq) *models.TxRes {
+func (m mtService) CreateMTClass(params *models.CreateMTClassReq) *models.Response {
 	log := m.Logger.WithFields(map[string]interface{}{
 		"module":   "MT",
 		"function": "CreateMTClass",
@@ -49,7 +49,7 @@ func (m mtService) CreateMTClass(params *models.CreateMTClassReq) *models.TxRes 
 	})
 	log.Info("CreateMTClass start")
 
-	result := &models.TxRes{}
+	result := &models.Response{}
 
 	// 校验必填参数
 	if params == nil {
@@ -85,27 +85,16 @@ func (m mtService) CreateMTClass(params *models.CreateMTClassReq) *models.TxRes 
 		return result
 	}
 
-	body, baseRes := m.HttpClient.DoHttpRequest(http.MethodPost, models.CreateMTClass, bytesData, nil)
+	body, result := m.HttpClient.DoHttpRequest(http.MethodPost, models.CreateMTClass, bytesData, nil)
 	log.WithFields(map[string]interface{}{
-		"body":    string(body),
-		"baseRes": baseRes,
+		"body":   string(body),
+		"result": result,
 	}).Debug()
 
-	result.BaseRes = baseRes
-
 	// 记录错误日志
-	if baseRes.Code == models.CodeFailed {
-		log.WithField("error", baseRes.Message).Errorln("DoHttpRequest")
+	if result.Code == models.CodeFailed {
+		log.WithField("error", result.Message).Errorln("DoHttpRequest")
 		return result
-	}
-	// 请求成功
-	if baseRes.Http.Code == http.StatusOK {
-		if err := json.Unmarshal(body, &result); err != nil {
-			log.WithError(err).Errorln("Unmarshal body")
-			result.Code = models.CodeFailed
-			result.Message = err.Error()
-			return result
-		}
 	}
 
 	log.Info("CreateMTClass end")
@@ -113,7 +102,7 @@ func (m mtService) CreateMTClass(params *models.CreateMTClassReq) *models.TxRes 
 }
 
 // QueryMTClasses 查询 MT 类别
-func (m mtService) QueryMTClasses(params *models.QueryMTClassesReq) *models.QueryMTClassesRes {
+func (m mtService) QueryMTClasses(params *models.QueryMTClassesReq) *models.Response {
 	log := m.Logger.WithFields(map[string]interface{}{
 		"module":   "MT",
 		"function": "QueryMTClasses",
@@ -121,7 +110,7 @@ func (m mtService) QueryMTClasses(params *models.QueryMTClassesReq) *models.Quer
 	})
 	log.Info("QueryMTClasses start")
 
-	result := &models.QueryMTClassesRes{}
+	result := &models.Response{}
 
 	bytesData, err := json.Marshal(params)
 	if err != nil {
@@ -131,35 +120,23 @@ func (m mtService) QueryMTClasses(params *models.QueryMTClassesReq) *models.Quer
 		return result
 	}
 
-	body, baseRes := m.HttpClient.DoHttpRequest(http.MethodGet, models.QueryMTClasses, nil, bytesData)
+	body, result := m.HttpClient.DoHttpRequest(http.MethodGet, models.QueryMTClasses, nil, bytesData)
 	log.WithFields(map[string]interface{}{
-		"body":    string(body),
-		"baseRes": baseRes,
+		"body":   string(body),
+		"result": result,
 	}).Debug()
 
-	result.BaseRes = baseRes
-
 	// 记录错误日志
-	if baseRes.Code == models.CodeFailed {
-		log.WithField("error", baseRes.Message).Errorln("DoHttpRequest")
+	if result.Code == models.CodeFailed {
+		log.WithField("error", result.Message).Errorln("DoHttpRequest")
 		return result
 	}
-	// 请求成功
-	if baseRes.Http.Code == http.StatusOK {
-		if err := json.Unmarshal(body, &result); err != nil {
-			log.WithError(err).Errorln("Unmarshal body")
-			result.Code = models.CodeFailed
-			result.Message = err.Error()
-			return result
-		}
-	}
-
 	log.Info("QueryMTClasses end")
 	return result
 }
 
 // QueryMTClass 查询 MT 类别详情
-func (m mtService) QueryMTClass(id string) *models.QueryMTClassRes {
+func (m mtService) QueryMTClass(id string) *models.Response {
 	log := m.Logger.WithFields(map[string]interface{}{
 		"module":   "MT",
 		"function": "QueryMTClass",
@@ -167,7 +144,7 @@ func (m mtService) QueryMTClass(id string) *models.QueryMTClassRes {
 	})
 	log.Info("QueryMTClass start")
 
-	result := &models.QueryMTClassRes{}
+	result := &models.Response{}
 
 	// 校验必填参数
 	if id == "" {
@@ -177,27 +154,16 @@ func (m mtService) QueryMTClass(id string) *models.QueryMTClassRes {
 		return result
 	}
 
-	body, baseRes := m.HttpClient.DoHttpRequest(http.MethodGet, fmt.Sprintf(models.QueryMTClass, id), nil, nil)
+	body, result := m.HttpClient.DoHttpRequest(http.MethodGet, fmt.Sprintf(models.QueryMTClass, id), nil, nil)
 	log.WithFields(map[string]interface{}{
-		"body":    string(body),
-		"baseRes": baseRes,
+		"body":   string(body),
+		"result": result,
 	}).Debug()
 
-	result.BaseRes = baseRes
-
 	// 记录错误日志
-	if baseRes.Code == models.CodeFailed {
-		log.WithField("error", baseRes.Message).Errorln("DoHttpRequest")
+	if result.Code == models.CodeFailed {
+		log.WithField("error", result.Message).Errorln("DoHttpRequest")
 		return result
-	}
-	// 请求成功
-	if baseRes.Http.Code == http.StatusOK {
-		if err := json.Unmarshal(body, &result); err != nil {
-			log.WithError(err).Errorln("Unmarshal body")
-			result.Code = models.CodeFailed
-			result.Message = err.Error()
-			return result
-		}
 	}
 
 	log.Info("QueryMTClass end")
@@ -205,7 +171,7 @@ func (m mtService) QueryMTClass(id string) *models.QueryMTClassRes {
 }
 
 // TransferMTClass 转让 MT 类别
-func (m mtService) TransferMTClass(classID, owner string, params *models.TransferMTClassReq) *models.TxRes {
+func (m mtService) TransferMTClass(classID, owner string, params *models.TransferMTClassReq) *models.Response {
 	log := m.Logger.WithFields(map[string]interface{}{
 		"module":   "MT",
 		"function": "TransferMTClass",
@@ -215,7 +181,7 @@ func (m mtService) TransferMTClass(classID, owner string, params *models.Transfe
 	})
 	log.Info("TransferMTClass start")
 
-	result := &models.TxRes{}
+	result := &models.Response{}
 
 	// 校验必填参数
 	if classID == "" {
@@ -257,27 +223,16 @@ func (m mtService) TransferMTClass(classID, owner string, params *models.Transfe
 		return result
 	}
 
-	body, baseRes := m.HttpClient.DoHttpRequest(http.MethodPost, fmt.Sprintf(models.TransferMTClass, classID, owner), bytesData, nil)
+	body, result := m.HttpClient.DoHttpRequest(http.MethodPost, fmt.Sprintf(models.TransferMTClass, classID, owner), bytesData, nil)
 	log.WithFields(map[string]interface{}{
-		"body":    string(body),
-		"baseRes": baseRes,
+		"body":   string(body),
+		"result": result,
 	}).Debug()
 
-	result.BaseRes = baseRes
-
 	// 记录错误日志
-	if baseRes.Code == models.CodeFailed {
-		log.WithField("error", baseRes.Message).Errorln("DoHttpRequest")
+	if result.Code == models.CodeFailed {
+		log.WithField("error", result.Message).Errorln("DoHttpRequest")
 		return result
-	}
-	// 请求成功
-	if baseRes.Http.Code == http.StatusOK {
-		if err := json.Unmarshal(body, &result); err != nil {
-			log.WithError(err).Errorln("Unmarshal body")
-			result.Code = models.CodeFailed
-			result.Message = err.Error()
-			return result
-		}
 	}
 
 	log.Info("TransferMTClass end")
@@ -285,7 +240,7 @@ func (m mtService) TransferMTClass(classID, owner string, params *models.Transfe
 }
 
 // IssueMT 发行 MT
-func (m mtService) IssueMT(classID string, params *models.IssueMTReq) *models.TxRes {
+func (m mtService) IssueMT(classID string, params *models.IssueMTReq) *models.Response {
 	log := m.Logger.WithFields(map[string]interface{}{
 		"module":   "MT",
 		"function": "IssueMT",
@@ -294,7 +249,7 @@ func (m mtService) IssueMT(classID string, params *models.IssueMTReq) *models.Tx
 	})
 	log.Info("IssueMT start")
 
-	result := &models.TxRes{}
+	result := &models.Response{}
 
 	// 校验必填参数
 	if classID == "" {
@@ -324,27 +279,16 @@ func (m mtService) IssueMT(classID string, params *models.IssueMTReq) *models.Tx
 		return result
 	}
 
-	body, baseRes := m.HttpClient.DoHttpRequest(http.MethodPost, fmt.Sprintf(models.IssueMT, classID), bytesData, nil)
+	body, result := m.HttpClient.DoHttpRequest(http.MethodPost, fmt.Sprintf(models.IssueMT, classID), bytesData, nil)
 	log.WithFields(map[string]interface{}{
-		"body":    string(body),
-		"baseRes": baseRes,
+		"body":   string(body),
+		"result": result,
 	}).Debug()
 
-	result.BaseRes = baseRes
-
 	// 记录错误日志
-	if baseRes.Code == models.CodeFailed {
-		log.WithField("error", baseRes.Message).Errorln("DoHttpRequest")
+	if result.Code == models.CodeFailed {
+		log.WithField("error", result.Message).Errorln("DoHttpRequest")
 		return result
-	}
-	// 请求成功
-	if baseRes.Http.Code == http.StatusOK {
-		if err := json.Unmarshal(body, &result); err != nil {
-			log.WithError(err).Errorln("Unmarshal body")
-			result.Code = models.CodeFailed
-			result.Message = err.Error()
-			return result
-		}
 	}
 
 	log.Info("IssueMT end")
@@ -352,7 +296,7 @@ func (m mtService) IssueMT(classID string, params *models.IssueMTReq) *models.Tx
 }
 
 // MintMT 增发 MT
-func (m mtService) MintMT(classID, mtID string, params *models.MintMTReq) *models.TxRes {
+func (m mtService) MintMT(classID, mtID string, params *models.MintMTReq) *models.Response {
 	log := m.Logger.WithFields(map[string]interface{}{
 		"module":   "MT",
 		"function": "MintMT",
@@ -362,7 +306,7 @@ func (m mtService) MintMT(classID, mtID string, params *models.MintMTReq) *model
 	})
 	log.Info("MintMT start")
 
-	result := &models.TxRes{}
+	result := &models.Response{}
 
 	// 校验必填参数
 	if classID == "" {
@@ -398,27 +342,16 @@ func (m mtService) MintMT(classID, mtID string, params *models.MintMTReq) *model
 		return result
 	}
 
-	body, baseRes := m.HttpClient.DoHttpRequest(http.MethodPost, fmt.Sprintf(models.MintMT, classID, mtID), bytesData, nil)
+	body, result := m.HttpClient.DoHttpRequest(http.MethodPost, fmt.Sprintf(models.MintMT, classID, mtID), bytesData, nil)
 	log.WithFields(map[string]interface{}{
-		"body":    string(body),
-		"baseRes": baseRes,
+		"body":   string(body),
+		"result": result,
 	}).Debug()
 
-	result.BaseRes = baseRes
-
 	// 记录错误日志
-	if baseRes.Code == models.CodeFailed {
-		log.WithField("error", baseRes.Message).Errorln("DoHttpRequest")
+	if result.Code == models.CodeFailed {
+		log.WithField("error", result.Message).Errorln("DoHttpRequest")
 		return result
-	}
-	// 请求成功
-	if baseRes.Http.Code == http.StatusOK {
-		if err := json.Unmarshal(body, &result); err != nil {
-			log.WithError(err).Errorln("Unmarshal body")
-			result.Code = models.CodeFailed
-			result.Message = err.Error()
-			return result
-		}
 	}
 
 	log.Info("MintMT end")
@@ -426,7 +359,7 @@ func (m mtService) MintMT(classID, mtID string, params *models.MintMTReq) *model
 }
 
 // TransferMT 转让 MT
-func (m mtService) TransferMT(classID, owner, mtID string, params *models.TransferMTReq) *models.TxRes {
+func (m mtService) TransferMT(classID, owner, mtID string, params *models.TransferMTReq) *models.Response {
 	log := m.Logger.WithFields(map[string]interface{}{
 		"module":   "MT",
 		"function": "TransferMT",
@@ -437,7 +370,7 @@ func (m mtService) TransferMT(classID, owner, mtID string, params *models.Transf
 	})
 	log.Info("TransferMT start")
 
-	result := &models.TxRes{}
+	result := &models.Response{}
 
 	// 校验必填参数
 	if classID == "" {
@@ -485,27 +418,16 @@ func (m mtService) TransferMT(classID, owner, mtID string, params *models.Transf
 		return result
 	}
 
-	body, baseRes := m.HttpClient.DoHttpRequest(http.MethodPost, fmt.Sprintf(models.TransferMT, classID, owner, mtID), bytesData, nil)
+	body, result := m.HttpClient.DoHttpRequest(http.MethodPost, fmt.Sprintf(models.TransferMT, classID, owner, mtID), bytesData, nil)
 	log.WithFields(map[string]interface{}{
-		"body":    string(body),
-		"baseRes": baseRes,
+		"body":   string(body),
+		"result": result,
 	}).Debug()
 
-	result.BaseRes = baseRes
-
 	// 记录错误日志
-	if baseRes.Code == models.CodeFailed {
-		log.WithField("error", baseRes.Message).Errorln("DoHttpRequest")
+	if result.Code == models.CodeFailed {
+		log.WithField("error", result.Message).Errorln("DoHttpRequest")
 		return result
-	}
-	// 请求成功
-	if baseRes.Http.Code == http.StatusOK {
-		if err := json.Unmarshal(body, &result); err != nil {
-			log.WithError(err).Errorln("Unmarshal body")
-			result.Code = models.CodeFailed
-			result.Message = err.Error()
-			return result
-		}
 	}
 
 	log.Info("TransferMT end")
@@ -513,7 +435,7 @@ func (m mtService) TransferMT(classID, owner, mtID string, params *models.Transf
 }
 
 // EditMT 编辑 MT
-func (m mtService) EditMT(classID, owner, mtID string, params *models.EditMTReq) *models.TxRes {
+func (m mtService) EditMT(classID, owner, mtID string, params *models.EditMTReq) *models.Response {
 	log := m.Logger.WithFields(map[string]interface{}{
 		"module":   "MT",
 		"function": "EditMT",
@@ -524,7 +446,7 @@ func (m mtService) EditMT(classID, owner, mtID string, params *models.EditMTReq)
 	})
 	log.Info("EditMT start")
 
-	result := &models.TxRes{}
+	result := &models.Response{}
 
 	// 校验必填参数
 	if classID == "" {
@@ -572,27 +494,16 @@ func (m mtService) EditMT(classID, owner, mtID string, params *models.EditMTReq)
 		return result
 	}
 
-	body, baseRes := m.HttpClient.DoHttpRequest(http.MethodPatch, fmt.Sprintf(models.EditMT, classID, owner, mtID), bytesData, nil)
+	body, result := m.HttpClient.DoHttpRequest(http.MethodPatch, fmt.Sprintf(models.EditMT, classID, owner, mtID), bytesData, nil)
 	log.WithFields(map[string]interface{}{
-		"body":    string(body),
-		"baseRes": baseRes,
+		"body":   string(body),
+		"result": result,
 	}).Debug()
 
-	result.BaseRes = baseRes
-
 	// 记录错误日志
-	if baseRes.Code == models.CodeFailed {
-		log.WithField("error", baseRes.Message).Errorln("DoHttpRequest")
+	if result.Code == models.CodeFailed {
+		log.WithField("error", result.Message).Errorln("DoHttpRequest")
 		return result
-	}
-	// 请求成功
-	if baseRes.Http.Code == http.StatusOK {
-		if err := json.Unmarshal(body, &result); err != nil {
-			log.WithError(err).Errorln("Unmarshal body")
-			result.Code = models.CodeFailed
-			result.Message = err.Error()
-			return result
-		}
 	}
 
 	log.Info("EditMT end")
@@ -600,7 +511,7 @@ func (m mtService) EditMT(classID, owner, mtID string, params *models.EditMTReq)
 }
 
 // BurnMT 销毁 MT
-func (m mtService) BurnMT(classID, owner, mtID string, params *models.BurnMTReq) *models.TxRes {
+func (m mtService) BurnMT(classID, owner, mtID string, params *models.BurnMTReq) *models.Response {
 	log := m.Logger.WithFields(map[string]interface{}{
 		"module":   "MT",
 		"function": "BurnMT",
@@ -611,7 +522,7 @@ func (m mtService) BurnMT(classID, owner, mtID string, params *models.BurnMTReq)
 	})
 	log.Info("BurnMT start")
 
-	result := &models.TxRes{}
+	result := &models.Response{}
 
 	// 校验必填参数
 	if classID == "" {
@@ -653,27 +564,16 @@ func (m mtService) BurnMT(classID, owner, mtID string, params *models.BurnMTReq)
 		return result
 	}
 
-	body, baseRes := m.HttpClient.DoHttpRequest(http.MethodDelete, fmt.Sprintf(models.BurnMT, classID, owner, mtID), bytesData, nil)
+	body, result := m.HttpClient.DoHttpRequest(http.MethodDelete, fmt.Sprintf(models.BurnMT, classID, owner, mtID), bytesData, nil)
 	log.WithFields(map[string]interface{}{
-		"body":    string(body),
-		"baseRes": baseRes,
+		"body":   string(body),
+		"result": result,
 	}).Debug()
 
-	result.BaseRes = baseRes
-
 	// 记录错误日志
-	if baseRes.Code == models.CodeFailed {
-		log.WithField("error", baseRes.Message).Errorln("DoHttpRequest")
+	if result.Code == models.CodeFailed {
+		log.WithField("error", result.Message).Errorln("DoHttpRequest")
 		return result
-	}
-	// 请求成功
-	if baseRes.Http.Code == http.StatusOK {
-		if err := json.Unmarshal(body, &result); err != nil {
-			log.WithError(err).Errorln("Unmarshal body")
-			result.Code = models.CodeFailed
-			result.Message = err.Error()
-			return result
-		}
 	}
 
 	log.Info("BurnMT end")
@@ -681,7 +581,7 @@ func (m mtService) BurnMT(classID, owner, mtID string, params *models.BurnMTReq)
 }
 
 // QueryMTs 查询 MT
-func (m mtService) QueryMTs(params *models.QueryMTsReq) *models.QueryMTsRes {
+func (m mtService) QueryMTs(params *models.QueryMTsReq) *models.Response {
 	log := m.Logger.WithFields(map[string]interface{}{
 		"module":   "MT",
 		"function": "QueryMTs",
@@ -689,7 +589,7 @@ func (m mtService) QueryMTs(params *models.QueryMTsReq) *models.QueryMTsRes {
 	})
 	log.Info("QueryMTs start")
 
-	result := &models.QueryMTsRes{}
+	result := &models.Response{}
 
 	bytesData, err := json.Marshal(params)
 	if err != nil {
@@ -699,27 +599,16 @@ func (m mtService) QueryMTs(params *models.QueryMTsReq) *models.QueryMTsRes {
 		return result
 	}
 
-	body, baseRes := m.HttpClient.DoHttpRequest(http.MethodGet, models.QueryMTs, nil, bytesData)
+	body, result := m.HttpClient.DoHttpRequest(http.MethodGet, models.QueryMTs, nil, bytesData)
 	log.WithFields(map[string]interface{}{
-		"body":    string(body),
-		"baseRes": baseRes,
+		"body":   string(body),
+		"result": result,
 	}).Debug()
 
-	result.BaseRes = baseRes
-
 	// 记录错误日志
-	if baseRes.Code == models.CodeFailed {
-		log.WithField("error", baseRes.Message).Errorln("DoHttpRequest")
+	if result.Code == models.CodeFailed {
+		log.WithField("error", result.Message).Errorln("DoHttpRequest")
 		return result
-	}
-	// 请求成功
-	if baseRes.Http.Code == http.StatusOK {
-		if err := json.Unmarshal(body, &result); err != nil {
-			log.WithError(err).Errorln("Unmarshal body")
-			result.Code = models.CodeFailed
-			result.Message = err.Error()
-			return result
-		}
 	}
 
 	log.Info("QueryMTs end")
@@ -727,7 +616,7 @@ func (m mtService) QueryMTs(params *models.QueryMTsReq) *models.QueryMTsRes {
 }
 
 // QueryMT 查询 MT 详情
-func (m mtService) QueryMT(classID, mtID string) *models.QueryMTRes {
+func (m mtService) QueryMT(classID, mtID string) *models.Response {
 	log := m.Logger.WithFields(map[string]interface{}{
 		"module":   "MT",
 		"function": "QueryMT",
@@ -736,7 +625,7 @@ func (m mtService) QueryMT(classID, mtID string) *models.QueryMTRes {
 	})
 	log.Info("QueryMT start")
 
-	result := &models.QueryMTRes{}
+	result := &models.Response{}
 
 	// 校验必填参数
 	if classID == "" {
@@ -752,27 +641,16 @@ func (m mtService) QueryMT(classID, mtID string) *models.QueryMTRes {
 		return result
 	}
 
-	body, baseRes := m.HttpClient.DoHttpRequest(http.MethodGet, fmt.Sprintf(models.QueryMT, classID, mtID), nil, nil)
+	body, result := m.HttpClient.DoHttpRequest(http.MethodGet, fmt.Sprintf(models.QueryMT, classID, mtID), nil, nil)
 	log.WithFields(map[string]interface{}{
-		"body":    string(body),
-		"baseRes": baseRes,
+		"body":   string(body),
+		"result": result,
 	}).Debug()
 
-	result.BaseRes = baseRes
-
 	// 记录错误日志
-	if baseRes.Code == models.CodeFailed {
-		log.WithField("error", baseRes.Message).Errorln("DoHttpRequest")
+	if result.Code == models.CodeFailed {
+		log.WithField("error", result.Message).Errorln("DoHttpRequest")
 		return result
-	}
-	// 请求成功
-	if baseRes.Http.Code == http.StatusOK {
-		if err := json.Unmarshal(body, &result); err != nil {
-			log.WithError(err).Errorln("Unmarshal body")
-			result.Code = models.CodeFailed
-			result.Message = err.Error()
-			return result
-		}
 	}
 
 	log.Info("QueryMT end")
@@ -780,7 +658,7 @@ func (m mtService) QueryMT(classID, mtID string) *models.QueryMTRes {
 }
 
 // QueryMTHistory 查询 MT 操作记录
-func (m mtService) QueryMTHistory(classID, mtID string, params *models.QueryAccountsHistoryReq) *models.QueryMTHistoryRes {
+func (m mtService) QueryMTHistory(classID, mtID string, params *models.QueryAccountsHistoryReq) *models.Response {
 	log := m.Logger.WithFields(map[string]interface{}{
 		"module":   "MT",
 		"function": "QueryMTHistory",
@@ -790,7 +668,7 @@ func (m mtService) QueryMTHistory(classID, mtID string, params *models.QueryAcco
 	})
 	log.Info("QueryMTHistory start")
 
-	result := &models.QueryMTHistoryRes{}
+	result := &models.Response{}
 
 	// 校验必填参数
 	if classID == "" {
@@ -814,27 +692,16 @@ func (m mtService) QueryMTHistory(classID, mtID string, params *models.QueryAcco
 		return result
 	}
 
-	body, baseRes := m.HttpClient.DoHttpRequest(http.MethodGet, fmt.Sprintf(models.QueryMTHistory, classID, mtID), nil, bytesData)
+	body, result := m.HttpClient.DoHttpRequest(http.MethodGet, fmt.Sprintf(models.QueryMTHistory, classID, mtID), nil, bytesData)
 	log.WithFields(map[string]interface{}{
-		"body":    string(body),
-		"baseRes": baseRes,
+		"body":   string(body),
+		"result": result,
 	}).Debug()
 
-	result.BaseRes = baseRes
-
 	// 记录错误日志
-	if baseRes.Code == models.CodeFailed {
-		log.WithField("error", baseRes.Message).Errorln("DoHttpRequest")
+	if result.Code == models.CodeFailed {
+		log.WithField("error", result.Message).Errorln("DoHttpRequest")
 		return result
-	}
-	// 请求成功
-	if baseRes.Http.Code == http.StatusOK {
-		if err := json.Unmarshal(body, &result); err != nil {
-			log.WithError(err).Errorln("Unmarshal body")
-			result.Code = models.CodeFailed
-			result.Message = err.Error()
-			return result
-		}
 	}
 
 	log.Info("QueryMTHistory end")
@@ -842,7 +709,7 @@ func (m mtService) QueryMTHistory(classID, mtID string, params *models.QueryAcco
 }
 
 // QueryMTBalance 查询 MT 余额
-func (m mtService) QueryMTBalance(classID, account string, params *models.QueryMTBalanceReq) *models.QueryMTBalanceRes {
+func (m mtService) QueryMTBalance(classID, account string, params *models.QueryMTBalanceReq) *models.Response {
 	log := m.Logger.WithFields(map[string]interface{}{
 		"module":   "MT",
 		"function": "QueryMTBalance",
@@ -852,7 +719,7 @@ func (m mtService) QueryMTBalance(classID, account string, params *models.QueryM
 	})
 	log.Info("QueryMTBalance start")
 
-	result := &models.QueryMTBalanceRes{}
+	result := &models.Response{}
 
 	if classID == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "class_id"))
@@ -875,27 +742,16 @@ func (m mtService) QueryMTBalance(classID, account string, params *models.QueryM
 		return result
 	}
 
-	body, baseRes := m.HttpClient.DoHttpRequest(http.MethodGet, fmt.Sprintf(models.QueryMTBalance, classID, account), nil, bytesData)
+	body, result := m.HttpClient.DoHttpRequest(http.MethodGet, fmt.Sprintf(models.QueryMTBalance, classID, account), nil, bytesData)
 	log.WithFields(map[string]interface{}{
-		"body":    string(body),
-		"baseRes": baseRes,
+		"body":   string(body),
+		"result": result,
 	}).Debug()
 
-	result.BaseRes = baseRes
-
 	// 记录错误日志
-	if baseRes.Code == models.CodeFailed {
-		log.WithField("error", baseRes.Message).Errorln("DoHttpRequest")
+	if result.Code == models.CodeFailed {
+		log.WithField("error", result.Message).Errorln("DoHttpRequest")
 		return result
-	}
-	// 请求成功
-	if baseRes.Http.Code == http.StatusOK {
-		if err := json.Unmarshal(body, &result); err != nil {
-			log.WithError(err).Errorln("Unmarshal body")
-			result.Code = models.CodeFailed
-			result.Message = err.Error()
-			return result
-		}
 	}
 
 	log.Info("QueryMTBalance end")
