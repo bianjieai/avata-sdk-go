@@ -21,8 +21,7 @@ func GetClient() *client2.AvataClient {
 		configs.Level(logrus.DebugLevel),
 		configs.HttpTimeout(15 * time.Second),
 	}
-	//client := client2.NewClient("域名", "项目参数 API KEY", "项目参数 API SECRET", options...)
-	client := client2.NewClient("https://stage.apis.avata.bianjie.ai", "g28251a14118f0E3v5B485q404k0v4nx", "b2m2V1L1d1p8z0j3y5q4T5b4M4l0M45Y", options...)
+	client := client2.NewClient("域名", "项目参数 API KEY", "项目参数 API SECRET", options...)
 	return client
 }
 
