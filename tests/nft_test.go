@@ -225,15 +225,11 @@ func TestDeleteNFT(t *testing.T) {
 func TestBatchCreateNFT(t *testing.T) {
 	client := GetClient()
 	classId := "avatauuj0hj53thkyahiaitfmctsensn"
+	var recipients []models.Recipients
+	recipients = append(recipients, models.Recipients{Amount: 1, Recipient: "iaa1tu0gve9se3qgqkadn22d7ar74pal7vqt3yvna9"})
 	params := &models.BatchCreateNFTReq{
-		Name: "TestBatchCreateNFT1",
-		Recipients: []struct {
-			Amount    int    "json:\"amount\""
-			Recipient string "json:\"recipient\""
-		}{
-			{Amount: 1, Recipient: "iaa1tu0gve9se3qgqkadn22d7ar74pal7vqt3yvna9"},
-			{Amount: 1, Recipient: "iaa10ldfc2n60ngfpwxnm8qgy5y5hh3vmse6mk4y6v"},
-		},
+		Name:        "TestBatchCreateNFT1",
+		Recipients:  recipients,
 		OperationID: "TestBatchCreateNFT2",
 	}
 	result := client.NFT.BatchCreateNFT(params, classId)
@@ -258,22 +254,21 @@ func TestBatchCreateNFT(t *testing.T) {
 func TestBatchTransferNFT(t *testing.T) {
 	client := GetClient()
 	owner := "iaa1tu0gve9se3qgqkadn22d7ar74pal7vqt3yvna9"
+	var nfts []models.BatchTransferNFTs
+	nfts = append(nfts, models.BatchTransferNFTs{
+		ClassID: "avatauuj0hj53thkyahiaitfmctsensn",
+		NFTID:   "avataj5h7algcaibxiz5ipbi5o97kfqs",
+	}, models.BatchTransferNFTs{
+		ClassID: "avatauuj0hj53thkyahiaitfmctsensn",
+		NFTID:   "avatarxamgw6sqwvclfqfnvkgkwkp6zf",
+	})
+	var data []models.BatchTransferNFTData
+	data = append(data, models.BatchTransferNFTData{
+		NFTs:      nil,
+		Recipient: "iaa153uyr6ghtumt3lrtdwndplk4ggal9r6gm6953g",
+	})
 	params := &models.BatchTransferNFTReq{
-		Data: []struct {
-			NFTs []struct {
-				ClassID string "json:\"class_id\""
-				NFTID   string "json:\"nft_id\""
-			} "json:\"nfts\""
-			Recipient string "json:\"recipient\""
-		}{
-			{Recipient: "iaa153uyr6ghtumt3lrtdwndplk4ggal9r6gm6953g", NFTs: []struct {
-				ClassID string "json:\"class_id\""
-				NFTID   string "json:\"nft_id\""
-			}{
-				{ClassID: "avatauuj0hj53thkyahiaitfmctsensn", NFTID: "avataj5h7algcaibxiz5ipbi5o97kfqs"},
-				{ClassID: "avatauuj0hj53thkyahiaitfmctsensn", NFTID: "avatarxamgw6sqwvclfqfnvkgkwkp6zf"},
-			}},
-		},
+		Data:        data,
 		OperationID: "TestBatchTransferNFT",
 	}
 	result := client.NFT.BatchTransferNFT(params, owner)

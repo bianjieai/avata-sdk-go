@@ -127,31 +127,39 @@ type DeleteNFTReq struct {
 }
 
 // BatchCreateNFTReq 批量发行nft：request
-type BatchCreateNFTReq struct {
-	Name       string `json:"name"`
-	Uri        string `json:"uri,omitempty"`
-	UriHash    string `json:"uri_hash,omitempty"`
-	Data       string `json:"data,omitempty"`
-	Recipients []struct {
+type (
+	BatchCreateNFTReq struct {
+		Name        string            `json:"name"`
+		Uri         string            `json:"uri,omitempty"`
+		UriHash     string            `json:"uri_hash,omitempty"`
+		Data        string            `json:"data,omitempty"`
+		Recipients  []Recipients      `json:"recipients"`
+		Tag         map[string]string `json:"tag,omitempty"`
+		OperationID string            `json:"operation_id"`
+	}
+
+	Recipients struct {
 		Amount    int    `json:"amount"`
 		Recipient string `json:"recipient"`
-	} `json:"recipients"`
-	Tag         map[string]string `json:"tag,omitempty"`
-	OperationID string            `json:"operation_id"`
-}
+	}
+)
 
 // BatchTransferNFTReq 批量转让 NFT ：request
-type BatchTransferNFTReq struct {
-	Data []struct {
-		NFTs []struct {
-			ClassID string `json:"class_id"`
-			NFTID   string `json:"nft_id"`
-		} `json:"nfts"`
-		Recipient string `json:"recipient"`
-	} `json:"data"`
-	Tag         map[string]string `json:"tag,omitempty"`
-	OperationID string            `json:"operation_id"`
-}
+type (
+	BatchTransferNFTReq struct {
+		Data        []BatchTransferNFTData `json:"data"`
+		Tag         map[string]string      `json:"tag,omitempty"`
+		OperationID string                 `json:"operation_id"`
+	}
+	BatchTransferNFTData struct {
+		NFTs      []BatchTransferNFTs `json:"nfts"`
+		Recipient string              `json:"recipient"`
+	}
+	BatchTransferNFTs struct {
+		ClassID string `json:"class_id"`
+		NFTID   string `json:"nft_id"`
+	}
+)
 
 // BatchEditNFTReq 批量编辑 NFT ：request
 type (

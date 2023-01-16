@@ -53,6 +53,19 @@ func (n nftService) CreateNFTClass(params *models.CreateNFTClassReq) *models.Res
 
 	result := &models.Response{}
 
+	if params == nil {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
+		result.Code = models.CodeFailed
+		result.Message = fmt.Sprintf(models.ErrParam, "params")
+		return result
+	}
+	if params.OperationID == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
+		result.Code = models.CodeFailed
+		result.Message = fmt.Sprintf(models.ErrParam, "operation_id")
+		return result
+	}
+
 	bytesData, err := json.Marshal(params)
 	if err != nil {
 		log.WithError(err).Errorln("Marshal Params")
@@ -123,6 +136,14 @@ func (n nftService) QueryNFTClassById(id string) *models.Response {
 
 	result := &models.Response{}
 
+	// 校验必填参数
+	if id == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "id"))
+		result.Code = models.CodeFailed
+		result.Message = fmt.Sprintf(models.ErrParam, "id")
+		return result
+	}
+
 	body, result := n.HttpClient.DoHttpRequest(http.MethodGet, fmt.Sprintf(models.QueryNFTClassById, id), nil, nil)
 	log.WithFields(map[string]interface{}{
 		"body":   string(body),
@@ -151,6 +172,32 @@ func (n nftService) TransfersNFClass(params *models.TransfersNFClassReq, classID
 	log.Info("TransfersNFClass start")
 
 	result := &models.Response{}
+
+	// 校验必填参数
+	if classID == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "class_id"))
+		result.Code = models.CodeFailed
+		result.Message = fmt.Sprintf(models.ErrParam, "class_id")
+		return result
+	}
+	if owner == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "owner"))
+		result.Code = models.CodeFailed
+		result.Message = fmt.Sprintf(models.ErrParam, "owner")
+		return result
+	}
+	if params == nil {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
+		result.Code = models.CodeFailed
+		result.Message = fmt.Sprintf(models.ErrParam, "params")
+		return result
+	}
+	if params.OperationID == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
+		result.Code = models.CodeFailed
+		result.Message = fmt.Sprintf(models.ErrParam, "operation_id")
+		return result
+	}
 
 	bytesData, err := json.Marshal(params)
 	if err != nil {
@@ -187,6 +234,26 @@ func (n nftService) CreateNFT(params *models.CreateNFTReq, classID string) *mode
 	log.Info("CreateNFT start")
 
 	result := &models.Response{}
+
+	// 校验必填参数
+	if classID == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "class_id"))
+		result.Code = models.CodeFailed
+		result.Message = fmt.Sprintf(models.ErrParam, "class_id")
+		return result
+	}
+	if params == nil {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
+		result.Code = models.CodeFailed
+		result.Message = fmt.Sprintf(models.ErrParam, "params")
+		return result
+	}
+	if params.OperationID == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
+		result.Code = models.CodeFailed
+		result.Message = fmt.Sprintf(models.ErrParam, "operation_id")
+		return result
+	}
 
 	bytesData, err := json.Marshal(params)
 	if err != nil {
@@ -226,6 +293,38 @@ func (n nftService) TransferNFT(params *models.TransferNFTReq, classID, owner, n
 
 	result := &models.Response{}
 
+	// 校验必填参数
+	if classID == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "class_id"))
+		result.Code = models.CodeFailed
+		result.Message = fmt.Sprintf(models.ErrParam, "class_id")
+		return result
+	}
+	if owner == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "owner"))
+		result.Code = models.CodeFailed
+		result.Message = fmt.Sprintf(models.ErrParam, "owner")
+		return result
+	}
+	if nftID == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "nft_id"))
+		result.Code = models.CodeFailed
+		result.Message = fmt.Sprintf(models.ErrParam, "nft_id")
+		return result
+	}
+	if params == nil {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
+		result.Code = models.CodeFailed
+		result.Message = fmt.Sprintf(models.ErrParam, "params")
+		return result
+	}
+	if params.OperationID == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
+		result.Code = models.CodeFailed
+		result.Message = fmt.Sprintf(models.ErrParam, "operation_id")
+		return result
+	}
+
 	bytesData, err := json.Marshal(params)
 	if err != nil {
 		log.WithError(err).Errorln("Marshal Params")
@@ -263,6 +362,38 @@ func (n nftService) EditNFT(params *models.EditNFTReq, classID, owner, nftID str
 	log.Info("EditNFT start")
 
 	result := &models.Response{}
+
+	// 校验必填参数
+	if classID == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "class_id"))
+		result.Code = models.CodeFailed
+		result.Message = fmt.Sprintf(models.ErrParam, "class_id")
+		return result
+	}
+	if owner == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "owner"))
+		result.Code = models.CodeFailed
+		result.Message = fmt.Sprintf(models.ErrParam, "owner")
+		return result
+	}
+	if nftID == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "nft_id"))
+		result.Code = models.CodeFailed
+		result.Message = fmt.Sprintf(models.ErrParam, "nft_id")
+		return result
+	}
+	if params == nil {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
+		result.Code = models.CodeFailed
+		result.Message = fmt.Sprintf(models.ErrParam, "params")
+		return result
+	}
+	if params.OperationID == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
+		result.Code = models.CodeFailed
+		result.Message = fmt.Sprintf(models.ErrParam, "operation_id")
+		return result
+	}
 
 	bytesData, err := json.Marshal(params)
 	if err != nil {
@@ -302,6 +433,38 @@ func (n nftService) DeleteNFT(params *models.DeleteNFTReq, classID, owner, nftID
 
 	result := &models.Response{}
 
+	// 校验必填参数
+	if classID == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "class_id"))
+		result.Code = models.CodeFailed
+		result.Message = fmt.Sprintf(models.ErrParam, "class_id")
+		return result
+	}
+	if owner == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "owner"))
+		result.Code = models.CodeFailed
+		result.Message = fmt.Sprintf(models.ErrParam, "owner")
+		return result
+	}
+	if nftID == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "nft_id"))
+		result.Code = models.CodeFailed
+		result.Message = fmt.Sprintf(models.ErrParam, "nft_id")
+		return result
+	}
+	if params == nil {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
+		result.Code = models.CodeFailed
+		result.Message = fmt.Sprintf(models.ErrParam, "params")
+		return result
+	}
+	if params.OperationID == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
+		result.Code = models.CodeFailed
+		result.Message = fmt.Sprintf(models.ErrParam, "operation_id")
+		return result
+	}
+
 	bytesData, err := json.Marshal(params)
 	if err != nil {
 		log.WithError(err).Errorln("Marshal Params")
@@ -337,6 +500,26 @@ func (n nftService) BatchCreateNFT(params *models.BatchCreateNFTReq, classID str
 	log.Info("BatchCreateNFT start")
 
 	result := &models.Response{}
+
+	// 校验必填参数
+	if classID == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "class_id"))
+		result.Code = models.CodeFailed
+		result.Message = fmt.Sprintf(models.ErrParam, "class_id")
+		return result
+	}
+	if params == nil {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
+		result.Code = models.CodeFailed
+		result.Message = fmt.Sprintf(models.ErrParam, "params")
+		return result
+	}
+	if params.OperationID == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
+		result.Code = models.CodeFailed
+		result.Message = fmt.Sprintf(models.ErrParam, "operation_id")
+		return result
+	}
 
 	bytesData, err := json.Marshal(params)
 	if err != nil {
@@ -374,6 +557,26 @@ func (n nftService) BatchTransferNFT(params *models.BatchTransferNFTReq, owner s
 
 	result := &models.Response{}
 
+	// 校验必填参数
+	if owner == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "owner"))
+		result.Code = models.CodeFailed
+		result.Message = fmt.Sprintf(models.ErrParam, "owner")
+		return result
+	}
+	if params == nil {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
+		result.Code = models.CodeFailed
+		result.Message = fmt.Sprintf(models.ErrParam, "params")
+		return result
+	}
+	if params.OperationID == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
+		result.Code = models.CodeFailed
+		result.Message = fmt.Sprintf(models.ErrParam, "operation_id")
+		return result
+	}
+
 	bytesData, err := json.Marshal(params)
 	if err != nil {
 		log.WithError(err).Errorln("Marshal Params")
@@ -410,6 +613,26 @@ func (n nftService) BatchEditNFT(params *models.BatchEditNFTReq, owner string) *
 
 	result := &models.Response{}
 
+	// 校验必填参数
+	if owner == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "owner"))
+		result.Code = models.CodeFailed
+		result.Message = fmt.Sprintf(models.ErrParam, "owner")
+		return result
+	}
+	if params == nil {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
+		result.Code = models.CodeFailed
+		result.Message = fmt.Sprintf(models.ErrParam, "params")
+		return result
+	}
+	if params.OperationID == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
+		result.Code = models.CodeFailed
+		result.Message = fmt.Sprintf(models.ErrParam, "operation_id")
+		return result
+	}
+
 	bytesData, err := json.Marshal(params)
 	if err != nil {
 		log.WithError(err).Errorln("Marshal Params")
@@ -445,6 +668,26 @@ func (n nftService) BatchDeleteNFT(params *models.BatchDeleteNFTReq, owner strin
 	log.Info("BatchDeleteNFT start")
 
 	result := &models.Response{}
+
+	// 校验必填参数
+	if owner == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "owner"))
+		result.Code = models.CodeFailed
+		result.Message = fmt.Sprintf(models.ErrParam, "owner")
+		return result
+	}
+	if params == nil {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
+		result.Code = models.CodeFailed
+		result.Message = fmt.Sprintf(models.ErrParam, "params")
+		return result
+	}
+	if params.OperationID == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
+		result.Code = models.CodeFailed
+		result.Message = fmt.Sprintf(models.ErrParam, "operation_id")
+		return result
+	}
 
 	bytesData, err := json.Marshal(params)
 	if err != nil {
@@ -515,6 +758,20 @@ func (n nftService) QueryNFTById(classID, nftID string) *models.Response {
 	log.Info("QueryNFTById start")
 
 	result := &models.Response{}
+
+	// 校验必填参数
+	if classID == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "class_id"))
+		result.Code = models.CodeFailed
+		result.Message = fmt.Sprintf(models.ErrParam, "class_id")
+		return result
+	}
+	if nftID == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "nft_id"))
+		result.Code = models.CodeFailed
+		result.Message = fmt.Sprintf(models.ErrParam, "nft_id")
+		return result
+	}
 
 	body, result := n.HttpClient.DoHttpRequest(http.MethodGet, fmt.Sprintf(models.QueryNFTById, classID, nftID), nil, nil)
 	log.WithFields(map[string]interface{}{
