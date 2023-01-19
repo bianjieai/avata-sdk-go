@@ -23,15 +23,15 @@ type (
 	}
 
 	Error struct {
-		CodeSpace string `json:"code_space"`
-		Code      string `json:"code"`
-		Message   string `json:"message"`
+		CodeSpace string `json:"code_space"` // 命名空间
+		Code      string `json:"code"`       // 错误码
+		Message   string `json:"message"`    // 错误描述
 	}
 )
 
-// TxRes 发起上链交易接口返回参数
+// TxRes 通用正确返回值(所有发起上链交易接口)
 type TxRes struct {
 	Data struct {
-		OperationId string `json:"operation_id"`
+		OperationId string `json:"operation_id"` // 操作 ID
 	} `json:"data"`
 }

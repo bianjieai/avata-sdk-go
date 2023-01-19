@@ -18,130 +18,128 @@ const (
 
 // CreateMTClassReq 创建 MT 类别请求参数
 type CreateMTClassReq struct {
-	Name        string            `json:"name"`
-	Owner       string            `json:"owner"`
-	Data        string            `json:"data,omitempty"`
-	Tag         map[string]string `json:"tag,omitempty"`
-	OperationId string            `json:"operation_id"`
+	Name        string            `json:"name"`           // MT 类别名称
+	Owner       string            `json:"owner"`          // MT 类别权属者地址，支持任一 Avata 平台内合法链账户地址
+	Data        string            `json:"data,omitempty"` // 自定义链上元数据
+	Tag         map[string]string `json:"tag,omitempty"`  // 交易标签， 自定义 key：支持大小写英文字母和汉字和数字，长度 6-12 位，自定义 value：长度限制在 64 位字符，支持大小写字母和数字
+	OperationId string            `json:"operation_id"`   // 操作 ID，保证幂等性，避免重复请求，保证对于同一操作发起的一次请求或者多次请求的结果是一致的；由接入方生成的、针对每个 Project ID 唯一的、不超过 64 个大小写字母、数字、-、下划线的字符串
 }
 
 // QueryMTClassesReq 查询 MT 类别请求参数
 type QueryMTClassesReq struct {
-	Offset    string `json:"offset,omitempty"`
-	Limit     string `json:"limit,omitempty"`
-	ID        string `json:"id,omitempty"`
-	Name      string `json:"name,omitempty"`
-	Owner     string `json:"owner,omitempty"`
-	TxHash    string `json:"tx_hash,omitempty"`
-	StartDate string `json:"start_date,omitempty"`
-	EndDate   string `json:"end_date,omitempty"`
-	SortBy    string `json:"sort_by,omitempty"`
+	Offset    string `json:"offset,omitempty"`     // 游标，默认为 0
+	Limit     string `json:"limit,omitempty"`      // 每页记录数，默认为 10，上限为 50
+	ID        string `json:"id,omitempty"`         // MT 类别 ID
+	Name      string `json:"name,omitempty"`       // MT 类别名称，支持模糊查询
+	Owner     string `json:"owner,omitempty"`      // MT 类别权属者地址
+	TxHash    string `json:"tx_hash,omitempty"`    // 创建 MT 类别的 Tx Hash
+	StartDate string `json:"start_date,omitempty"` // MT 类别创建日期范围 - 开始，yyyy-MM-dd（UTC 时间）
+	EndDate   string `json:"end_date,omitempty"`   // MT 类别创建日期范围 - 结束，yyyy-MM-dd（UTC 时间）
+	SortBy    string `json:"sort_by,omitempty"`    // 排序规则：DATE_ASC / DATE_DESC
 }
 
 // QueryMTClassesRes 查询 MT 类别返回值
 type QueryMTClassesRes struct {
 	Data struct {
-		Offset     int `json:"offset"`
-		Limit      int `json:"limit"`
-		TotalCount int `json:"total_count"`
+		Offset     int `json:"offset"`      // 游标
+		Limit      int `json:"limit"`       // 每页记录数
+		TotalCount int `json:"total_count"` // 总记录数
 		Classes    []struct {
-			Id        string `json:"id"`
-			Name      string `json:"name"`
-			MtCount   int    `json:"mt_count"`
-			Owner     string `json:"owner"`
-			TxHash    string `json:"tx_hash"`
-			Timestamp string `json:"timestamp"`
-		} `json:"classes"`
+			Id        string `json:"id"`        // MT 类别 ID
+			Name      string `json:"name"`      // MT 类别名称
+			MtCount   int    `json:"mt_count"`  // MT 类别包含的 MT 总量(AVATA 平台内)
+			Owner     string `json:"owner"`     // MT 类别权属者地址
+			TxHash    string `json:"tx_hash"`   // 创建 MT 类别的 Tx Hash
+			Timestamp string `json:"timestamp"` // 创建 MT 类别的时间戳（UTC 时间）
+		} `json:"classes"` // 类别列表
 	} `json:"data"`
 }
 
 // QueryMTClassRes 查询 MT 类别详情返回值
 type QueryMTClassRes struct {
 	Data struct {
-		Id        string `json:"id"`
-		Name      string `json:"name"`
-		MtCount   int    `json:"mt_count"`
-		Data      string `json:"data"`
-		Owner     string `json:"owner"`
-		TxHash    string `json:"tx_hash"`
-		Timestamp string `json:"timestamp"`
+		Id        string `json:"id"`        // MT 类别 ID
+		Name      string `json:"name"`      // MT 类别名称
+		MtCount   int    `json:"mt_count"`  // MT 类别包含的 MT 总量(AVATA 平台内)
+		Data      string `json:"data"`      // 自定义链上元数据
+		Owner     string `json:"owner"`     // MT 类别权属者地址
+		TxHash    string `json:"tx_hash"`   // 创建 MT 类别的 Tx Hash
+		Timestamp string `json:"timestamp"` // 创建 MT 类别的时间戳（UTC 时间）
 	} `json:"data"`
 }
 
 // TransferMTClassReq 转让 MT 类别请求参数
 type TransferMTClassReq struct {
-	Recipient   string            `json:"recipient"`
-	OperationId string            `json:"operation_id"`
-	Tag         map[string]string `json:"tag,omitempty"`
+	Recipient   string            `json:"recipient"`     // MT 类别接收者地址，支持任一 Avata 内合法链账户地址
+	OperationId string            `json:"operation_id"`  // 操作 ID，保证幂等性，避免重复请求，保证对于同一操作发起的一次请求或者多次请求的结果是一致的；由接入方生成的、针对每个 Project ID 唯一的、不超过 64 个大小写字母、数字、-、下划线的字符串
+	Tag         map[string]string `json:"tag,omitempty"` // 交易标签， 自定义 key：支持大小写英文字母和汉字和数字，长度 6-12 位，自定义 value：长度限制在 64 位字符，支持大小写字母和数字
 }
 
 // IssueMTReq 发行 MT 请求参数
 type IssueMTReq struct {
-	Data        string            `json:"data,omitempty"`
-	Amount      int               `json:"amount,omitempty"`
-	Recipient   string            `json:"recipient,omitempty"`
-	Tag         map[string]string `json:"tag,omitempty"`
-	OperationId string            `json:"operation_id"`
+	Data        string            `json:"data,omitempty"`      // 自定义链上元数据
+	Amount      int               `json:"amount,omitempty"`    // MT 数量，不填写数量时，默认发行数量为 1
+	Recipient   string            `json:"recipient,omitempty"` // MT 接收者地址，支持任一文昌链合法链账户地址，默认为 MT 类别的权属者地址
+	Tag         map[string]string `json:"tag,omitempty"`       // 交易标签， 自定义 key：支持大小写英文字母和汉字和数字，长度 6-12 位，自定义 value：长度限制在 64 位字符，支持大小写字母和数字
+	OperationId string            `json:"operation_id"`        // 操作 ID，保证幂等性，避免重复请求，保证对于同一操作发起的一次请求或者多次请求的结果是一致的；由接入方生成的、针对每个 Project ID 唯一的、不超过 64 个大小写字母、数字、-、下划线的字符串
 }
 
 // MintMTReq 增发 MT 请求参数
 type MintMTReq struct {
-	Amount      int               `json:"amount,omitempty"`
-	Recipient   string            `json:"recipient,omitempty"`
-	Tag         map[string]string `json:"tag,omitempty"`
-	OperationId string            `json:"operation_id"`
+	Amount      int               `json:"amount,omitempty"` // MT 数量
+	Recipient   string            `json:"recipient"`        // MT 接收者地址
+	Tag         map[string]string `json:"tag,omitempty"`    // 交易标签， 自定义 key：支持大小写英文字母和汉字和数字，长度 6-12 位，自定义 value：长度限制在 64 位字符，支持大小写字母和数字
+	OperationId string            `json:"operation_id"`     // 操作 ID，保证幂等性，避免重复请求，保证对于同一操作发起的一次请求或者多次请求的结果是一致的；由接入方生成的、针对每个 Project ID 唯一的、不超过 64 个大小写字母、数字、-、下划线的字符串
 }
 
 // TransferMTReq 转让 MT 请求参数
 type TransferMTReq struct {
-	Amount      int               `json:"amount,omitempty"`
-	Recipient   string            `json:"recipient"`
-	Tag         map[string]string `json:"tag,omitempty"`
-	OperationId string            `json:"operation_id"`
+	Amount      int               `json:"amount,omitempty"` // 转移的数量（默认为 1 ）
+	Recipient   string            `json:"recipient"`        // MT 接收者地址
+	Tag         map[string]string `json:"tag,omitempty"`    // 交易标签， 自定义 key：支持大小写英文字母和汉字和数字，长度 6-12 位，自定义 value：长度限制在 64 位字符，支持大小写字母和数字
+	OperationId string            `json:"operation_id"`     // 操作 ID，保证幂等性，避免重复请求，保证对于同一操作发起的一次请求或者多次请求的结果是一致的；由接入方生成的、针对每个 Project ID 唯一的、不超过 64 个大小写字母、数字、-、下划线的字符串
 }
 
 // EditMTReq 编辑 MT 请求参数
 type EditMTReq struct {
-	Data        string            `json:"data"`
-	Tag         map[string]string `json:"tag,omitempty"`
-	OperationId string            `json:"operation_id"`
+	Data        string            `json:"data"`          // 自定义链上元数据
+	Tag         map[string]string `json:"tag,omitempty"` // 交易标签， 自定义 key：支持大小写英文字母和汉字和数字，长度 6-12 位，自定义 value：长度限制在 64 位字符，支持大小写字母和数字
+	OperationId string            `json:"operation_id"`  // 操作 ID，保证幂等性，避免重复请求，保证对于同一操作发起的一次请求或者多次请求的结果是一致的；由接入方生成的、针对每个 Project ID 唯一的、不超过 64 个大小写字母、数字、-、下划线的字符串
 }
 
 // BurnMTReq 销毁 MT 请求参数
 type BurnMTReq struct {
-	Amount      int               `json:"amount,omitempty"`
-	Tag         map[string]string `json:"tag,omitempty"`
-	OperationId string            `json:"operation_id"`
+	Amount      int               `json:"amount,omitempty"` // 销毁的数量
+	Tag         map[string]string `json:"tag,omitempty"`    // 交易标签， 自定义 key：支持大小写英文字母和汉字和数字，长度 6-12 位，自定义 value：长度限制在 64 位字符，支持大小写字母和数字
+	OperationId string            `json:"operation_id"`     // 操作 ID，保证幂等性，避免重复请求，保证对于同一操作发起的一次请求或者多次请求的结果是一致的；由接入方生成的、针对每个 Project ID 唯一的、不超过 64 个大小写字母、数字、-、下划线的字符串
 }
 
 // QueryMTsReq 查询 MT 请求参数
 type QueryMTsReq struct {
-	Offset    string `json:"offset,omitempty"`
-	Limit     string `json:"limit,omitempty"`
-	ID        string `json:"id,omitempty"`
-	ClassID   string `json:"class_id,omitempty"`
-	Name      string `json:"name,omitempty"`
-	Owner     string `json:"owner,omitempty"`
-	TxHash    string `json:"tx_hash,omitempty"`
-	Status    string `json:"status,omitempty"`
-	StartDate string `json:"start_date,omitempty"`
-	EndDate   string `json:"end_date,omitempty"`
-	SortBy    string `json:"sort_by,omitempty"`
+	Offset    string `json:"offset,omitempty"`     // 游标，默认为 0
+	Limit     string `json:"limit,omitempty"`      // 每页记录数，默认为 10，上限为 50
+	ID        string `json:"id,omitempty"`         // MT ID
+	ClassID   string `json:"class_id,omitempty"`   // MT 类别 ID
+	Issuer    string `json:"issuer,omitempty"`     // MT 发行者地址
+	TxHash    string `json:"tx_hash,omitempty"`    // 创建 MT 的 TX Hash
+	StartDate string `json:"start_date,omitempty"` // MT 创建日期范围 - 开始，yyyy-MM-dd（UTC 时间）
+	EndDate   string `json:"end_date,omitempty"`   // MT 创建日期范围 - 结束，yyyy-MM-dd（UTC 时间）
+	SortBy    string `json:"sort_by,omitempty"`    // 排序规则：DATE_ASC / DATE_DESC
 }
 
 // QueryMTsRes 查询 MT 返回值
 type QueryMTsRes struct {
 	Data struct {
-		Offset     int `json:"offset"`
-		Limit      int `json:"limit"`
-		TotalCount int `json:"total_count"`
+		Offset     int `json:"offset"`      // 游标
+		Limit      int `json:"limit"`       // 每页记录数
+		TotalCount int `json:"total_count"` // 总记录数
 		Mts        []struct {
-			Id         string `json:"id"`
-			ClassId    string `json:"class_id"`
-			ClassName  string `json:"class_name"`
-			Issuer     string `json:"issuer"`
-			OwnerCount int    `json:"owner_count"`
-			Timestamp  string `json:"timestamp"`
+			Id         string `json:"id"`          // MT ID
+			ClassId    string `json:"class_id"`    // MT 类别 ID
+			ClassName  string `json:"class_name"`  // MT 类别名称
+			Issuer     string `json:"issuer"`      // 首次发行该 MT 的链账户地址
+			OwnerCount int64  `json:"owner_count"` // MT 拥有者数量(AVATA 平台内)
+			Timestamp  string `json:"timestamp"`   // MT 首次发行时间戳（UTC 时间）
 		} `json:"mts"`
 	} `json:"data"`
 }
@@ -149,68 +147,67 @@ type QueryMTsRes struct {
 // QueryMTRes 查询 MT 详情返回值
 type QueryMTRes struct {
 	Data struct {
-		Id         string `json:"id"`
-		ClassId    string `json:"class_id"`
-		ClassName  string `json:"class_name"`
-		Data       string `json:"data"`
-		OwnerCount int    `json:"owner_count"`
+		Id         string `json:"id"`          // MT ID
+		ClassId    string `json:"class_id"`    // MT 类别 ID
+		ClassName  string `json:"class_name"`  // MT 类别名称
+		Data       string `json:"data"`        // 自定义链上元数据
+		OwnerCount int    `json:"owner_count"` // MT 拥有者数量(AVATA 平台内)
 		IssueData  struct {
-			Issuer    string `json:"issuer"`
-			Timestamp string `json:"timestamp"`
-			Count     int    `json:"count"`
-			TxHash    string `json:"tx_hash"`
+			Issuer    string `json:"issuer"`    // 首次发行该 MT 的链账户地址
+			Timestamp string `json:"timestamp"` // 首次发行该 MT 的时间戳
+			Count     int    `json:"count"`     // 首次发行该 MT 的数量
+			TxHash    string `json:"tx_hash"`   // 首次发行该 MT 的交易哈希
 		} `json:"issue_data"`
-		MtCount   int `json:"mt_count"`
-		MintTimes int `json:"mint_times"`
+		MtCount   int `json:"mt_count"`   // MT 流通总量(全链)
+		MintTimes int `json:"mint_times"` // MT 发行次数(AVATA 平台内累计发行次数(包括首次发行和增发))
 	} `json:"data"`
 }
 
 // QueryMTHistoryReq 查询 MT 操作记录请求参数
 type QueryMTHistoryReq struct {
-	Offset    string `json:"offset,omitempty"`
-	Limit     string `json:"limit,omitempty"`
-	Account   string `json:"account,omitempty"`
-	Module    string `json:"module,omitempty"`
-	Operation string `json:"operation,omitempty"`
-	TxHash    string `json:"tx_hash,omitempty"`
-	StartDate string `json:"start_date,omitempty"`
-	EndDate   string `json:"end_date,omitempty"`
-	SortBy    string `json:"sort_by,omitempty"`
+	Offset    string `json:"offset,omitempty"`     // 游标，默认为 0
+	Limit     string `json:"limit,omitempty"`      // 每页记录数，默认为 10，上限为 50
+	Signer    string `json:"signer,omitempty"`     // Tx 签名者地址
+	TxHash    string `json:"tx_hash,omitempty"`    // MT 操作 Tx Hash
+	Operation string `json:"operation,omitempty"`  // 操作类型： issue(首发MT) / mint(增发MT) / edit(编辑MT) / transfer(转让MT) / burn(销毁MT)
+	StartDate string `json:"start_date,omitempty"` // MT 操作日期范围 - 开始，yyyy-MM-dd（UTC 时间）
+	EndDate   string `json:"end_date,omitempty"`   // MT 操作日期范围 - 结束，yyyy-MM-dd（UTC 时间）
+	SortBy    string `json:"sort_by,omitempty"`    // 排序规则：DATE_ASC / DATE_DESC
 }
 
 // QueryMTHistoryRes 查询 MT 操作记录返回值
 type QueryMTHistoryRes struct {
 	Data struct {
-		Offset           int `json:"offset"`
-		Limit            int `json:"limit"`
-		TotalCount       int `json:"total_count"`
+		Offset           int `json:"offset"`      // 游标
+		Limit            int `json:"limit"`       // 每页记录数
+		TotalCount       int `json:"total_count"` // 总记录数
 		OperationRecords []struct {
-			TxHash    string `json:"tx_hash"`
-			Operation string `json:"operation"`
-			Signer    string `json:"signer"`
-			Recipient string `json:"recipient"`
-			Amount    int    `json:"amount"`
-			Timestamp string `json:"timestamp"`
+			TxHash    string `json:"tx_hash"`   // MT 操作的 Tx Hash
+			Operation string `json:"operation"` // MT 操作类型；Enum: "issue" "mint" "edit" "transfer" "burn"
+			Signer    string `json:"signer"`    // Tx 签名者地址
+			Recipient string `json:"recipient"` // MT 接收者地址
+			Amount    int    `json:"amount"`    // MT 操作数量
+			Timestamp string `json:"timestamp"` // MT 操作时间戳（UTC 时间）
 		} `json:"operation_records"`
 	} `json:"data"`
 }
 
 // QueryMTBalanceReq 查询 MT 余额请求参数
 type QueryMTBalanceReq struct {
-	Offset string `json:"offset,omitempty"`
-	Limit  string `json:"limit,omitempty"`
-	ID     string `json:"id,omitempty"`
+	Offset string `json:"offset,omitempty"` // 游标，默认为 0
+	Limit  string `json:"limit,omitempty"`  // 每页记录数，默认为 10，上限为 50
+	ID     string `json:"id,omitempty"`     // MT ID
 }
 
 // QueryMTBalanceRes 查询 MT 余额返回值
 type QueryMTBalanceRes struct {
 	Data struct {
-		Offset     int `json:"offset"`
-		Limit      int `json:"limit"`
-		TotalCount int `json:"total_count"`
+		Offset     int `json:"offset"`      // 游标
+		Limit      int `json:"limit"`       // 每页记录数
+		TotalCount int `json:"total_count"` // 总记录数
 		Mts        []struct {
-			Id     string `json:"id"`
-			Amount int    `json:"amount"`
+			Id     string `json:"id"`     // MT ID
+			Amount int    `json:"amount"` // MT 数量
 		} `json:"mts"`
 	} `json:"data"`
 }
