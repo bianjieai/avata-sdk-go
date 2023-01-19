@@ -36,13 +36,13 @@ func TestCreateNFTClass(t *testing.T) {
 }
 
 // 查询 NFT 类别示例
-func TestQueryNFTClass(t *testing.T) {
+func TestQueryNFTClasses(t *testing.T) {
 	client := GetClient()
 
-	params := &models.QueryNFTClassReq{
+	params := &models.QueryNFTClassesReq{
 		Name: "TestCreateNFTClass2",
 	}
-	result := client.NFT.QueryNFTClass(params)
+	result := client.NFT.QueryNFTClasses(params)
 	if result.Code != 0 {
 		t.Log(result.Message)
 		return
@@ -53,7 +53,7 @@ func TestQueryNFTClass(t *testing.T) {
 	}
 	t.Logf("%+v \n", result.Data)
 
-	var nftClassRes models.QueryNFTClassRes
+	var nftClassRes models.QueryNFTClassesRes
 	dataBytes, _ := json.Marshal(result)
 	_ = json.Unmarshal(dataBytes, &nftClassRes)
 
@@ -61,10 +61,10 @@ func TestQueryNFTClass(t *testing.T) {
 }
 
 // 查询 NFT 类别详情示例
-func TestQueryNFTClassById(t *testing.T) {
+func TestQueryNFTClass(t *testing.T) {
 	client := GetClient()
 	id := "avatauuj0hj53thkyahiaitfmctsensn"
-	result := client.NFT.QueryNFTClassById(id)
+	result := client.NFT.QueryNFTClass(id)
 	if result.Code != 0 {
 		t.Log(result.Message)
 		return
@@ -75,7 +75,7 @@ func TestQueryNFTClassById(t *testing.T) {
 	}
 	t.Logf("%+v \n", result.Data)
 
-	var nftClassByIdRes models.QueryNFTClassByIdRes
+	var nftClassByIdRes models.QueryNFTClassRes
 	dataBytes, _ := json.Marshal(result)
 	_ = json.Unmarshal(dataBytes, &nftClassByIdRes)
 
@@ -83,15 +83,15 @@ func TestQueryNFTClassById(t *testing.T) {
 }
 
 // 转让 NFT 类别示例
-func TestTransfersNFClass(t *testing.T) {
+func TestTransferNFTClass(t *testing.T) {
 	client := GetClient()
 	classId := "avatauuj0hj53thkyahiaitfmctsensn"
 	owner := "iaa1tu0gve9se3qgqkadn22d7ar74pal7vqt3yvna9"
-	params := &models.TransfersNFClassReq{
+	params := &models.TransferNFClassReq{
 		Recipient:   "iaa10ldfc2n60ngfpwxnm8qgy5y5hh3vmse6mk4y6v",
-		OperationID: "TestTransfersNFClass",
+		OperationID: "TestTransferNFTClass",
 	}
-	result := client.NFT.TransfersNFClass(params, classId, owner)
+	result := client.NFT.TransferNFTClass(params, classId, owner)
 	if result.Code != 0 {
 		t.Log(result.Message)
 		return
@@ -110,17 +110,17 @@ func TestTransfersNFClass(t *testing.T) {
 }
 
 // 发行 NFT 示例
-func TestCreateNFT(t *testing.T) {
+func TestMintNFT(t *testing.T) {
 	client := GetClient()
 	tag := make(map[string]string)
 	tag["nihaoaaa"] = "aaabbbcccddd"
 	classId := "avatauuj0hj53thkyahiaitfmctsensn"
-	params := &models.CreateNFTReq{
+	params := &models.MintNFTReq{
 		Name:        "TestCreateNFT",
 		OperationID: "TestCreateNFT",
 		Tag:         tag,
 	}
-	result := client.NFT.CreateNFT(params, classId)
+	result := client.NFT.MintNFT(params, classId)
 	if result.Code != 0 {
 		t.Log(result.Message)
 		return
@@ -195,15 +195,15 @@ func TestEditNFT(t *testing.T) {
 }
 
 // 销毁 NFT 示例
-func TestDeleteNFT(t *testing.T) {
+func TestBurnNFT(t *testing.T) {
 	client := GetClient()
 	classId := "avatauuj0hj53thkyahiaitfmctsensn"
 	owner := "iaa1tu0gve9se3qgqkadn22d7ar74pal7vqt3yvna9"
 	nftId := "avatarjqt2kiwlbbced5ieugj2h8cue3"
-	params := &models.DeleteNFTReq{
-		OperationID: "DeleteNFT",
+	params := &models.BurnNFTReq{
+		OperationID: "BurnNFT",
 	}
-	result := client.NFT.DeleteNFT(params, classId, owner, nftId)
+	result := client.NFT.BurnNFT(params, classId, owner, nftId)
 	if result.Code != 0 {
 		t.Log(result.Message)
 		return
@@ -222,17 +222,17 @@ func TestDeleteNFT(t *testing.T) {
 }
 
 // 批量发行 NFT 示例
-func TestBatchCreateNFT(t *testing.T) {
+func TestBatchMintNFT(t *testing.T) {
 	client := GetClient()
 	classId := "avatauuj0hj53thkyahiaitfmctsensn"
 	var recipients []models.Recipients
 	recipients = append(recipients, models.Recipients{Amount: 1, Recipient: "iaa1tu0gve9se3qgqkadn22d7ar74pal7vqt3yvna9"})
-	params := &models.BatchCreateNFTReq{
+	params := &models.BatchMintNFTReq{
 		Name:        "TestBatchCreateNFT1",
 		Recipients:  recipients,
 		OperationID: "TestBatchCreateNFT2",
 	}
-	result := client.NFT.BatchCreateNFT(params, classId)
+	result := client.NFT.BatchMintNFT(params, classId)
 	if result.Code != 0 {
 		t.Log(result.Message)
 		return
@@ -327,7 +327,7 @@ func TestBatchEditNFT(t *testing.T) {
 }
 
 // 批量销毁 NFT 示例
-func TestBatchDeleteNFT(t *testing.T) {
+func TestBatchBurnNFT(t *testing.T) {
 	client := GetClient()
 
 	owner := "iaa153uyr6ghtumt3lrtdwndplk4ggal9r6gm6953g"
@@ -340,11 +340,11 @@ func TestBatchDeleteNFT(t *testing.T) {
 		NFTID:   "avatarxamgw6sqwvclfqfnvkgkwkp6zf",
 	})
 
-	params := &models.BatchDeleteNFTReq{
+	params := &models.BatchBurnNFTReq{
 		NFTs:        nfts,
 		OperationID: OperationID,
 	}
-	result := client.NFT.BatchDeleteNFT(params, owner)
+	result := client.NFT.BatchBurnNFT(params, owner)
 	if result.Code != 0 {
 		t.Log(result.Message)
 		return
@@ -363,10 +363,10 @@ func TestBatchDeleteNFT(t *testing.T) {
 }
 
 // 查询 NFT 示例
-func TestQueryNFT(t *testing.T) {
+func TestQueryNFTs(t *testing.T) {
 	client := GetClient()
-	params := &models.QueryNFTReq{}
-	result := client.NFT.QueryNFT(params)
+	params := &models.QueryNFTsReq{}
+	result := client.NFT.QueryNFTs(params)
 	if result.Code != 0 {
 		t.Log(result.Message)
 		return
@@ -377,7 +377,7 @@ func TestQueryNFT(t *testing.T) {
 	}
 	t.Logf("%+v \n", result.Data)
 
-	var nftRes models.QueryNFTRes
+	var nftRes models.QueryNFTsRes
 	dataBytes, _ := json.Marshal(result)
 	_ = json.Unmarshal(dataBytes, &nftRes)
 
@@ -385,11 +385,11 @@ func TestQueryNFT(t *testing.T) {
 }
 
 // 查询 NFT 详情示例
-func TestQueryNFTById(t *testing.T) {
+func TestQueryNFT(t *testing.T) {
 	client := GetClient()
 	classId := "avatauuj0hj53thkyahiaitfmctsensn"
 	nftId := "avataj5h7algcaibxiz5ipbi5o97kfqs"
-	result := client.NFT.QueryNFTById(classId, nftId)
+	result := client.NFT.QueryNFT(classId, nftId)
 	if result.Code != 0 {
 		t.Log(result.Message)
 		return
@@ -400,7 +400,7 @@ func TestQueryNFTById(t *testing.T) {
 	}
 	t.Logf("%+v \n", result.Data)
 
-	var nftByIdRes models.QueryNFTByIdRes
+	var nftByIdRes models.QueryNFTRes
 	dataBytes, _ := json.Marshal(result)
 	_ = json.Unmarshal(dataBytes, &nftByIdRes)
 
