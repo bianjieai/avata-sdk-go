@@ -1,20 +1,17 @@
 package models
 
-type Error struct {
-	Exception    error        // 非接口返回的异常
-	HttpResponse HttpResponse // 接口返回的错误
-}
+// Code  SDK 响应状态码
+const (
+	CodeSuccess = 0  // 成功
+	CodeFailed  = -1 // 失败
+)
 
-type HttpResponse struct {
-	Status     string   `json:"status"`
-	StatusCode int      `json:"status_code"` // HTTP 状态码
-	Response   Response // 接口返回的错误提示信息
-}
+// Message
+const (
+	ErrDomain    = "the avata domain address is required"
+	ErrAPIKey    = "the api key for the project is required"
+	ErrAPISecret = "the api secret the project is required"
+	ErrAmount    = "amount should be integer yuan"
 
-type Response struct {
-	ErrorResponse struct {
-		CodeSpace string `json:"code_space"`
-		Code      string `json:"code"`
-		Message   string `json:"message"`
-	} `json:"error"`
-}
+	ErrParam = "%s is required"
+)

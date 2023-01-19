@@ -2,32 +2,97 @@ package utils
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"time"
 
-	"avata-sdk-go/models"
+	"github.com/bianjieai/avata-sdk-go/models"
 )
 
+type HttpClient interface {
+	DoHttpRequest(method, path string, bodyParams, queryParams []byte) ([]byte, *models.Response)
+}
+
+type httpClient struct {
+	client     *http.Client
+	baseParams models.BaseParams
+}
+
+func NewHttpClient(httpTimeout time.Duration, baseParams models.BaseParams) *httpClient {
+	return &httpClient{
+		client: &http.Client{
+			Timeout: httpTimeout,
+		},
+		baseParams: baseParams,
+	}
+}
+
 // DoHttpRequest http 请求
-func DoHttpRequest(method, path string, baseParams models.BaseParams, params []byte) (int, string, []byte, error) {
-	r, err := http.NewRequest(method, fmt.Sprintf("%s%s", baseParams.Domain, path), bytes.NewReader(params))
+func (h httpClient) DoHttpRequest(method, path string, bodyParams, queryParams []byte) ([]byte, *models.Response) {
+	r, err := http.NewRequest(method, fmt.Sprintf("%s%s", h.baseParams.Domain, path), bytes.NewReader(bodyParams))
 	if err != nil {
-		return 0, "", nil, err
+		return nil, &models.Response{
+			Code:    models.CodeFailed,
+			Http:    models.Http{},
+			Message: err.Error(),
+			Error:   models.Error{},
+			Data:    nil,
+		}
 	}
 
-	SignRequest(r, baseParams.APIKey, baseParams.APISecret)
+	if method == http.MethodGet && queryParams != nil {
+		queryParamsMap := make(map[string]string)
+		if err = json.Unmarshal(queryParams, &queryParamsMap); err != nil {
+			return nil, &models.Response{
+				Code:    models.CodeFailed,
+				Http:    models.Http{},
+				Message: err.Error(),
+				Error:   models.Error{},
+				Data:    nil,
+			}
+		}
+		q := r.URL.Query()
+		for k, v := range queryParamsMap {
+			q.Add(k, v)
+		}
+		r.URL.RawQuery = q.Encode()
+	}
 
-	res, err := http.DefaultClient.Do(r)
+	SignRequest(r, h.baseParams.APIKey, h.baseParams.APISecret)
+
+	res, err := h.client.Do(r)
 	if err != nil {
-		return 0, "", nil, err
+		return nil, &models.Response{
+			Code:    models.CodeFailed,
+			Http:    models.Http{},
+			Message: err.Error(),
+			Error:   models.Error{},
+			Data:    nil,
+		}
 	}
 	defer res.Body.Close()
 
-	body, err := ioutil.ReadAll(res.Body)
-	if err != nil {
-		return 0, "", nil, err
+	result := &models.Response{
+		Http: models.Http{
+			Code:    res.StatusCode,
+			Message: res.Status,
+		},
 	}
 
-	return res.StatusCode, res.Status, body, nil
+	body, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		result.Code = models.CodeFailed
+		result.Message = err.Error()
+		return nil, result
+	}
+
+	if err = json.Unmarshal(body, &result); err != nil {
+		result.Code = models.CodeFailed
+		result.Message = err.Error()
+		return body, result
+	}
+
+	return body, result
 }
