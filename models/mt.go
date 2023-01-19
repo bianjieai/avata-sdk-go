@@ -2,31 +2,31 @@ package models
 
 const (
 	CreateMTClass   = "/v1beta1/mt/classes"               // 创建 MT 类别
-	GetMTClasses    = "/v1beta1/mt/classes"               // 查询 MT 类别
-	GetMTClass      = "/v1beta1/mt/classes/%s"            // 查询 MT 类别详情
+	QueryMTClasses  = "/v1beta1/mt/classes"               // 查询 MT 类别
+	QueryMTClass    = "/v1beta1/mt/classes/%s"            // 查询 MT 类别详情
 	TransferMTClass = "/v1beta1/mt/class-transfers/%s/%s" // 转让 MT 类别
 	IssueMT         = "/v1beta1/mt/mt-issues/%s"          // 发行 MT
 	MintMT          = "/v1beta1/mt/mt-mints/%s/%s"        // 增发 MT
 	TransferMT      = "/v1beta1/mt/mt-transfers/%s/%s/%s" // 转让 MT
 	EditMT          = "/v1beta1/mt/mts/%s/%s/%s"          // 编辑 MT
 	BurnMT          = "/v1beta1/mt/mts/%s/%s/%s"          // 销毁 MT
-	GetMTs          = "/v1beta1/mt/mts"                   // 查询 MT
-	GetMT           = "/v1beta1/mt/mts/%s/%s"             // 查询 MT 详情
-	GetMTHistory    = "/v1beta1/mt/mts/%s/%s/history"     // 查询 MT 操作记录
-	GetMTBalance    = "/v1beta1/mt/mts/%s/%s/balances"    // 查询 MT 余额
+	QueryMTs        = "/v1beta1/mt/mts"                   // 查询 MT
+	QueryMT         = "/v1beta1/mt/mts/%s/%s"             // 查询 MT 详情
+	QueryMTHistory  = "/v1beta1/mt/mts/%s/%s/history"     // 查询 MT 操作记录
+	QueryMTBalance  = "/v1beta1/mt/mts/%s/%s/balances"    // 查询 MT 余额
 )
 
 // CreateMTClassReq 创建 MT 类别请求参数
 type CreateMTClassReq struct {
-	Name        string                 `json:"name"`
-	Owner       string                 `json:"owner"`
-	Data        string                 `json:"data,omitempty"`
-	Tag         map[string]interface{} `json:"tag,omitempty"`
-	OperationId string                 `json:"operation_id"`
+	Name        string            `json:"name"`
+	Owner       string            `json:"owner"`
+	Data        string            `json:"data,omitempty"`
+	Tag         map[string]string `json:"tag,omitempty"`
+	OperationId string            `json:"operation_id"`
 }
 
-// GetMTClassesReq 查询 MT 类别请求参数
-type GetMTClassesReq struct {
+// QueryMTClassesReq 查询 MT 类别请求参数
+type QueryMTClassesReq struct {
 	Offset    string `json:"offset,omitempty"`
 	Limit     string `json:"limit,omitempty"`
 	ID        string `json:"id,omitempty"`
@@ -38,9 +38,8 @@ type GetMTClassesReq struct {
 	SortBy    string `json:"sort_by,omitempty"`
 }
 
-// GetMTClassesRes 查询 MT 类别返回值
-type GetMTClassesRes struct {
-	BaseRes
+// QueryMTClassesRes 查询 MT 类别返回值
+type QueryMTClassesRes struct {
 	Data struct {
 		Offset     int `json:"offset"`
 		Limit      int `json:"limit"`
@@ -56,9 +55,8 @@ type GetMTClassesRes struct {
 	} `json:"data"`
 }
 
-// GetMTClassRes 查询 MT 类别详情返回值
-type GetMTClassRes struct {
-	BaseRes
+// QueryMTClassRes 查询 MT 类别详情返回值
+type QueryMTClassRes struct {
 	Data struct {
 		Id        string `json:"id"`
 		Name      string `json:"name"`
@@ -77,42 +75,47 @@ type TransferMTClassReq struct {
 	Tag         map[string]string `json:"tag,omitempty"`
 }
 
+// IssueMTReq 发行 MT 请求参数
 type IssueMTReq struct {
-	Data        string                 `json:"data,omitempty"`
-	Amount      int                    `json:"amount,omitempty"`
-	Recipient   string                 `json:"recipient,omitempty"`
-	Tag         map[string]interface{} `json:"tag,omitempty"`
-	OperationId string                 `json:"operation_id"`
+	Data        string            `json:"data,omitempty"`
+	Amount      int               `json:"amount,omitempty"`
+	Recipient   string            `json:"recipient,omitempty"`
+	Tag         map[string]string `json:"tag,omitempty"`
+	OperationId string            `json:"operation_id"`
 }
 
+// MintMTReq 增发 MT 请求参数
 type MintMTReq struct {
-	Amount      int                    `json:"amount,omitempty"`
-	Recipient   string                 `json:"recipient,omitempty"`
-	Tag         map[string]interface{} `json:"tag,omitempty"`
-	OperationId string                 `json:"operation_id"`
+	Amount      int               `json:"amount,omitempty"`
+	Recipient   string            `json:"recipient,omitempty"`
+	Tag         map[string]string `json:"tag,omitempty"`
+	OperationId string            `json:"operation_id"`
 }
 
+// TransferMTReq 转让 MT 请求参数
 type TransferMTReq struct {
-	Amount      int                    `json:"amount,omitempty"`
-	Recipient   string                 `json:"recipient"`
-	Tag         map[string]interface{} `json:"tag,omitempty"`
-	OperationId string                 `json:"operation_id"`
+	Amount      int               `json:"amount,omitempty"`
+	Recipient   string            `json:"recipient"`
+	Tag         map[string]string `json:"tag,omitempty"`
+	OperationId string            `json:"operation_id"`
 }
 
+// EditMTReq 编辑 MT 请求参数
 type EditMTReq struct {
-	Data        string                 `json:"data"`
-	Tag         map[string]interface{} `json:"tag,omitempty"`
-	OperationId string                 `json:"operation_id"`
+	Data        string            `json:"data"`
+	Tag         map[string]string `json:"tag,omitempty"`
+	OperationId string            `json:"operation_id"`
 }
 
+// BurnMTReq 销毁 MT 请求参数
 type BurnMTReq struct {
-	Amount      int                    `json:"amount,omitempty"`
-	Tag         map[string]interface{} `json:"tag,omitempty"`
-	OperationId string                 `json:"operation_id"`
+	Amount      int               `json:"amount,omitempty"`
+	Tag         map[string]string `json:"tag,omitempty"`
+	OperationId string            `json:"operation_id"`
 }
 
-// GetMTsReq 查询 MT 请求参数
-type GetMTsReq struct {
+// QueryMTsReq 查询 MT 请求参数
+type QueryMTsReq struct {
 	Offset    string `json:"offset,omitempty"`
 	Limit     string `json:"limit,omitempty"`
 	ID        string `json:"id,omitempty"`
@@ -126,8 +129,8 @@ type GetMTsReq struct {
 	SortBy    string `json:"sort_by,omitempty"`
 }
 
-type GetMTsRes struct {
-	BaseRes
+// QueryMTsRes 查询 MT 返回值
+type QueryMTsRes struct {
 	Data struct {
 		Offset     int `json:"offset"`
 		Limit      int `json:"limit"`
@@ -143,8 +146,8 @@ type GetMTsRes struct {
 	} `json:"data"`
 }
 
-type GetMTRes struct {
-	BaseRes
+// QueryMTRes 查询 MT 详情返回值
+type QueryMTRes struct {
 	Data struct {
 		Id         string `json:"id"`
 		ClassId    string `json:"class_id"`
@@ -162,8 +165,8 @@ type GetMTRes struct {
 	} `json:"data"`
 }
 
-// GetMTHistoryReq 查询 MT 操作记录请求参数
-type GetMTHistoryReq struct {
+// QueryMTHistoryReq 查询 MT 操作记录请求参数
+type QueryMTHistoryReq struct {
 	Offset    string `json:"offset,omitempty"`
 	Limit     string `json:"limit,omitempty"`
 	Account   string `json:"account,omitempty"`
@@ -175,9 +178,8 @@ type GetMTHistoryReq struct {
 	SortBy    string `json:"sort_by,omitempty"`
 }
 
-// GetMTHistoryRes 查询 MT 操作记录返回值
-type GetMTHistoryRes struct {
-	BaseRes
+// QueryMTHistoryRes 查询 MT 操作记录返回值
+type QueryMTHistoryRes struct {
 	Data struct {
 		Offset           int `json:"offset"`
 		Limit            int `json:"limit"`
@@ -193,14 +195,15 @@ type GetMTHistoryRes struct {
 	} `json:"data"`
 }
 
-type GetMTBalanceReq struct {
+// QueryMTBalanceReq 查询 MT 余额请求参数
+type QueryMTBalanceReq struct {
 	Offset string `json:"offset,omitempty"`
 	Limit  string `json:"limit,omitempty"`
 	ID     string `json:"id,omitempty"`
 }
 
-type GetMTBalanceRes struct {
-	BaseRes
+// QueryMTBalanceRes 查询 MT 余额返回值
+type QueryMTBalanceRes struct {
 	Data struct {
 		Offset     int `json:"offset"`
 		Limit      int `json:"limit"`

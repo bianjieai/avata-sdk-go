@@ -5,18 +5,34 @@ import (
 	"fmt"
 	"net/http"
 
-	"avata-sdk-go/models"
-	"avata-sdk-go/utils"
 	"github.com/sirupsen/logrus"
+
+	"github.com/bianjieai/avata-sdk-go/models"
+	"github.com/bianjieai/avata-sdk-go/utils"
 )
 
-type AccountService struct {
+// AccountService 链账户接口
+type AccountService interface {
+	CreateAccount(params *models.CreateAccountReq) *models.Response               // 创建链账户
+	BatchCreateAccounts(params *models.BatchCreateAccountsReq) *models.Response   // 批量创建链账户
+	QueryAccounts(params *models.QueryAccountsReq) *models.Response               // 查询链账户
+	QueryAccountsHistory(params *models.QueryAccountsHistoryReq) *models.Response // 查询链账户操作记录
+}
+
+type accountService struct {
 	*logrus.Logger // 日志
-	*utils.HttpClient
+	utils.HttpClient
+}
+
+func NewAccountService(log *logrus.Logger, httpClient utils.HttpClient) *accountService {
+	return &accountService{
+		Logger:     log,
+		HttpClient: httpClient,
+	}
 }
 
 // CreateAccount 创建链账户
-func (a AccountService) CreateAccount(params *models.CreateAccountReq) *models.CreateAccountRes {
+func (a accountService) CreateAccount(params *models.CreateAccountReq) *models.Response {
 	log := a.Logger.WithFields(map[string]interface{}{
 		"module":   "Account",
 		"function": "CreateAccount",
@@ -24,24 +40,24 @@ func (a AccountService) CreateAccount(params *models.CreateAccountReq) *models.C
 	})
 	log.Info("CreateAccount start")
 
-	result := &models.CreateAccountRes{}
+	result := &models.Response{}
 
 	// 校验必填参数
 	if params == nil {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "params")
 		return result
 	}
 	if params.Name == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "name"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "name")
 		return result
 	}
 	if params.OperationID == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "operation_id")
 		return result
 	}
@@ -49,33 +65,22 @@ func (a AccountService) CreateAccount(params *models.CreateAccountReq) *models.C
 	bytesData, err := json.Marshal(params)
 	if err != nil {
 		log.WithError(err).Errorln("Marshal Params")
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = err.Error()
 		return result
 	}
 
-	body, baseRes := a.HttpClient.DoHttpRequest(http.MethodPost, models.CreateAccount, bytesData, nil)
+	body, result := a.HttpClient.DoHttpRequest(http.MethodPost, models.CreateAccount, bytesData, nil)
 
 	log.WithFields(map[string]interface{}{
-		"body":    string(body),
-		"baseRes": baseRes,
+		"body":   string(body),
+		"result": result,
 	}).Debug()
 
-	result.BaseRes = baseRes
-
 	// 记录错误日志
-	if baseRes.Code == -1 {
-		log.WithField("error", baseRes.Message).Errorln("DoHttpRequest")
+	if result.Code == models.CodeFailed {
+		log.WithField("error", result.Message).Errorln("DoHttpRequest")
 		return result
-	}
-	// 请求成功
-	if baseRes.Http.Code == http.StatusOK {
-		if err := json.Unmarshal(body, &result); err != nil {
-			log.WithError(err).Errorln("Unmarshal body")
-			result.Code = -1
-			result.Message = err.Error()
-			return result
-		}
 	}
 
 	log.Info("CreateAccount end")
@@ -83,7 +88,7 @@ func (a AccountService) CreateAccount(params *models.CreateAccountReq) *models.C
 }
 
 // BatchCreateAccounts 批量创建链账户
-func (a AccountService) BatchCreateAccounts(params *models.BatchCreateAccountsReq) *models.BatchCreateAccountsRes {
+func (a accountService) BatchCreateAccounts(params *models.BatchCreateAccountsReq) *models.Response {
 	log := a.Logger.WithFields(map[string]interface{}{
 		"module":   "Account",
 		"function": "BatchCreateAccounts",
@@ -91,18 +96,18 @@ func (a AccountService) BatchCreateAccounts(params *models.BatchCreateAccountsRe
 	})
 	log.Info("BatchCreateAccounts start")
 
-	result := &models.BatchCreateAccountsRes{}
+	result := &models.Response{}
 
 	// 校验必填参数
 	if params == nil {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "params")
 		return result
 	}
 	if params.OperationID == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "operation_id")
 		return result
 	}
@@ -110,126 +115,93 @@ func (a AccountService) BatchCreateAccounts(params *models.BatchCreateAccountsRe
 	bytesData, err := json.Marshal(params)
 	if err != nil {
 		log.WithError(err).Errorln("Marshal Params")
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = err.Error()
 		return result
 	}
 
-	body, baseRes := a.HttpClient.DoHttpRequest(http.MethodPost, models.BatchCreateAccounts, bytesData, nil)
+	body, result := a.HttpClient.DoHttpRequest(http.MethodPost, models.BatchCreateAccounts, bytesData, nil)
 	log.WithFields(map[string]interface{}{
-		"body":    string(body),
-		"baseRes": baseRes,
+		"body":   string(body),
+		"result": result,
 	}).Debug()
 
-	result.BaseRes = baseRes
-
 	// 记录错误日志
-	if baseRes.Code == -1 {
-		log.WithField("error", baseRes.Message).Errorln("DoHttpRequest")
+	if result.Code == models.CodeFailed {
+		log.WithField("error", result.Message).Errorln("DoHttpRequest")
 		return result
-	}
-	// 请求成功
-	if baseRes.Http.Code == http.StatusOK {
-		if err := json.Unmarshal(body, &result); err != nil {
-			log.WithError(err).Errorln("Unmarshal body")
-			result.Code = -1
-			result.Message = err.Error()
-			return result
-		}
 	}
 
 	log.Info("BatchCreateAccounts end")
 	return result
 }
 
-// GetAccounts 查询链账户
-func (a AccountService) GetAccounts(params *models.GetAccountsReq) *models.GetAccountsRes {
+// QueryAccounts 查询链账户
+func (a accountService) QueryAccounts(params *models.QueryAccountsReq) *models.Response {
 	log := a.Logger.WithFields(map[string]interface{}{
 		"module":   "Account",
-		"function": "GetAccounts",
+		"function": "QueryAccounts",
 		"params":   params,
 	})
-	log.Info("GetAccounts start")
+	log.Info("QueryAccounts start")
 
-	result := &models.GetAccountsRes{}
+	result := &models.Response{}
 
 	bytesData, err := json.Marshal(params)
 	if err != nil {
 		log.WithError(err).Errorln("Marshal Params")
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = err.Error()
 		return result
 	}
 
-	body, baseRes := a.HttpClient.DoHttpRequest(http.MethodGet, models.GetAccounts, nil, bytesData)
+	body, result := a.HttpClient.DoHttpRequest(http.MethodGet, models.QueryAccounts, nil, bytesData)
 	log.WithFields(map[string]interface{}{
-		"body":    string(body),
-		"baseRes": baseRes,
+		"body":   string(body),
+		"result": result,
 	}).Debug()
 
-	result.BaseRes = baseRes
-
 	// 记录错误日志
-	if baseRes.Code == -1 {
-		log.WithField("error", baseRes.Message).Errorln("DoHttpRequest")
+	if result.Code == models.CodeFailed {
+		log.WithField("error", result.Message).Errorln("DoHttpRequest")
 		return result
 	}
-	// 请求成功
-	if baseRes.Http.Code == http.StatusOK {
-		if err := json.Unmarshal(body, &result); err != nil {
-			log.WithError(err).Errorln("Unmarshal body")
-			result.Code = -1
-			result.Message = err.Error()
-			return result
-		}
-	}
 
-	log.Info("GetAccounts end")
+	log.Info("QueryAccounts end")
 	return result
 }
 
-// GetAccountsHistory 查询链账户操作记录
-func (a AccountService) GetAccountsHistory(params *models.GetAccountsHistoryReq) *models.GetAccountsHistoryRes {
+// QueryAccountsHistory 查询链账户操作记录
+func (a accountService) QueryAccountsHistory(params *models.QueryAccountsHistoryReq) *models.Response {
 	log := a.Logger.WithFields(map[string]interface{}{
 		"module":   "Account",
-		"function": "GetAccountsHistory",
+		"function": "QueryAccountsHistory",
 		"params":   params,
 	})
-	log.Info("GetAccountsHistory start")
+	log.Info("QueryAccountsHistory start")
 
-	result := &models.GetAccountsHistoryRes{}
+	result := &models.Response{}
 
 	bytesData, err := json.Marshal(params)
 	if err != nil {
 		log.WithError(err).Errorln("Marshal Params")
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = err.Error()
 		return result
 	}
 
-	body, baseRes := a.HttpClient.DoHttpRequest(http.MethodGet, models.GetAccountsHistory, nil, bytesData)
+	body, result := a.HttpClient.DoHttpRequest(http.MethodGet, models.QueryAccountsHistory, nil, bytesData)
 	log.WithFields(map[string]interface{}{
-		"body":    string(body),
-		"baseRes": baseRes,
+		"body":   string(body),
+		"result": result,
 	}).Debug()
 
-	result.BaseRes = baseRes
-
 	// 记录错误日志
-	if baseRes.Code == -1 {
-		log.WithField("error", baseRes.Message).Errorln("DoHttpRequest")
+	if result.Code == models.CodeFailed {
+		log.WithField("error", result.Message).Errorln("DoHttpRequest")
 		return result
 	}
-	// 请求成功
-	if baseRes.Http.Code == http.StatusOK {
-		if err := json.Unmarshal(body, &result); err != nil {
-			log.WithError(err).Errorln("Unmarshal body")
-			result.Code = -1
-			result.Message = err.Error()
-			return result
-		}
-	}
 
-	log.Info("GetAccountsHistory end")
+	log.Info("QueryAccountsHistory end")
 	return result
 }

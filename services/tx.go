@@ -5,98 +5,95 @@ import (
 	"fmt"
 	"net/http"
 
-	"avata-sdk-go/models"
-	"avata-sdk-go/utils"
 	"github.com/sirupsen/logrus"
+
+	"github.com/bianjieai/avata-sdk-go/models"
+	"github.com/bianjieai/avata-sdk-go/utils"
 )
 
-type TxService struct {
-	*logrus.Logger // 日志
-	*utils.HttpClient
+// TxService 交易结果查询接口
+type TxService interface {
+	QueryTxResult(operationID string) *models.Response                    // 上链交易结果查询
+	QueryTxQueueInfo(params *models.QueryTxQueueInfoReq) *models.Response // 上链交易排队状态查询
 }
 
-// GetTxResult 上链交易结果查询
-func (t TxService) GetTxResult(operationID string) *models.GetTxResultRes {
+type txService struct {
+	*logrus.Logger // 日志
+	utils.HttpClient
+}
+
+func NewTxService(log *logrus.Logger, client utils.HttpClient) *txService {
+	return &txService{
+		Logger:     log,
+		HttpClient: client,
+	}
+}
+
+// QueryTxResult 上链交易结果查询
+func (t txService) QueryTxResult(operationID string) *models.Response {
 	log := t.Logger.WithFields(map[string]interface{}{
 		"module":      "Tx",
-		"function":    "GetTxResult",
+		"function":    "QueryTxResult",
 		"operationID": operationID,
 	})
-	log.Info("GetTxResult start")
+	log.Info("QueryTxResult start")
 
-	result := &models.GetTxResultRes{}
+	result := &models.Response{}
 
 	//校验必填参数
 	if operationID == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "operation_id")
 		return result
 	}
 
-	body, baseRes := t.HttpClient.DoHttpRequest(http.MethodGet, fmt.Sprintf(models.GetTxResult, operationID), nil, nil)
-	if baseRes.Message != "" {
-		log.WithField("error", baseRes.Message).Errorln("DoHttpRequest")
+	body, result := t.HttpClient.DoHttpRequest(http.MethodGet, fmt.Sprintf(models.QueryTxResult, operationID), nil, nil)
+	log.WithFields(map[string]interface{}{
+		"body":   string(body),
+		"result": result,
+	}).Debug()
+
+	// 记录错误日志
+	if result.Code == models.CodeFailed {
+		log.WithField("error", result.Message).Errorln("DoHttpRequest")
 		return result
 	}
-
-	log.Debugln("body: ", string(body))
-
-	result.BaseRes = baseRes
-	// 请求成功
-	if body != nil {
-		if err := json.Unmarshal(body, &result.Data); err != nil {
-			log.WithError(err).Errorln("Unmarshal body")
-			return result
-		}
-	}
-
-	log.Info("GetTxResult end")
+	log.Info("QueryTxResult end")
 	return result
 }
 
-// GetTxQueueInfo 上链交易结果查询
-func (t TxService) GetTxQueueInfo(params *models.GetTxQueueInfoReq) *models.GetTxQueueInfoRes {
+// QueryTxQueueInfo 上链交易结果查询
+func (t txService) QueryTxQueueInfo(params *models.QueryTxQueueInfoReq) *models.Response {
 	log := t.Logger.WithFields(map[string]interface{}{
 		"module":   "Tx",
-		"function": "GetTxQueueInfo",
+		"function": "QueryTxQueueInfo",
 		"params":   params,
 	})
-	log.Info("GetTxQueueInfo start")
+	log.Info("QueryTxQueueInfo start")
 
-	result := &models.GetTxQueueInfoRes{}
+	result := &models.Response{}
 
 	bytesData, err := json.Marshal(params)
 	if err != nil {
 		log.WithError(err).Errorln("Marshal Params")
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = err.Error()
 		return result
 	}
 
-	body, baseRes := t.HttpClient.DoHttpRequest(http.MethodGet, models.GetTxQueueInfo, nil, bytesData)
+	body, result := t.HttpClient.DoHttpRequest(http.MethodGet, models.QueryTxQueueInfo, nil, bytesData)
 	log.WithFields(map[string]interface{}{
-		"body":    string(body),
-		"baseRes": baseRes,
+		"body":   string(body),
+		"result": result,
 	}).Debug()
 
-	result.BaseRes = baseRes
-
 	// 记录错误日志
-	if baseRes.Code == -1 {
-		log.WithField("error", baseRes.Message).Errorln("DoHttpRequest")
+	if result.Code == models.CodeFailed {
+		log.WithField("error", result.Message).Errorln("DoHttpRequest")
 		return result
 	}
-	// 请求成功
-	if baseRes.Http.Code == http.StatusOK {
-		if err := json.Unmarshal(body, &result); err != nil {
-			log.WithError(err).Errorln("Unmarshal body")
-			result.Code = -1
-			result.Message = err.Error()
-			return result
-		}
-	}
 
-	log.Info("GetTxQueueInfo end")
+	log.Info("QueryTxQueueInfo end")
 	return result
 }

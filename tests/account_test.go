@@ -1,14 +1,17 @@
 package tests
 
 import (
+	"encoding/json"
 	"fmt"
+	"net/http"
 	"testing"
 	"time"
 
-	client2 "avata-sdk-go"
-	"avata-sdk-go/configs"
-	"avata-sdk-go/models"
 	"github.com/sirupsen/logrus"
+
+	client2 "github.com/bianjieai/avata-sdk-go"
+	"github.com/bianjieai/avata-sdk-go/configs"
+	"github.com/bianjieai/avata-sdk-go/models"
 )
 
 var OperationID = fmt.Sprintf("%s%d", "operationID", time.Now().Unix())
@@ -16,10 +19,9 @@ var OperationID = fmt.Sprintf("%s%d", "operationID", time.Now().Unix())
 func GetClient() *client2.AvataClient {
 	options := []configs.Options{
 		configs.Level(logrus.DebugLevel),
-		configs.HttpTimeout(15),
+		configs.HttpTimeout(15 * time.Second),
 	}
-	//client := client2.NewClient("域名", "项目参数 API KEY", "项目参数 API SECRET", log.ErrorLevel,options...)
-	client := client2.NewClient("http://192.168.150.41:18081", "000001", "b2m2V1L1d1p8z0j3y5q4T5b4M4l0M45Y", options...)
+	client := client2.NewClient("域名", "项目参数 API KEY", "项目参数 API SECRET", options...)
 	return client
 }
 
@@ -28,7 +30,7 @@ func TestCreateAccount(t *testing.T) {
 	client := GetClient()
 
 	params := &models.CreateAccountReq{
-		//Name:        "链账户1",
+		Name:        "链账户1",
 		OperationID: OperationID,
 	}
 
@@ -37,8 +39,17 @@ func TestCreateAccount(t *testing.T) {
 		t.Log(result.Message)
 		return
 	}
+	if result.Http.Code != http.StatusOK {
+		t.Log(result.Error)
+		return
+	}
+	t.Logf("%+v \n", result.Data)
 
-	t.Logf("%+v \n", result)
+	var account models.CreateAccountRes
+	dataBytes, _ := json.Marshal(result)
+	_ = json.Unmarshal(dataBytes, &account)
+
+	t.Logf("%+v \n", account)
 }
 
 // 批量创建链账户示例
@@ -55,40 +66,67 @@ func TestBatchCreateAccounts(t *testing.T) {
 		t.Log(result.Message)
 		return
 	}
+	if result.Http.Code != http.StatusOK {
+		t.Log(result.Error)
+		return
+	}
+	t.Logf("%+v \n", result.Data)
 
-	t.Logf("%+v \n", result)
+	var account models.BatchCreateAccountsRes
+	dataBytes, _ := json.Marshal(result)
+	_ = json.Unmarshal(dataBytes, &account)
+
+	t.Logf("%+v \n", account)
 }
 
 // 查询链账户示例
-func TestGetAccounts(t *testing.T) {
+func TestQueryAccounts(t *testing.T) {
 	client := GetClient()
 
-	params := &models.GetAccountsReq{
+	params := &models.QueryAccountsReq{
 		//Account: "iaa1tf7wa9vm9zvlhxcdnctcxd3mag99uyefs58vjl",
 	}
 
-	result := client.Account.GetAccounts(params)
+	result := client.Account.QueryAccounts(params)
 	if result.Code != 0 {
 		t.Log(result.Message)
 		return
 	}
+	if result.Http.Code != http.StatusOK {
+		t.Log(result.Error)
+		return
+	}
+	t.Logf("%+v \n", result.Data)
 
-	t.Logf("%+v \n", result)
+	var accounts models.QueryAccountsRes
+	dataBytes, _ := json.Marshal(result)
+	_ = json.Unmarshal(dataBytes, &accounts)
+
+	t.Logf("%+v \n", accounts)
 }
 
 // 查询链账户操作记录示例
-func TestGetAccountsHistory(t *testing.T) {
+func TestQueryAccountsHistory(t *testing.T) {
 	client := GetClient()
 
-	params := &models.GetAccountsHistoryReq{
-		TxHash: "83333FF1BB96F17EC5F8ADD1FAEAC6AC9C6B7D2E463E35F1E3DB035FF9188C9E",
+	params := &models.QueryAccountsHistoryReq{
+		//TxHash: "83333FF1BB96F17EC5F8ADD1FAEAC6AC9C6B7D2E463E35F1E3DB035FF9188C9E",
 	}
 
-	result := client.Account.GetAccountsHistory(params)
+	result := client.Account.QueryAccountsHistory(params)
 	if result.Code != 0 {
 		t.Log(result.Message)
 		return
 	}
+	if result.Http.Code != http.StatusOK {
+		t.Log(result.Error)
+		return
+	}
+	t.Logf("%+v \n", result.Data)
 
-	t.Logf("%+v \n", result)
+	var accountsHistory models.QueryAccountsHistoryRes
+	dataBytes, _ := json.Marshal(result)
+	_ = json.Unmarshal(dataBytes, &accountsHistory)
+
+	t.Logf("%+v \n", accountsHistory)
 }

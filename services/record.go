@@ -5,18 +5,31 @@ import (
 	"fmt"
 	"net/http"
 
-	"avata-sdk-go/models"
-	"avata-sdk-go/utils"
 	"github.com/sirupsen/logrus"
+
+	"github.com/bianjieai/avata-sdk-go/models"
+	"github.com/bianjieai/avata-sdk-go/utils"
 )
 
-type RecordService struct {
+// RecordService 存证接口
+type RecordService interface {
+	CreateRecord(params *models.CreateRecordReq) *models.Response //数字作品存证接口
+}
+
+type recordService struct {
 	*logrus.Logger // 日志
-	*utils.HttpClient
+	utils.HttpClient
+}
+
+func NewRecordService(log *logrus.Logger, client utils.HttpClient) *recordService {
+	return &recordService{
+		Logger:     log,
+		HttpClient: client,
+	}
 }
 
 // CreateRecord 数字作品存证接口
-func (r RecordService) CreateRecord(params *models.CreateRecordReq) *models.TxRes {
+func (r recordService) CreateRecord(params *models.CreateRecordReq) *models.Response {
 	log := r.Logger.WithFields(map[string]interface{}{
 		"module":   "Record",
 		"function": "CreateRecord",
@@ -24,48 +37,48 @@ func (r RecordService) CreateRecord(params *models.CreateRecordReq) *models.TxRe
 	})
 	log.Info("CreateRecord start")
 
-	result := &models.TxRes{}
+	result := &models.Response{}
 
 	// 校验必填参数
 	if params == nil {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "params")
 		return result
 	}
 	if params.OperationId == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "operation_id")
 		return result
 	}
 	if params.Name == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "name"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "name")
 		return result
 	}
 	if params.Type == 0 {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "type"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "type")
 		return result
 	}
 	if params.Description == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "description"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "description")
 		return result
 	}
 	if params.HashType == 0 {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "hash_type"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "hash_type")
 		return result
 	}
 	if params.Hash == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "hash"))
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = fmt.Sprintf(models.ErrParam, "hash")
 		return result
 	}
@@ -73,32 +86,21 @@ func (r RecordService) CreateRecord(params *models.CreateRecordReq) *models.TxRe
 	bytesData, err := json.Marshal(params)
 	if err != nil {
 		log.WithError(err).Errorln("Marshal Params")
-		result.Code = -1
+		result.Code = models.CodeFailed
 		result.Message = err.Error()
 		return result
 	}
 
-	body, baseRes := r.HttpClient.DoHttpRequest(http.MethodPost, models.CreateRecord, bytesData, nil)
+	body, result := r.HttpClient.DoHttpRequest(http.MethodPost, models.CreateRecord, bytesData, nil)
 	log.WithFields(map[string]interface{}{
-		"body":    string(body),
-		"baseRes": baseRes,
+		"body":   string(body),
+		"result": result,
 	}).Debug()
 
-	result.BaseRes = baseRes
-
 	// 记录错误日志
-	if baseRes.Code == -1 {
-		log.WithField("error", baseRes.Message).Errorln("DoHttpRequest")
+	if result.Code == models.CodeFailed {
+		log.WithField("error", result.Message).Errorln("DoHttpRequest")
 		return result
-	}
-	// 请求成功
-	if baseRes.Http.Code == http.StatusOK {
-		if err := json.Unmarshal(body, &result); err != nil {
-			log.WithError(err).Errorln("Unmarshal body")
-			result.Code = -1
-			result.Message = err.Error()
-			return result
-		}
 	}
 
 	log.Info("CreateRecord end")

@@ -1,10 +1,10 @@
 package models
 
 const (
-	CreateAccount       = "/v1beta1/account"          // 创建链账户接口
-	BatchCreateAccounts = "/v1beta1/accounts"         // 批量创建链账户接口
-	GetAccounts         = "/v1beta1/accounts"         // 查询链账户接口
-	GetAccountsHistory  = "/v1beta1/accounts/history" // 查询链账户操作记录接口
+	CreateAccount        = "/v1beta1/account"          // 创建链账户接口
+	BatchCreateAccounts  = "/v1beta1/accounts"         // 批量创建链账户接口
+	QueryAccounts        = "/v1beta1/accounts"         // 查询链账户接口
+	QueryAccountsHistory = "/v1beta1/accounts/history" // 查询链账户操作记录接口
 )
 
 // CreateAccountReq 创建链账户请求参数
@@ -16,7 +16,6 @@ type CreateAccountReq struct {
 // CreateAccountRes 创建链账户返回值
 type (
 	CreateAccountRes struct {
-		BaseRes
 		Data struct {
 			Account     string `json:"account"`
 			Name        string `json:"name"`
@@ -33,15 +32,14 @@ type BatchCreateAccountsReq struct {
 
 // BatchCreateAccountsRes 批量创建链账户返回值
 type BatchCreateAccountsRes struct {
-	BaseRes
 	Data struct {
 		Accounts    []string `json:"accounts"`
 		OperationID string   `json:"operation_id"`
 	} `json:"data"`
 }
 
-// GetAccountsReq 查询链账户请求参数
-type GetAccountsReq struct {
+// QueryAccountsReq 查询链账户请求参数
+type QueryAccountsReq struct {
 	Offset      string `json:"offset,omitempty"`
 	Limit       string `json:"limit,omitempty"`
 	Account     string `json:"account,omitempty"`
@@ -52,10 +50,9 @@ type GetAccountsReq struct {
 	SortBy      string `json:"sort_by,omitempty"`
 }
 
-// GetAccountsRes 查询链账户返回值
+// QueryAccountsRes 查询链账户返回值
 type (
-	GetAccountsRes struct {
-		BaseRes
+	QueryAccountsRes struct {
 		Data struct {
 			Offset     int64      `json:"offset"`
 			Limit      int64      `json:"limit"`
@@ -74,8 +71,8 @@ type (
 	}
 )
 
-// GetAccountsHistoryReq 查询链账户操作记录请求参数
-type GetAccountsHistoryReq struct {
+// QueryAccountsHistoryReq 查询链账户操作记录请求参数
+type QueryAccountsHistoryReq struct {
 	Offset    string `json:"offset,omitempty"`
 	Limit     string `json:"limit,omitempty"`
 	Account   string `json:"account,omitempty"`
@@ -87,10 +84,9 @@ type GetAccountsHistoryReq struct {
 	SortBy    string `json:"sort_by,omitempty"`
 }
 
-// GetAccountsHistoryRes 查询链账户操作记录返回值
+// QueryAccountsHistoryRes 查询链账户操作记录返回值
 type (
-	GetAccountsHistoryRes struct {
-		BaseRes
+	QueryAccountsHistoryRes struct {
 		Data struct {
 			Offset           int64              `json:"offset"`
 			Limit            int64              `json:"limit"`

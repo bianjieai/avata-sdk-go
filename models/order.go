@@ -2,9 +2,9 @@ package models
 
 const (
 	CreateOrder      = "/v1beta1/orders"       // 购买能量值/业务费接口
-	GetOrder         = "/v1beta1/orders/%s"    // 查询能量值/业务费购买结果接口
-	GetOrders        = "/v1beta1/orders"       // 查询能量值/业务费购买结果列表接口
-	CreateBatchOrder = "/v1beta1/orders/batch" // 批量购买能量值接口
+	QueryOrder       = "/v1beta1/orders/%s"    // 查询能量值/业务费购买结果接口
+	QueryOrders      = "/v1beta1/orders"       // 查询能量值/业务费购买结果列表接口
+	BatchCreateOrder = "/v1beta1/orders/batch" // 批量购买能量值接口
 )
 
 // CreateOrderReq 购买能量值/业务费接口请求参数
@@ -17,14 +17,13 @@ type CreateOrderReq struct {
 
 // OrderRes 购买能量值/业务费接口返回值/批量购买能量值接口返回值
 type OrderRes struct {
-	BaseRes
 	Data struct {
 		OrderId string `json:"order_id"`
 	} `json:"data"`
 }
 
-// GetOrdersReq 查询能量值/业务费购买结果列表接口请求参数
-type GetOrdersReq struct {
+// QueryOrdersReq 查询能量值/业务费购买结果列表接口请求参数
+type QueryOrdersReq struct {
 	Offset    string `json:"offset,omitempty"`
 	Limit     string `json:"limit,omitempty"`
 	Status    string `json:"status,omitempty"`
@@ -33,9 +32,8 @@ type GetOrdersReq struct {
 	SortBy    string `json:"sort_by,omitempty"`
 }
 
-// GetOrdersRes 查询能量值/业务费购买结果列表接口返回值
-type GetOrdersRes struct {
-	BaseRes
+// QueryOrdersRes 查询能量值/业务费购买结果列表接口返回值
+type QueryOrdersRes struct {
 	Data struct {
 		Offset     int `json:"offset"`
 		Limit      int `json:"limit"`
@@ -54,9 +52,8 @@ type GetOrdersRes struct {
 	} `json:"data"`
 }
 
-// GetOrderRes 查询能量值/业务费购买结果接口返回值
-type GetOrderRes struct {
-	BaseRes
+// QueryOrderRes 查询能量值/业务费购买结果接口返回值
+type QueryOrderRes struct {
 	Data struct {
 		OrderId    string `json:"order_id"`
 		Status     string `json:"status"`
@@ -70,9 +67,9 @@ type GetOrderRes struct {
 	} `json:"data"`
 }
 
-// CreateBatchOrderReq 批量购买能量值接口请求参数
+// BatchCreateOrderReq 批量购买能量值接口请求参数
 type (
-	CreateBatchOrderReq struct {
+	BatchCreateOrderReq struct {
 		List    []List `json:"list"`
 		OrderId string `json:"order_id"`
 	}

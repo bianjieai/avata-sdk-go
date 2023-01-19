@@ -1,27 +1,22 @@
 package models
 
 const (
-	GetTxResult    = "/v1beta1/tx/%s"         // 上链交易结果查询接口
-	GetTxQueueInfo = "/v1beta1/tx/queue/info" // 上链交易排队状态查询接口
+	QueryTxResult    = "/v1beta1/tx/%s"         // 上链交易结果查询接口
+	QueryTxQueueInfo = "/v1beta1/tx/queue/info" // 上链交易排队状态查询接口
 )
 
-// GetTxResultRes 上链交易结果查询返回值
-type GetTxResultRes struct {
-	BaseRes
+// QueryTxResultRes 上链交易结果查询返回值
+type QueryTxResultRes struct {
 	Data struct {
-		Type        string `json:"type"`
-		Module      string `json:"module"`
-		TxHash      string `json:"tx_hash"`
-		Status      int    `json:"status"`
-		Message     string `json:"message"`
-		BlockHeight int    `json:"block_height"`
-		Timestamp   string `json:"timestamp"`
-		Tag         struct {
-			Key1 string `json:"key1"`
-			Key2 string `json:"key2"`
-			Key3 string `json:"key3"`
-		} `json:"tag"`
-		Nft struct {
+		Type        string            `json:"type"`
+		Module      string            `json:"module"`
+		TxHash      string            `json:"tx_hash"`
+		Status      int               `json:"status"`
+		Message     string            `json:"message"`
+		BlockHeight int               `json:"block_height"`
+		Timestamp   string            `json:"timestamp"`
+		Tag         map[string]string `json:"tag"`
+		Nft         struct {
 			ClassId string `json:"class_id"`
 			NftId   string `json:"nft_id"`
 		} `json:"nft"`
@@ -36,14 +31,13 @@ type GetTxResultRes struct {
 	} `json:"data"`
 }
 
-// GetTxQueueInfoReq 上链交易排队状态查询请求参数
-type GetTxQueueInfoReq struct {
+// QueryTxQueueInfoReq 上链交易排队状态查询请求参数
+type QueryTxQueueInfoReq struct {
 	OperationID string `json:"operation_id"`
 }
 
-// GetTxQueueInfoRes 上链交易排队状态查询返回值
-type GetTxQueueInfoRes struct {
-	BaseRes
+// QueryTxQueueInfoRes 上链交易排队状态查询返回值
+type QueryTxQueueInfoRes struct {
 	Data struct {
 		QueueTotal       int    `json:"queue_total"`
 		QueueRequestTime string `json:"queue_request_time"`
