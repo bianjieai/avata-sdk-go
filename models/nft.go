@@ -188,83 +188,82 @@ type (
 
 // QueryNFTsReq 查询 NFT ：request
 type QueryNFTsReq struct {
-	Offset    string `json:"offset,omitempty"`
-	Limit     string `json:"limit,omitempty"`
-	ID        string `json:"id,omitempty"`
-	Name      string `json:"name,omitempty"`
-	ClassID   string `json:"class_id,omitempty"`
-	Owner     string `json:"owner,omitempty"`
-	TxHash    string `json:"tx_hash,omitempty"`
-	Status    string `json:"status,omitempty"`
-	StartDate string `json:"start_date,omitempty"`
-	EndDate   string `json:"end_date,omitempty"`
-	SortBy    string `json:"sort_by,omitempty"`
+	Offset    string `json:"offset,omitempty"`     // 游标，默认为 0
+	Limit     string `json:"limit,omitempty"`      // 每页记录数，默认为 10，上限为 50
+	ID        string `json:"id,omitempty"`         // NFT ID
+	Name      string `json:"name,omitempty"`       // NFT 名称，支持模糊查询
+	ClassID   string `json:"class_id,omitempty"`   // NFT 类别 ID
+	Owner     string `json:"owner,omitempty"`      // NFT 持有者地址
+	TxHash    string `json:"tx_hash,omitempty"`    // 创建 NFT 的 Tx Hash
+	Status    string `json:"status,omitempty"`     // NFT 状态：active / burned，默认为 active
+	StartDate string `json:"start_date,omitempty"` // NFT 创建日期范围 - 开始，yyyy-MM-dd（UTC 时间）
+	EndDate   string `json:"end_date,omitempty"`   // NFT 创建日期范围 - 结束，yyyy-MM-dd（UTC 时间）
+	SortBy    string `json:"sort_by,omitempty"`    // 排序规则：DATE_ASC / DATE_DESC
 }
 
 // QueryNFTsRes 查询 NFT ：Response
 type QueryNFTsRes struct {
 	Data struct {
-		Offset     int `json:"offset"`
-		Limit      int `json:"limit"`
-		TotalCount int `json:"total_count"`
+		Offset     int `json:"offset"`      // 游标
+		Limit      int `json:"limit"`       // 每页记录数
+		TotalCount int `json:"total_count"` // 总记录数
 		NFTs       []struct {
-			ID          string `json:"id"`
-			Name        string `json:"name"`
-			ClassID     string `json:"class_id"`
-			ClassName   string `json:"class_name"`
-			ClassSymbol string `json:"class_symbol"`
-			NFTCount    int    `json:"nft_count"`
-			Uri         string `json:"uri"`
-			Owner       string `json:"owner"`
-			Status      string `json:"status"`
-			TxHash      string `json:"tx_hash"`
-			TimeStamp   string `json:"timestamp"`
-		} `json:"nfts"`
+			ID          string `json:"id"`           // NFT ID
+			Name        string `json:"name"`         // NFT 名称
+			ClassID     string `json:"class_id"`     // NFT 类别 ID
+			ClassName   string `json:"class_name"`   // NFT 类别名称
+			ClassSymbol string `json:"class_symbol"` // NFT 类别标识
+			Uri         string `json:"uri"`          // 链外数据链接
+			Owner       string `json:"owner"`        // NFT 持有者地址
+			Status      string `json:"status"`       // NFT 状态：active / burned;
+			TxHash      string `json:"tx_hash"`      // NFT 发行 Tx Hash
+			TimeStamp   string `json:"timestamp"`    // NFT 发行时间戳（UTC 时间）
+		} `json:"nfts"` // NFT 列表
 	} `json:"data"`
 }
 
 // QueryNFTRes 查询 NFT 详情：Response
 type QueryNFTRes struct {
 	Data struct {
-		ID          string `json:"id"`
-		Name        string `json:"name"`
-		ClassID     string `json:"class_id"`
-		ClassName   string `json:"class_name"`
-		ClassSymbol string `json:"class_symbol"`
-		Uri         string `json:"uri"`
-		UriHash     string `json:"uri_hash"`
-		Data        string `json:"data"`
-		Owner       string `json:"owner"`
-		Status      string `json:"status"`
-		TxHash      string `json:"tx_hash"`
-		TimeStamp   string `json:"timestamp"`
+		ID          string `json:"id"`           // NFT ID
+		Name        string `json:"name"`         // NFT 名称
+		ClassID     string `json:"class_id"`     // NFT 类别 ID
+		ClassName   string `json:"class_name"`   // NFT 类别名称
+		ClassSymbol string `json:"class_symbol"` // NFT 类别标识
+		Uri         string `json:"uri"`          // 链外数据链接
+		UriHash     string `json:"uri_hash"`     // 链外数据 Hash
+		Data        string `json:"data"`         // 自定义链上元数据
+		Owner       string `json:"owner"`        // NFT 持有者地址
+		Status      string `json:"status"`       // NFT 状态：active / burned;
+		TxHash      string `json:"tx_hash"`      // NFT 发行 Tx Hash
+		TimeStamp   string `json:"timestamp"`    // NFT 发行时间戳（UTC 时间）
 	} `json:"data"`
 }
 
 // QueryNFTHistoryReq 查询 NFT 操作记录：request
 type QueryNFTHistoryReq struct {
-	Offset    string `json:"offset,omitempty"`
-	Limit     string `json:"limit,omitempty"`
-	Signer    string `json:"signer,omitempty"`
-	TxHash    string `json:"tx_hash,omitempty"`
-	Operation string `json:"operation,omitempty"`
-	StartDate string `json:"start_date,omitempty"`
-	EndDate   string `json:"end_date,omitempty"`
-	SortBy    string `json:"sort_by,omitempty"`
+	Offset    string `json:"offset,omitempty"`     // 游标，默认为 0
+	Limit     string `json:"limit,omitempty"`      // 每页记录数，默认为 10，上限为 50
+	Signer    string `json:"signer,omitempty"`     // Tx 签名者地址
+	TxHash    string `json:"tx_hash,omitempty"`    // NFT 操作 Tx Hash
+	Operation string `json:"operation,omitempty"`  // 操作类型：mint / edit / transfer / burn
+	StartDate string `json:"start_date,omitempty"` // NFT 操作日期范围 - 开始，yyyy-MM-dd（UTC 时间）
+	EndDate   string `json:"end_date,omitempty"`   // NFT 操作日期范围 - 结束，yyyy-MM-dd（UTC 时间）
+	SortBy    string `json:"sort_by,omitempty"`    // 排序规则：DATE_ASC / DATE_DESC
 }
 
 // QueryNFTHistoryRes 查询 NFT 操作记录：Response
 type QueryNFTHistoryRes struct {
 	Data struct {
-		Offset           int `json:"offset"`
-		Limit            int `json:"limit"`
-		TotalCount       int `json:"total_count"`
+		Offset           int `json:"offset"`      // 游标
+		Limit            int `json:"limit"`       // 每页记录数
+		TotalCount       int `json:"total_count"` // 总记录数
 		OperationRecords []struct {
-			TxHash    string `json:"tx_hash"`
-			Operation string `json:"operation"`
-			Signer    string `json:"signer"`
-			Recipient string `json:"recipient"`
-			TimeStamp string `json:"timestamp"`
+			TxHash    string `json:"tx_hash"`   // NFT 操作的 Tx Hash
+			Operation string `json:"operation"` // NFT 操作类型；Enum: "mint" "edit" "transfer" "burn"
+			Signer    string `json:"signer"`    // Tx 签名者地址
+			Recipient string `json:"recipient"` // NFT 接收者地址
+			TimeStamp string `json:"timestamp"` // NFT 操作时间戳（UTC 时间）
 		} `json:"operation_records"`
 	} `json:"data"`
 }
