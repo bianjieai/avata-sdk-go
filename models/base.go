@@ -10,7 +10,7 @@ type BaseParams struct {
 // 通用返回参数
 type (
 	Response struct {
-		Code    int         `json:"code"`    // SDK 响应状态码
+		Code    int         `json:"code"`    // SDK 响应状态码 0: 请求正常 -1: 请求异常
 		Http    Http        `json:"http"`    // HTTP 响应状态码
 		Message string      `json:"message"` // SDK 返回的错误提示信息
 		Error   Error       `json:"error"`   // 接口返回的错误提示信息
