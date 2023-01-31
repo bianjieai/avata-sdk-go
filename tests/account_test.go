@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"os"
 	"testing"
 	"time"
 
@@ -16,19 +17,24 @@ import (
 
 var OperationID = fmt.Sprintf("%s%d", "operationID", time.Now().Unix())
 
+var client *client2.AvataClient
+
 func GetClient() *client2.AvataClient {
 	options := []configs.Options{
 		configs.Level(logrus.DebugLevel),
 		configs.HttpTimeout(15 * time.Second),
 	}
-	client := client2.NewClient("域名", "项目参数 API KEY", "项目参数 API SECRET", options...)
+	client = client2.NewClient("http://192.168.150.41:18081", "000001", "项目参数 API SECRET", options...)
 	return client
+}
+
+func TestMain(m *testing.M) {
+	GetClient()
+	os.Exit(m.Run())
 }
 
 // 创建链账户示例
 func TestCreateAccount(t *testing.T) {
-	client := GetClient()
-
 	params := &models.CreateAccountReq{
 		Name:        "链账户1",
 		OperationID: OperationID,
@@ -54,8 +60,6 @@ func TestCreateAccount(t *testing.T) {
 
 // 批量创建链账户示例
 func TestBatchCreateAccounts(t *testing.T) {
-	client := GetClient()
-
 	params := &models.BatchCreateAccountsReq{
 		Count:       3,
 		OperationID: OperationID,
@@ -81,8 +85,6 @@ func TestBatchCreateAccounts(t *testing.T) {
 
 // 查询链账户示例
 func TestQueryAccounts(t *testing.T) {
-	client := GetClient()
-
 	params := &models.QueryAccountsReq{
 		//Account: "iaa1tf7wa9vm9zvlhxcdnctcxd3mag99uyefs58vjl",
 	}
@@ -107,8 +109,6 @@ func TestQueryAccounts(t *testing.T) {
 
 // 查询链账户操作记录示例
 func TestQueryAccountsHistory(t *testing.T) {
-	client := GetClient()
-
 	params := &models.QueryAccountsHistoryReq{
 		//TxHash: "83333FF1BB96F17EC5F8ADD1FAEAC6AC9C6B7D2E463E35F1E3DB035FF9188C9E",
 	}

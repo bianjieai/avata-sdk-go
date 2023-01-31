@@ -10,8 +10,6 @@ import (
 
 // 数字作品存证示例
 func TestCreateRecord(t *testing.T) {
-	client := GetClient()
-
 	params := &models.CreateRecordReq{
 		//IdentityType: 0,
 		//IdentityName: "",

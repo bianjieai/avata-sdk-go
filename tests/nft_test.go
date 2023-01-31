@@ -10,8 +10,6 @@ import (
 
 // 创建 NFT 类别示例
 func TestCreateNFTClass(t *testing.T) {
-	client := GetClient()
-
 	params := &models.CreateNFTClassReq{
 		Name:        "TestCreateNFTClass2",
 		Owner:       "iaa1tu0gve9se3qgqkadn22d7ar74pal7vqt3yvna9",
@@ -37,8 +35,6 @@ func TestCreateNFTClass(t *testing.T) {
 
 // 查询 NFT 类别示例
 func TestQueryNFTClasses(t *testing.T) {
-	client := GetClient()
-
 	params := &models.QueryNFTClassesReq{
 		Name: "TestCreateNFTClass2",
 	}
@@ -62,7 +58,7 @@ func TestQueryNFTClasses(t *testing.T) {
 
 // 查询 NFT 类别详情示例
 func TestQueryNFTClass(t *testing.T) {
-	client := GetClient()
+	
 	id := "avatauuj0hj53thkyahiaitfmctsensn"
 	result := client.NFT.QueryNFTClass(id)
 	if result.Code != 0 {
@@ -84,7 +80,7 @@ func TestQueryNFTClass(t *testing.T) {
 
 // 转让 NFT 类别示例
 func TestTransferNFTClass(t *testing.T) {
-	client := GetClient()
+	
 	classId := "avatauuj0hj53thkyahiaitfmctsensn"
 	owner := "iaa1tu0gve9se3qgqkadn22d7ar74pal7vqt3yvna9"
 	params := &models.TransferNFClassReq{
@@ -111,7 +107,7 @@ func TestTransferNFTClass(t *testing.T) {
 
 // 发行 NFT 示例
 func TestMintNFT(t *testing.T) {
-	client := GetClient()
+	
 	tag := make(map[string]string)
 	tag["nihaoaaa"] = "aaabbbcccddd"
 	classId := "avatauuj0hj53thkyahiaitfmctsensn"
@@ -140,7 +136,7 @@ func TestMintNFT(t *testing.T) {
 
 // 转让 NFT 示例
 func TestTransferNFT(t *testing.T) {
-	client := GetClient()
+	
 	classId := "avatauuj0hj53thkyahiaitfmctsensn"
 	owner := "iaa10ldfc2n60ngfpwxnm8qgy5y5hh3vmse6mk4y6v"
 	nftId := "avatarjqt2kiwlbbced5ieugj2h8cue3"
@@ -168,7 +164,7 @@ func TestTransferNFT(t *testing.T) {
 
 // 编辑 NFT 示例
 func TestEditNFT(t *testing.T) {
-	client := GetClient()
+	
 	classId := "avatauuj0hj53thkyahiaitfmctsensn"
 	owner := "iaa1tu0gve9se3qgqkadn22d7ar74pal7vqt3yvna9"
 	nftId := "avatarjqt2kiwlbbced5ieugj2h8cue3"
@@ -196,7 +192,7 @@ func TestEditNFT(t *testing.T) {
 
 // 销毁 NFT 示例
 func TestBurnNFT(t *testing.T) {
-	client := GetClient()
+	
 	classId := "avatauuj0hj53thkyahiaitfmctsensn"
 	owner := "iaa1tu0gve9se3qgqkadn22d7ar74pal7vqt3yvna9"
 	nftId := "avatarjqt2kiwlbbced5ieugj2h8cue3"
@@ -223,7 +219,7 @@ func TestBurnNFT(t *testing.T) {
 
 // 批量发行 NFT 示例
 func TestBatchMintNFT(t *testing.T) {
-	client := GetClient()
+	
 	classId := "avatauuj0hj53thkyahiaitfmctsensn"
 	var recipients []models.Recipients
 	recipients = append(recipients, models.Recipients{Amount: 1, Recipient: "iaa1tu0gve9se3qgqkadn22d7ar74pal7vqt3yvna9"})
@@ -252,7 +248,7 @@ func TestBatchMintNFT(t *testing.T) {
 
 // 批量转让 NFT 示例
 func TestBatchTransferNFT(t *testing.T) {
-	client := GetClient()
+	
 	owner := "iaa1tu0gve9se3qgqkadn22d7ar74pal7vqt3yvna9"
 	var nfts []models.BatchTransferNFTs
 	nfts = append(nfts, models.BatchTransferNFTs{
@@ -291,7 +287,7 @@ func TestBatchTransferNFT(t *testing.T) {
 
 // 批量编辑 NFT 示例
 func TestBatchEditNFT(t *testing.T) {
-	client := GetClient()
+	
 	owner := "iaa153uyr6ghtumt3lrtdwndplk4ggal9r6gm6953g"
 
 	var nfts []models.BatchEditNfts
@@ -328,8 +324,6 @@ func TestBatchEditNFT(t *testing.T) {
 
 // 批量销毁 NFT 示例
 func TestBatchBurnNFT(t *testing.T) {
-	client := GetClient()
-
 	owner := "iaa153uyr6ghtumt3lrtdwndplk4ggal9r6gm6953g"
 	var nfts []models.NFTs
 	nfts = append(nfts, models.NFTs{
@@ -364,7 +358,7 @@ func TestBatchBurnNFT(t *testing.T) {
 
 // 查询 NFT 示例
 func TestQueryNFTs(t *testing.T) {
-	client := GetClient()
+	
 	params := &models.QueryNFTsReq{}
 	result := client.NFT.QueryNFTs(params)
 	if result.Code != 0 {
@@ -386,7 +380,7 @@ func TestQueryNFTs(t *testing.T) {
 
 // 查询 NFT 详情示例
 func TestQueryNFT(t *testing.T) {
-	client := GetClient()
+	
 	classId := "avatauuj0hj53thkyahiaitfmctsensn"
 	nftId := "avataj5h7algcaibxiz5ipbi5o97kfqs"
 	result := client.NFT.QueryNFT(classId, nftId)
@@ -409,7 +403,7 @@ func TestQueryNFT(t *testing.T) {
 
 // 查询 NFT 操作记录示例
 func TestQueryNFTHistory(t *testing.T) {
-	client := GetClient()
+	
 	classId := "avatauuj0hj53thkyahiaitfmctsensn"
 	nftId := "avataj5h7algcaibxiz5ipbi5o97kfqs"
 	params := &models.QueryNFTHistoryReq{}
