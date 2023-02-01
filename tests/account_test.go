@@ -26,7 +26,7 @@ func initClient() *client2.AvataClient {
 		configs.HttpTimeout(15 * time.Second),
 	}
 
-	client = client2.NewClient("http://192.168.150.41:18081", "000001", "项目参数 API SECRET", options...)
+	client = client2.NewClient("域名", "项目参数 API KEY", "项目参数 API SECRET", options...)
 	return client
 }
 
@@ -37,12 +37,12 @@ func TestMain(m *testing.M) {
 
 // 创建链账户示例
 func TestCreateAccount(t *testing.T) {
-	//params := &models.CreateAccountReq{
-	//	Name:        "链账户1",
-	//	OperationID: OperationID,
-	//}
+	params := &models.CreateAccountReq{
+		Name:        "链账户1",
+		OperationID: OperationID,
+	}
 
-	result, err := client.Account.CreateAccount(nil)
+	result, err := client.Account.CreateAccount(params)
 	if err != nil {
 		t.Log(err)
 		return
