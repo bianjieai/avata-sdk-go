@@ -15,7 +15,7 @@
 log := logrus.New()
 log.SetLevel(logrus.DebugLevel)
 options := []configs.Options{
-		configs.Logger(log),, // 日志
+		configs.Logger(log), // 日志
 		configs.HttpTimeout(15 * time.Second), // 响应超时时间
 	}
 client := NewClient("域名", "项目参数 API KEY", "项目参数 API SECRET", options...)
