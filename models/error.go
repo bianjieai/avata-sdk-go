@@ -6,8 +6,8 @@ const CodeSpace = "AVATA-SDK-GO"
 
 //code
 const (
-	UNKNOWNERROR = "UNKNOWN_ERROR" // 未知错误
-	BADREQUEST   = "BAD_REQUEST"   // 参数错误
+	UnknownError = "UNKNOWN_ERROR" // 未知错误
+	BadRequest   = "BAD_REQUEST"   // 参数错误
 )
 
 // Message
@@ -55,7 +55,7 @@ func (e ErrorRes) Msg() string {
 func NewSDKError(message string) Error {
 	return ErrorRes{
 		codeSpace: CodeSpace,
-		code:      UNKNOWNERROR,
+		code:      UnknownError,
 		message:   message,
 	}
 }
@@ -71,7 +71,7 @@ func NewHTTPError(avataError AvataError) Error {
 func InvalidParam(message string) Error {
 	return ErrorRes{
 		codeSpace: CodeSpace,
-		code:      BADREQUEST,
+		code:      BadRequest,
 		message:   message,
 	}
 }
