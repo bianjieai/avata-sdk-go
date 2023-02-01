@@ -1,8 +1,6 @@
 package tests
 
 import (
-	"encoding/json"
-	"net/http"
 	"testing"
 
 	"github.com/bianjieai/avata-sdk-go/models"
@@ -13,24 +11,14 @@ func TestCreateNFTClass(t *testing.T) {
 	params := &models.CreateNFTClassReq{
 		Name:        "TestCreateNFTClass2",
 		Owner:       "iaa1tu0gve9se3qgqkadn22d7ar74pal7vqt3yvna9",
-		OperationID: "TestCreateNFTClass2",
+		OperationID: OperationID,
 	}
-	result := client.NFT.CreateNFTClass(params)
-	if result.Code != 0 {
-		t.Log(result.Message)
+	result, err := client.NFT.CreateNFTClass(params)
+	if err != nil {
+		t.Log(err)
 		return
 	}
-	if result.Http.Code != http.StatusOK {
-		t.Log(result.Error)
-		return
-	}
-	t.Logf("%+v \n", result.Data)
-
-	var txRes models.TxRes
-	dataBytes, _ := json.Marshal(result)
-	_ = json.Unmarshal(dataBytes, &txRes)
-
-	t.Logf("%+v \n", txRes)
+	t.Logf("%+v \n", result)
 }
 
 // 查询 NFT 类别示例
@@ -38,76 +26,46 @@ func TestQueryNFTClasses(t *testing.T) {
 	params := &models.QueryNFTClassesReq{
 		Name: "TestCreateNFTClass2",
 	}
-	result := client.NFT.QueryNFTClasses(params)
-	if result.Code != 0 {
-		t.Log(result.Message)
+	result, err := client.NFT.QueryNFTClasses(params)
+	if err != nil {
+		t.Log(err)
 		return
 	}
-	if result.Http.Code != http.StatusOK {
-		t.Log(result.Error)
-		return
-	}
-	t.Logf("%+v \n", result.Data)
-
-	var nftClassRes models.QueryNFTClassesRes
-	dataBytes, _ := json.Marshal(result)
-	_ = json.Unmarshal(dataBytes, &nftClassRes)
-
-	t.Logf("%+v \n", nftClassRes)
+	t.Logf("%+v \n", result)
 }
 
 // 查询 NFT 类别详情示例
 func TestQueryNFTClass(t *testing.T) {
-	
+
 	id := "avatauuj0hj53thkyahiaitfmctsensn"
-	result := client.NFT.QueryNFTClass(id)
-	if result.Code != 0 {
-		t.Log(result.Message)
+	result, err := client.NFT.QueryNFTClass(id)
+	if err != nil {
+		t.Log(err)
 		return
 	}
-	if result.Http.Code != http.StatusOK {
-		t.Log(result.Error)
-		return
-	}
-	t.Logf("%+v \n", result.Data)
-
-	var nftClassByIdRes models.QueryNFTClassRes
-	dataBytes, _ := json.Marshal(result)
-	_ = json.Unmarshal(dataBytes, &nftClassByIdRes)
-
-	t.Logf("%+v \n", nftClassByIdRes)
+	t.Logf("%+v \n", result)
 }
 
 // 转让 NFT 类别示例
 func TestTransferNFTClass(t *testing.T) {
-	
+
 	classId := "avatauuj0hj53thkyahiaitfmctsensn"
 	owner := "iaa1tu0gve9se3qgqkadn22d7ar74pal7vqt3yvna9"
 	params := &models.TransferNFClassReq{
 		Recipient:   "iaa10ldfc2n60ngfpwxnm8qgy5y5hh3vmse6mk4y6v",
 		OperationID: "TestTransferNFTClass",
 	}
-	result := client.NFT.TransferNFTClass(params, classId, owner)
-	if result.Code != 0 {
-		t.Log(result.Message)
+	result, err := client.NFT.TransferNFTClass(params, classId, owner)
+	if err != nil {
+		t.Log(err)
 		return
 	}
-	if result.Http.Code != http.StatusOK {
-		t.Log(result.Error)
-		return
-	}
-	t.Logf("%+v \n", result.Data)
-
-	var txRes models.TxRes
-	dataBytes, _ := json.Marshal(result)
-	_ = json.Unmarshal(dataBytes, &txRes)
-
-	t.Logf("%+v \n", txRes)
+	t.Logf("%+v \n", result)
 }
 
 // 发行 NFT 示例
 func TestMintNFT(t *testing.T) {
-	
+
 	tag := make(map[string]string)
 	tag["nihaoaaa"] = "aaabbbcccddd"
 	classId := "avatauuj0hj53thkyahiaitfmctsensn"
@@ -116,27 +74,17 @@ func TestMintNFT(t *testing.T) {
 		OperationID: "TestCreateNFT",
 		Tag:         tag,
 	}
-	result := client.NFT.MintNFT(params, classId)
-	if result.Code != 0 {
-		t.Log(result.Message)
+	result, err := client.NFT.MintNFT(params, classId)
+	if err != nil {
+		t.Log(err)
 		return
 	}
-	if result.Http.Code != http.StatusOK {
-		t.Log(result.Error)
-		return
-	}
-	t.Logf("%+v \n", result.Data)
-
-	var txRes models.TxRes
-	dataBytes, _ := json.Marshal(result)
-	_ = json.Unmarshal(dataBytes, &txRes)
-
-	t.Logf("%+v \n", txRes)
+	t.Logf("%+v \n", result)
 }
 
 // 转让 NFT 示例
 func TestTransferNFT(t *testing.T) {
-	
+
 	classId := "avatauuj0hj53thkyahiaitfmctsensn"
 	owner := "iaa10ldfc2n60ngfpwxnm8qgy5y5hh3vmse6mk4y6v"
 	nftId := "avatarjqt2kiwlbbced5ieugj2h8cue3"
@@ -144,27 +92,17 @@ func TestTransferNFT(t *testing.T) {
 		Recipient:   "iaa1tu0gve9se3qgqkadn22d7ar74pal7vqt3yvna9",
 		OperationID: "TestTransferNFT",
 	}
-	result := client.NFT.TransferNFT(params, classId, owner, nftId)
-	if result.Code != 0 {
-		t.Log(result.Message)
+	result, err := client.NFT.TransferNFT(params, classId, owner, nftId)
+	if err != nil {
+		t.Log(err)
 		return
 	}
-	if result.Http.Code != http.StatusOK {
-		t.Log(result.Error)
-		return
-	}
-	t.Logf("%+v \n", result.Data)
-
-	var txRes models.TxRes
-	dataBytes, _ := json.Marshal(result)
-	_ = json.Unmarshal(dataBytes, &txRes)
-
-	t.Logf("%+v \n", txRes)
+	t.Logf("%+v \n", result)
 }
 
 // 编辑 NFT 示例
 func TestEditNFT(t *testing.T) {
-	
+
 	classId := "avatauuj0hj53thkyahiaitfmctsensn"
 	owner := "iaa1tu0gve9se3qgqkadn22d7ar74pal7vqt3yvna9"
 	nftId := "avatarjqt2kiwlbbced5ieugj2h8cue3"
@@ -172,54 +110,34 @@ func TestEditNFT(t *testing.T) {
 		Name:        "EditNFT",
 		OperationID: "EditNFT",
 	}
-	result := client.NFT.EditNFT(params, classId, owner, nftId)
-	if result.Code != 0 {
-		t.Log(result.Message)
+	result, err := client.NFT.EditNFT(params, classId, owner, nftId)
+	if err != nil {
+		t.Log(err)
 		return
 	}
-	if result.Http.Code != http.StatusOK {
-		t.Log(result.Error)
-		return
-	}
-	t.Logf("%+v \n", result.Data)
-
-	var txRes models.TxRes
-	dataBytes, _ := json.Marshal(result)
-	_ = json.Unmarshal(dataBytes, &txRes)
-
-	t.Logf("%+v \n", txRes)
+	t.Logf("%+v \n", result)
 }
 
 // 销毁 NFT 示例
 func TestBurnNFT(t *testing.T) {
-	
+
 	classId := "avatauuj0hj53thkyahiaitfmctsensn"
 	owner := "iaa1tu0gve9se3qgqkadn22d7ar74pal7vqt3yvna9"
 	nftId := "avatarjqt2kiwlbbced5ieugj2h8cue3"
 	params := &models.BurnNFTReq{
 		OperationID: "BurnNFT",
 	}
-	result := client.NFT.BurnNFT(params, classId, owner, nftId)
-	if result.Code != 0 {
-		t.Log(result.Message)
+	result, err := client.NFT.BurnNFT(params, classId, owner, nftId)
+	if err != nil {
+		t.Log(err)
 		return
 	}
-	if result.Http.Code != http.StatusOK {
-		t.Log(result.Error)
-		return
-	}
-	t.Logf("%+v \n", result.Data)
-
-	var txRes models.TxRes
-	dataBytes, _ := json.Marshal(result)
-	_ = json.Unmarshal(dataBytes, &txRes)
-
-	t.Logf("%+v \n", txRes)
+	t.Logf("%+v \n", result)
 }
 
 // 批量发行 NFT 示例
 func TestBatchMintNFT(t *testing.T) {
-	
+
 	classId := "avatauuj0hj53thkyahiaitfmctsensn"
 	var recipients []models.Recipients
 	recipients = append(recipients, models.Recipients{Amount: 1, Recipient: "iaa1tu0gve9se3qgqkadn22d7ar74pal7vqt3yvna9"})
@@ -228,27 +146,17 @@ func TestBatchMintNFT(t *testing.T) {
 		Recipients:  recipients,
 		OperationID: "TestBatchCreateNFT2",
 	}
-	result := client.NFT.BatchMintNFT(params, classId)
-	if result.Code != 0 {
-		t.Log(result.Message)
+	result, err := client.NFT.BatchMintNFT(params, classId)
+	if err != nil {
+		t.Log(err)
 		return
 	}
-	if result.Http.Code != http.StatusOK {
-		t.Log(result.Error)
-		return
-	}
-	t.Logf("%+v \n", result.Data)
-
-	var txRes models.TxRes
-	dataBytes, _ := json.Marshal(result)
-	_ = json.Unmarshal(dataBytes, &txRes)
-
-	t.Logf("%+v \n", txRes)
+	t.Logf("%+v \n", result)
 }
 
 // 批量转让 NFT 示例
 func TestBatchTransferNFT(t *testing.T) {
-	
+
 	owner := "iaa1tu0gve9se3qgqkadn22d7ar74pal7vqt3yvna9"
 	var nfts []models.BatchTransferNFTs
 	nfts = append(nfts, models.BatchTransferNFTs{
@@ -267,27 +175,17 @@ func TestBatchTransferNFT(t *testing.T) {
 		Data:        data,
 		OperationID: "TestBatchTransferNFT",
 	}
-	result := client.NFT.BatchTransferNFT(params, owner)
-	if result.Code != 0 {
-		t.Log(result.Message)
+	result, err := client.NFT.BatchTransferNFT(params, owner)
+	if err != nil {
+		t.Log(err)
 		return
 	}
-	if result.Http.Code != http.StatusOK {
-		t.Log(result.Error)
-		return
-	}
-	t.Logf("%+v \n", result.Data)
-
-	var txRes models.TxRes
-	dataBytes, _ := json.Marshal(result)
-	_ = json.Unmarshal(dataBytes, &txRes)
-
-	t.Logf("%+v \n", txRes)
+	t.Logf("%+v \n", result)
 }
 
 // 批量编辑 NFT 示例
 func TestBatchEditNFT(t *testing.T) {
-	
+
 	owner := "iaa153uyr6ghtumt3lrtdwndplk4ggal9r6gm6953g"
 
 	var nfts []models.BatchEditNfts
@@ -304,22 +202,12 @@ func TestBatchEditNFT(t *testing.T) {
 		NFTs:        nfts,
 		OperationID: OperationID,
 	}
-	result := client.NFT.BatchEditNFT(params, owner)
-	if result.Code != 0 {
-		t.Log(result.Message)
+	result, err := client.NFT.BatchEditNFT(params, owner)
+	if err != nil {
+		t.Log(err)
 		return
 	}
-	if result.Http.Code != http.StatusOK {
-		t.Log(result.Error)
-		return
-	}
-	t.Logf("%+v \n", result.Data)
-
-	var txRes models.TxRes
-	dataBytes, _ := json.Marshal(result)
-	_ = json.Unmarshal(dataBytes, &txRes)
-
-	t.Logf("%+v \n", txRes)
+	t.Logf("%+v \n", result)
 }
 
 // 批量销毁 NFT 示例
@@ -338,89 +226,49 @@ func TestBatchBurnNFT(t *testing.T) {
 		NFTs:        nfts,
 		OperationID: OperationID,
 	}
-	result := client.NFT.BatchBurnNFT(params, owner)
-	if result.Code != 0 {
-		t.Log(result.Message)
+	result, err := client.NFT.BatchBurnNFT(params, owner)
+	if err != nil {
+		t.Log(err)
 		return
 	}
-	if result.Http.Code != http.StatusOK {
-		t.Log(result.Error)
-		return
-	}
-	t.Logf("%+v \n", result.Data)
-
-	var txRes models.TxRes
-	dataBytes, _ := json.Marshal(result)
-	_ = json.Unmarshal(dataBytes, &txRes)
-
-	t.Logf("%+v \n", txRes)
+	t.Logf("%+v \n", result)
 }
 
 // 查询 NFT 示例
 func TestQueryNFTs(t *testing.T) {
-	
+
 	params := &models.QueryNFTsReq{}
-	result := client.NFT.QueryNFTs(params)
-	if result.Code != 0 {
-		t.Log(result.Message)
+	result, err := client.NFT.QueryNFTs(params)
+	if err != nil {
+		t.Log(err)
 		return
 	}
-	if result.Http.Code != http.StatusOK {
-		t.Log(result.Error)
-		return
-	}
-	t.Logf("%+v \n", result.Data)
-
-	var nftRes models.QueryNFTsRes
-	dataBytes, _ := json.Marshal(result)
-	_ = json.Unmarshal(dataBytes, &nftRes)
-
-	t.Logf("%+v \n", nftRes)
+	t.Logf("%+v \n", result)
 }
 
 // 查询 NFT 详情示例
 func TestQueryNFT(t *testing.T) {
-	
+
 	classId := "avatauuj0hj53thkyahiaitfmctsensn"
 	nftId := "avataj5h7algcaibxiz5ipbi5o97kfqs"
-	result := client.NFT.QueryNFT(classId, nftId)
-	if result.Code != 0 {
-		t.Log(result.Message)
+	result, err := client.NFT.QueryNFT(classId, nftId)
+	if err != nil {
+		t.Log(err)
 		return
 	}
-	if result.Http.Code != http.StatusOK {
-		t.Log(result.Error)
-		return
-	}
-	t.Logf("%+v \n", result.Data)
-
-	var nftByIdRes models.QueryNFTRes
-	dataBytes, _ := json.Marshal(result)
-	_ = json.Unmarshal(dataBytes, &nftByIdRes)
-
-	t.Logf("%+v \n", nftByIdRes)
+	t.Logf("%+v \n", result)
 }
 
 // 查询 NFT 操作记录示例
 func TestQueryNFTHistory(t *testing.T) {
-	
+
 	classId := "avatauuj0hj53thkyahiaitfmctsensn"
 	nftId := "avataj5h7algcaibxiz5ipbi5o97kfqs"
 	params := &models.QueryNFTHistoryReq{}
-	result := client.NFT.QueryNFTHistory(params, classId, nftId)
-	if result.Code != 0 {
-		t.Log(result.Message)
+	result, err := client.NFT.QueryNFTHistory(params, classId, nftId)
+	if err != nil {
+		t.Log(err)
 		return
 	}
-	if result.Http.Code != http.StatusOK {
-		t.Log(result.Error)
-		return
-	}
-	t.Logf("%+v \n", result.Data)
-
-	var nftHistoryRes models.QueryNFTHistoryRes
-	dataBytes, _ := json.Marshal(result)
-	_ = json.Unmarshal(dataBytes, &nftHistoryRes)
-
-	t.Logf("%+v \n", nftHistoryRes)
+	t.Logf("%+v \n", result)
 }

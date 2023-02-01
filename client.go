@@ -25,8 +25,6 @@ func NewClient(domain, apiKey, apiSecret string, options ...configs.Options) *Av
 	for _, option := range options {
 		option(cfg)
 	}
-	// 初始化日志
-	logger := utils.Logger(cfg.Level)
 
 	baseParams := models.BaseParams{
 		Domain:    domain,
@@ -38,12 +36,12 @@ func NewClient(domain, apiKey, apiSecret string, options ...configs.Options) *Av
 	httpClient := utils.NewHttpClient(cfg.HttpTimeout, baseParams)
 
 	return &AvataClient{
-		Account: services.NewAccountService(logger, httpClient),
-		Tx:      services.NewTxService(logger, httpClient),
-		NFT:     services.NewNFTService(logger, httpClient),
-		MT:      services.NewMTService(logger, httpClient),
-		Record:  services.NewRecordService(logger, httpClient),
-		Order:   services.NewOrderService(logger, httpClient),
+		Account: services.NewAccountService(cfg.Logger, httpClient),
+		Tx:      services.NewTxService(cfg.Logger, httpClient),
+		NFT:     services.NewNFTService(cfg.Logger, httpClient),
+		MT:      services.NewMTService(cfg.Logger, httpClient),
+		Record:  services.NewRecordService(cfg.Logger, httpClient),
+		Order:   services.NewOrderService(cfg.Logger, httpClient),
 	}
 }
 

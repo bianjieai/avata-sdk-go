@@ -12,7 +12,7 @@ import (
 )
 
 type HttpClient interface {
-	DoHttpRequest(method, path string, bodyParams, queryParams []byte) ([]byte, *models.Response)
+	DoHttpRequest(method, path string, bodyParams, queryParams []byte) ([]byte, models.Error)
 }
 
 type httpClient struct {
@@ -30,28 +30,16 @@ func NewHttpClient(httpTimeout time.Duration, baseParams models.BaseParams) *htt
 }
 
 // DoHttpRequest http 请求
-func (h httpClient) DoHttpRequest(method, path string, bodyParams, queryParams []byte) ([]byte, *models.Response) {
+func (h httpClient) DoHttpRequest(method, path string, bodyParams, queryParams []byte) ([]byte, models.Error) {
 	r, err := http.NewRequest(method, fmt.Sprintf("%s%s", h.baseParams.Domain, path), bytes.NewReader(bodyParams))
 	if err != nil {
-		return nil, &models.Response{
-			Code:    models.CodeFailed,
-			Http:    models.Http{},
-			Message: err.Error(),
-			Error:   models.Error{},
-			Data:    nil,
-		}
+		return nil, models.NewSDKError(err.Error())
 	}
 
 	if method == http.MethodGet && queryParams != nil {
 		queryParamsMap := make(map[string]string)
 		if err = json.Unmarshal(queryParams, &queryParamsMap); err != nil {
-			return nil, &models.Response{
-				Code:    models.CodeFailed,
-				Http:    models.Http{},
-				Message: err.Error(),
-				Error:   models.Error{},
-				Data:    nil,
-			}
+			return nil, models.NewSDKError(err.Error())
 		}
 		q := r.URL.Query()
 		for k, v := range queryParamsMap {
@@ -64,35 +52,21 @@ func (h httpClient) DoHttpRequest(method, path string, bodyParams, queryParams [
 
 	res, err := h.client.Do(r)
 	if err != nil {
-		return nil, &models.Response{
-			Code:    models.CodeFailed,
-			Http:    models.Http{},
-			Message: err.Error(),
-			Error:   models.Error{},
-			Data:    nil,
-		}
+		return nil, models.NewSDKError(err.Error())
 	}
 	defer res.Body.Close()
 
-	result := &models.Response{
-		Http: models.Http{
-			Code:    res.StatusCode,
-			Message: res.Status,
-		},
-	}
-
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
-		result.Code = models.CodeFailed
-		result.Message = err.Error()
-		return nil, result
+		return nil, models.NewSDKError(err.Error())
 	}
 
-	if err = json.Unmarshal(body, &result); err != nil {
-		result.Code = models.CodeFailed
-		result.Message = err.Error()
-		return body, result
+	if res.StatusCode != http.StatusOK {
+		var response *models.Response
+		if err = json.Unmarshal(body, &response); err != nil {
+			return nil, models.NewSDKError(err.Error())
+		}
+		return body, models.NewHTTPError(response.AvataError)
 	}
-
-	return body, result
+	return body, nil
 }

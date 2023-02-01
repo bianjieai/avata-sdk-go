@@ -1,9 +1,13 @@
 package models
 
-// Code  SDK 响应状态码
+import "fmt"
+
+const CodeSpace = "AVATA-SDK-GO"
+
+//code
 const (
-	CodeSuccess = 0  // 成功
-	CodeFailed  = -1 // 失败
+	UNKNOWNERROR = "UNKNOWN_ERROR" // 未知错误
+	BADREQUEST   = "BAD_REQUEST"   // 参数错误
 )
 
 // Message
@@ -15,3 +19,59 @@ const (
 
 	ErrParam = "%s is required"
 )
+
+type (
+	Error interface {
+		Error() string
+		CodeSpace() string
+		Code() string
+		Msg() string
+	}
+
+	//ErrorRes Avata 错误提示信息
+	ErrorRes struct {
+		codeSpace string `json:"code_space"` // 命名空间
+		code      string `json:"code"`       // 错误码
+		message   string `json:"message"`    // 错误描述
+	}
+)
+
+func (e ErrorRes) Error() string {
+	return fmt.Sprintf("code_space: %s, code: %s, message: %s", e.codeSpace, e.code, e.message)
+}
+
+func (e ErrorRes) CodeSpace() string {
+	return e.codeSpace
+}
+
+func (e ErrorRes) Code() string {
+	return e.code
+}
+
+func (e ErrorRes) Msg() string {
+	return e.message
+}
+
+func NewSDKError(message string) Error {
+	return ErrorRes{
+		codeSpace: CodeSpace,
+		code:      UNKNOWNERROR,
+		message:   message,
+	}
+}
+
+func NewHTTPError(avataError AvataError) Error {
+	return ErrorRes{
+		codeSpace: avataError.CodeSpace,
+		code:      avataError.Code,
+		message:   avataError.Message,
+	}
+}
+
+func InvalidParam(message string) Error {
+	return ErrorRes{
+		codeSpace: CodeSpace,
+		code:      BADREQUEST,
+		message:   message,
+	}
+}
