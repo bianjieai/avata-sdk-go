@@ -8,15 +8,11 @@ import (
 
 // 创建 MT 类别接口示例
 func TestCreateMTClass(t *testing.T) {
-	tag := make(map[string]string)
-	tag["123wwww"] = "werfdwerf"
-
 	params := &models.CreateMTClassReq{
 		Name:        "类别1",
 		Owner:       "iaa1k3lq9vxtvf8erkqm49zrqwqz2lv4u9sq4wku5e",
 		Data:        "创建类别",
 		OperationId: OperationID,
-		Tag:         tag,
 	}
 
 	result, err := client.MT.CreateMTClass(params)
@@ -52,12 +48,9 @@ func TestQueryMTClass(t *testing.T) {
 
 // 转让 MT 类别接口示例
 func TestTransferMtClass(t *testing.T) {
-	tag := make(map[string]string)
-	tag["20230112"] = "20230112"
 	params := &models.TransferMTClassReq{
 		Recipient:   "iaa1qtag7eh9z7l94am0fcn3te5s8wx5j8cggkkrjd",
 		OperationId: OperationID,
-		Tag:         tag,
 	}
 
 	result, err := client.MT.TransferMTClass("b68fe234f258a95855db3f8b2d37e291a874df65a6ac7a66c4fc3780b1ab0bda", "iaa1k3lq9vxtvf8erkqm49zrqwqz2lv4u9sq4wku5e", params)

@@ -65,14 +65,10 @@ func TestTransferNFTClass(t *testing.T) {
 
 // 发行 NFT 示例
 func TestMintNFT(t *testing.T) {
-
-	tag := make(map[string]string)
-	tag["nihaoaaa"] = "aaabbbcccddd"
 	classId := "avatauuj0hj53thkyahiaitfmctsensn"
 	params := &models.MintNFTReq{
 		Name:        "TestCreateNFT",
 		OperationID: "TestCreateNFT",
-		Tag:         tag,
 	}
 	result, err := client.NFT.MintNFT(params, classId)
 	if err != nil {
@@ -84,7 +80,6 @@ func TestMintNFT(t *testing.T) {
 
 // 转让 NFT 示例
 func TestTransferNFT(t *testing.T) {
-
 	classId := "avatauuj0hj53thkyahiaitfmctsensn"
 	owner := "iaa10ldfc2n60ngfpwxnm8qgy5y5hh3vmse6mk4y6v"
 	nftId := "avatarjqt2kiwlbbced5ieugj2h8cue3"
@@ -102,7 +97,6 @@ func TestTransferNFT(t *testing.T) {
 
 // 编辑 NFT 示例
 func TestEditNFT(t *testing.T) {
-
 	classId := "avatauuj0hj53thkyahiaitfmctsensn"
 	owner := "iaa1tu0gve9se3qgqkadn22d7ar74pal7vqt3yvna9"
 	nftId := "avatarjqt2kiwlbbced5ieugj2h8cue3"
