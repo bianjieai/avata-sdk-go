@@ -3,14 +3,16 @@ package configs
 import (
 	"time"
 
+	"github.com/bianjieai/avata-sdk-go/utils"
+	"github.com/siddontang/go-log/loggers"
 	log "github.com/sirupsen/logrus"
 )
 
 const httpTimeout = 10
 
 type config struct {
-	Level       log.Level     // 日志级别
-	HttpTimeout time.Duration // 响应超时时间
+	HttpTimeout time.Duration    // 响应超时时间
+	Logger      loggers.Advanced // 日志
 }
 
 type Options func(*config)
@@ -18,15 +20,8 @@ type Options func(*config)
 // SetDefaultConfig 默认配置
 func SetDefaultConfig() *config {
 	return &config{
-		Level:       log.ErrorLevel,
 		HttpTimeout: httpTimeout,
-	}
-}
-
-// Level 日志级别
-func Level(level log.Level) Options {
-	return func(config *config) {
-		config.Level = level
+		Logger:      utils.Logger(log.DebugLevel),
 	}
 }
 
@@ -34,5 +29,12 @@ func Level(level log.Level) Options {
 func HttpTimeout(httpTimeout time.Duration) Options {
 	return func(config *config) {
 		config.HttpTimeout = httpTimeout
+	}
+}
+
+// Logger 日志
+func Logger(logger loggers.Advanced) Options {
+	return func(config *config) {
+		config.Logger = logger
 	}
 }

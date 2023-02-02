@@ -1,8 +1,6 @@
 package tests
 
 import (
-	"encoding/json"
-	"net/http"
 	"testing"
 
 	"github.com/bianjieai/avata-sdk-go/models"
@@ -10,8 +8,6 @@ import (
 
 // 数字作品存证示例
 func TestCreateRecord(t *testing.T) {
-	client := GetClient()
-
 	params := &models.CreateRecordReq{
 		//IdentityType: 0,
 		//IdentityName: "",
@@ -24,20 +20,10 @@ func TestCreateRecord(t *testing.T) {
 		OperationId: OperationID,
 	}
 
-	result := client.Record.CreateRecord(params)
-	if result.Code != 0 {
-		t.Log(result)
+	result, err := client.Record.CreateRecord(params)
+	if err != nil {
+		t.Log(err)
 		return
 	}
-	if result.Http.Code != http.StatusOK {
-		t.Log(result)
-		return
-	}
-	t.Logf("%+v \n", result.Data)
-
-	var txRes models.TxRes
-	dataBytes, _ := json.Marshal(result)
-	_ = json.Unmarshal(dataBytes, &txRes)
-
-	t.Logf("%+v \n", txRes)
+	t.Logf("%+v \n", result)
 }

@@ -18,11 +18,10 @@ const (
 
 // CreateMTClassReq 创建 MT 类别请求参数
 type CreateMTClassReq struct {
-	Name        string            `json:"name"`           // MT 类别名称
-	Owner       string            `json:"owner"`          // MT 类别权属者地址，支持任一 Avata 平台内合法链账户地址
-	Data        string            `json:"data,omitempty"` // 自定义链上元数据
-	Tag         map[string]string `json:"tag,omitempty"`  // 交易标签， 自定义 key：支持大小写英文字母和汉字和数字，长度 6-12 位，自定义 value：长度限制在 64 位字符，支持大小写字母和数字
-	OperationId string            `json:"operation_id"`   // 操作 ID，保证幂等性，避免重复请求，保证对于同一操作发起的一次请求或者多次请求的结果是一致的；由接入方生成的、针对每个 Project ID 唯一的、不超过 64 个大小写字母、数字、-、下划线的字符串
+	Name        string `json:"name"`           // MT 类别名称
+	Owner       string `json:"owner"`          // MT 类别权属者地址，支持任一 Avata 平台内合法链账户地址
+	Data        string `json:"data,omitempty"` // 自定义链上元数据
+	OperationId string `json:"operation_id"`   // 操作 ID，保证幂等性，避免重复请求，保证对于同一操作发起的一次请求或者多次请求的结果是一致的；由接入方生成的、针对每个 Project ID 唯一的、不超过 64 个大小写字母、数字、-、下划线的字符串
 }
 
 // QueryMTClassesReq 查询 MT 类别请求参数
@@ -70,48 +69,42 @@ type QueryMTClassRes struct {
 
 // TransferMTClassReq 转让 MT 类别请求参数
 type TransferMTClassReq struct {
-	Recipient   string            `json:"recipient"`     // MT 类别接收者地址，支持任一 Avata 内合法链账户地址
-	OperationId string            `json:"operation_id"`  // 操作 ID，保证幂等性，避免重复请求，保证对于同一操作发起的一次请求或者多次请求的结果是一致的；由接入方生成的、针对每个 Project ID 唯一的、不超过 64 个大小写字母、数字、-、下划线的字符串
-	Tag         map[string]string `json:"tag,omitempty"` // 交易标签， 自定义 key：支持大小写英文字母和汉字和数字，长度 6-12 位，自定义 value：长度限制在 64 位字符，支持大小写字母和数字
+	Recipient   string `json:"recipient"`    // MT 类别接收者地址，支持任一 Avata 内合法链账户地址
+	OperationId string `json:"operation_id"` // 操作 ID，保证幂等性，避免重复请求，保证对于同一操作发起的一次请求或者多次请求的结果是一致的；由接入方生成的、针对每个 Project ID 唯一的、不超过 64 个大小写字母、数字、-、下划线的字符串
 }
 
 // IssueMTReq 发行 MT 请求参数
 type IssueMTReq struct {
-	Data        string            `json:"data,omitempty"`      // 自定义链上元数据
-	Amount      int               `json:"amount,omitempty"`    // MT 数量，不填写数量时，默认发行数量为 1
-	Recipient   string            `json:"recipient,omitempty"` // MT 接收者地址，支持任一文昌链合法链账户地址，默认为 MT 类别的权属者地址
-	Tag         map[string]string `json:"tag,omitempty"`       // 交易标签， 自定义 key：支持大小写英文字母和汉字和数字，长度 6-12 位，自定义 value：长度限制在 64 位字符，支持大小写字母和数字
-	OperationId string            `json:"operation_id"`        // 操作 ID，保证幂等性，避免重复请求，保证对于同一操作发起的一次请求或者多次请求的结果是一致的；由接入方生成的、针对每个 Project ID 唯一的、不超过 64 个大小写字母、数字、-、下划线的字符串
+	Data        string `json:"data,omitempty"`      // 自定义链上元数据
+	Amount      int    `json:"amount,omitempty"`    // MT 数量，不填写数量时，默认发行数量为 1
+	Recipient   string `json:"recipient,omitempty"` // MT 接收者地址，支持任一文昌链合法链账户地址，默认为 MT 类别的权属者地址
+	OperationId string `json:"operation_id"`        // 操作 ID，保证幂等性，避免重复请求，保证对于同一操作发起的一次请求或者多次请求的结果是一致的；由接入方生成的、针对每个 Project ID 唯一的、不超过 64 个大小写字母、数字、-、下划线的字符串
 }
 
 // MintMTReq 增发 MT 请求参数
 type MintMTReq struct {
-	Amount      int               `json:"amount,omitempty"` // MT 数量
-	Recipient   string            `json:"recipient"`        // MT 接收者地址
-	Tag         map[string]string `json:"tag,omitempty"`    // 交易标签， 自定义 key：支持大小写英文字母和汉字和数字，长度 6-12 位，自定义 value：长度限制在 64 位字符，支持大小写字母和数字
-	OperationId string            `json:"operation_id"`     // 操作 ID，保证幂等性，避免重复请求，保证对于同一操作发起的一次请求或者多次请求的结果是一致的；由接入方生成的、针对每个 Project ID 唯一的、不超过 64 个大小写字母、数字、-、下划线的字符串
+	Amount      int    `json:"amount,omitempty"` // MT 数量
+	Recipient   string `json:"recipient"`        // MT 接收者地址
+	OperationId string `json:"operation_id"`     // 操作 ID，保证幂等性，避免重复请求，保证对于同一操作发起的一次请求或者多次请求的结果是一致的；由接入方生成的、针对每个 Project ID 唯一的、不超过 64 个大小写字母、数字、-、下划线的字符串
 }
 
 // TransferMTReq 转让 MT 请求参数
 type TransferMTReq struct {
-	Amount      int               `json:"amount,omitempty"` // 转移的数量（默认为 1 ）
-	Recipient   string            `json:"recipient"`        // MT 接收者地址
-	Tag         map[string]string `json:"tag,omitempty"`    // 交易标签， 自定义 key：支持大小写英文字母和汉字和数字，长度 6-12 位，自定义 value：长度限制在 64 位字符，支持大小写字母和数字
-	OperationId string            `json:"operation_id"`     // 操作 ID，保证幂等性，避免重复请求，保证对于同一操作发起的一次请求或者多次请求的结果是一致的；由接入方生成的、针对每个 Project ID 唯一的、不超过 64 个大小写字母、数字、-、下划线的字符串
+	Amount      int    `json:"amount,omitempty"` // 转移的数量（默认为 1 ）
+	Recipient   string `json:"recipient"`        // MT 接收者地址
+	OperationId string `json:"operation_id"`     // 操作 ID，保证幂等性，避免重复请求，保证对于同一操作发起的一次请求或者多次请求的结果是一致的；由接入方生成的、针对每个 Project ID 唯一的、不超过 64 个大小写字母、数字、-、下划线的字符串
 }
 
 // EditMTReq 编辑 MT 请求参数
 type EditMTReq struct {
-	Data        string            `json:"data"`          // 自定义链上元数据
-	Tag         map[string]string `json:"tag,omitempty"` // 交易标签， 自定义 key：支持大小写英文字母和汉字和数字，长度 6-12 位，自定义 value：长度限制在 64 位字符，支持大小写字母和数字
-	OperationId string            `json:"operation_id"`  // 操作 ID，保证幂等性，避免重复请求，保证对于同一操作发起的一次请求或者多次请求的结果是一致的；由接入方生成的、针对每个 Project ID 唯一的、不超过 64 个大小写字母、数字、-、下划线的字符串
+	Data        string `json:"data"`         // 自定义链上元数据
+	OperationId string `json:"operation_id"` // 操作 ID，保证幂等性，避免重复请求，保证对于同一操作发起的一次请求或者多次请求的结果是一致的；由接入方生成的、针对每个 Project ID 唯一的、不超过 64 个大小写字母、数字、-、下划线的字符串
 }
 
 // BurnMTReq 销毁 MT 请求参数
 type BurnMTReq struct {
-	Amount      int               `json:"amount,omitempty"` // 销毁的数量
-	Tag         map[string]string `json:"tag,omitempty"`    // 交易标签， 自定义 key：支持大小写英文字母和汉字和数字，长度 6-12 位，自定义 value：长度限制在 64 位字符，支持大小写字母和数字
-	OperationId string            `json:"operation_id"`     // 操作 ID，保证幂等性，避免重复请求，保证对于同一操作发起的一次请求或者多次请求的结果是一致的；由接入方生成的、针对每个 Project ID 唯一的、不超过 64 个大小写字母、数字、-、下划线的字符串
+	Amount      int    `json:"amount,omitempty"` // 销毁的数量
+	OperationId string `json:"operation_id"`     // 操作 ID，保证幂等性，避免重复请求，保证对于同一操作发起的一次请求或者多次请求的结果是一致的；由接入方生成的、针对每个 Project ID 唯一的、不超过 64 个大小写字母、数字、-、下划线的字符串
 }
 
 // QueryMTsReq 查询 MT 请求参数
