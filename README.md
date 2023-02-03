@@ -13,13 +13,14 @@
 ```
 import (
 	"time"
+	
+	"github.com/sirupsen/logrus"
 
 	sdk "github.com/bianjieai/avata-sdk-go"
 	"github.com/bianjieai/avata-sdk-go/configs"
-	"github.com/sirupsen/logrus"
 )
 
-// 非必填参数(不填写将使用默认值)
+	// 非必填参数(不填写将使用默认值)
     log := logrus.New()
 	log.SetLevel(logrus.DebugLevel)
 

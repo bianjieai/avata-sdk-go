@@ -5,9 +5,10 @@ import (
 	"testing"
 	"time"
 
+	"github.com/sirupsen/logrus"
+
 	sdk "github.com/bianjieai/avata-sdk-go"
 	"github.com/bianjieai/avata-sdk-go/configs"
-	"github.com/sirupsen/logrus"
 )
 
 var client *sdk.AvataClient
