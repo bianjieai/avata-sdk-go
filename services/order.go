@@ -13,10 +13,10 @@ import (
 
 // OrderService 充值接口
 type OrderService interface {
-	CreateOrder(params *models.CreateOrderReq) (*models.TxRes, models.Error)           // 购买能量值/业务费
-	QueryOrders(params *models.QueryOrdersReq) (*models.QueryOrdersRes, models.Error)  // 查询能量值/业务费购买结果列表
-	QueryOrder(orderID string) (*models.QueryOrderRes, models.Error)                   // 查询能量值/业务费购买结果
-	BatchCreateOrder(params *models.BatchCreateOrderReq) (*models.TxRes, models.Error) // 批量购买能量值
+	CreateOrder(params *models.CreateOrderReq) (*models.OrderRes, models.Error)           // 购买能量值/业务费
+	QueryOrders(params *models.QueryOrdersReq) (*models.QueryOrdersRes, models.Error)     // 查询能量值/业务费购买结果列表
+	QueryOrder(orderID string) (*models.QueryOrderRes, models.Error)                      // 查询能量值/业务费购买结果
+	BatchCreateOrder(params *models.BatchCreateOrderReq) (*models.OrderRes, models.Error) // 批量购买能量值
 }
 
 type orderService struct {
@@ -32,7 +32,7 @@ func NewOrderService(log loggers.Advanced, httpClient utils.HttpClient) *orderSe
 }
 
 // CreateOrder 购买能量值/业务费接口
-func (o orderService) CreateOrder(params *models.CreateOrderReq) (*models.TxRes, models.Error) {
+func (o orderService) CreateOrder(params *models.CreateOrderReq) (*models.OrderRes, models.Error) {
 	log := o.Logger
 	log.Debugln(map[string]interface{}{
 		"module":   "Order",
@@ -41,7 +41,7 @@ func (o orderService) CreateOrder(params *models.CreateOrderReq) (*models.TxRes,
 	})
 	log.Info("CreateOrder start")
 
-	nilRes := &models.TxRes{}
+	nilRes := &models.OrderRes{}
 
 	// 校验必填参数
 	if params == nil {
@@ -82,7 +82,7 @@ func (o orderService) CreateOrder(params *models.CreateOrderReq) (*models.TxRes,
 		return nilRes, errorRes
 	}
 
-	result := &models.TxRes{}
+	result := &models.OrderRes{}
 	if err = json.Unmarshal(body, &result); err != nil {
 		log.Errorf("CreateOrder Unmarshal Params: %s", err.Error())
 		return nilRes, models.NewSDKError(fmt.Sprintf("Unmarshal Params: %s", err.Error()))
@@ -163,7 +163,7 @@ func (o orderService) QueryOrder(orderID string) (*models.QueryOrderRes, models.
 }
 
 // BatchCreateOrder 批量购买能量值接口
-func (o orderService) BatchCreateOrder(params *models.BatchCreateOrderReq) (*models.TxRes, models.Error) {
+func (o orderService) BatchCreateOrder(params *models.BatchCreateOrderReq) (*models.OrderRes, models.Error) {
 	log := o.Logger
 	log.Debugln(map[string]interface{}{
 		"module":   "Order",
@@ -172,7 +172,7 @@ func (o orderService) BatchCreateOrder(params *models.BatchCreateOrderReq) (*mod
 	})
 	log.Info("BatchCreateOrder start")
 
-	nilRes := &models.TxRes{}
+	nilRes := &models.OrderRes{}
 
 	// 校验必填参数
 	if params == nil {
@@ -201,7 +201,7 @@ func (o orderService) BatchCreateOrder(params *models.BatchCreateOrderReq) (*mod
 		return nilRes, errorRes
 	}
 
-	result := &models.TxRes{}
+	result := &models.OrderRes{}
 	if err = json.Unmarshal(body, &result); err != nil {
 		log.Errorf("BatchCreateOrder Unmarshal Params: %s", err.Error())
 		return nilRes, models.NewSDKError(fmt.Sprintf("Unmarshal Params: %s", err.Error()))
