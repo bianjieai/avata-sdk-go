@@ -11,14 +11,24 @@
 ### 创建和使用客户端
 
 ```
+import (
+	"time"
+
+	sdk "github.com/bianjieai/avata-sdk-go"
+	"github.com/bianjieai/avata-sdk-go/configs"
+	"github.com/sirupsen/logrus"
+)
+
 // 非必填参数(不填写将使用默认值)
-log := logrus.New()
-log.SetLevel(logrus.DebugLevel)
-options := []configs.Options{
+    log := logrus.New()
+	log.SetLevel(logrus.DebugLevel)
+
+	options := []configs.Options{
 		configs.Logger(log), // 日志
 		configs.HttpTimeout(15 * time.Second), // 响应超时时间
 	}
-client := NewClient("域名", "项目参数 API KEY", "项目参数 API SECRET", options...)
+
+	client = sdk.NewClient("域名", "项目参数 API KEY", "项目参数 API SECRET", options...)
 ```
 
 - [创建客户端示例代码](./tests/client_test.go)
