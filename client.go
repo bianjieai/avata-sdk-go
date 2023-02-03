@@ -1,4 +1,4 @@
-package avata_sdk_go
+package sdk
 
 import (
 	"github.com/bianjieai/avata-sdk-go/configs"

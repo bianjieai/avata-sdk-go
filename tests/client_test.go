@@ -5,14 +5,14 @@ import (
 	"testing"
 	"time"
 
-	client2 "github.com/bianjieai/avata-sdk-go"
+	sdk "github.com/bianjieai/avata-sdk-go"
 	"github.com/bianjieai/avata-sdk-go/configs"
 	"github.com/sirupsen/logrus"
 )
 
-var client *client2.AvataClient
+var client *sdk.AvataClient
 
-func initClient() *client2.AvataClient {
+func initClient() *sdk.AvataClient {
 	log := logrus.New()
 	log.SetLevel(logrus.DebugLevel)
 
@@ -21,7 +21,7 @@ func initClient() *client2.AvataClient {
 		configs.HttpTimeout(15 * time.Second),
 	}
 
-	client = client2.NewClient("域名", "项目参数 API KEY", "项目参数 API SECRET", options...)
+	client = sdk.NewClient("域名", "项目参数 API KEY", "项目参数 API SECRET", options...)
 	return client
 }
 

@@ -21,7 +21,7 @@ type Options func(*config)
 func SetDefaultConfig() *config {
 	return &config{
 		HttpTimeout: httpTimeout,
-		Logger:      utils.Logger(log.DebugLevel),
+		Logger:      utils.Logger(log.InfoLevel),
 	}
 }
 
