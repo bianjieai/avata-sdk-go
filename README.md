@@ -20,7 +20,7 @@ import (
 )
 
 // 非必填参数(不填写将使用默认值)
-log := logrus.New()
+    log := logrus.New()
 	log.SetLevel(logrus.DebugLevel)
 
 	options := []configs.Options{
