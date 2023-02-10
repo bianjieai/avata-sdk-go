@@ -26,10 +26,10 @@ import (
 
 	options := []configs.Options{
 		configs.Logger(log), // 日志
-		configs.HttpTimeout(15 * time.Second), // 响应超时时间
+		configs.HttpTimeout(15 * time.Second), // 响应超时时间，默认: 10s
 	}
 
-	client = sdk.NewClient("域名", "项目参数 API KEY", "项目参数 API SECRET", options...)
+	client = sdk.NewClient("域名，不同环境对应不同的域名，如测试环境: https://stage.apis.avata.bianjie.ai", "项目参数 API KEY", "项目参数 API SECRET", options...)
 ```
 
 - [创建客户端示例代码](./tests/client_test.go)
