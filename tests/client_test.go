@@ -22,7 +22,7 @@ func initClient() *sdk.AvataClient {
 		configs.HttpTimeout(15 * time.Second),
 	}
 
-	client = sdk.NewClient("域名", "项目参数 API KEY", "项目参数 API SECRET", options...)
+	client = sdk.NewClient("域名，不同环境对应不同的域名，如测试环境: https://stage.apis.avata.bianjie.ai", "项目参数 API KEY", "项目参数 API SECRET", options...)
 	return client
 }
 
