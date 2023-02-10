@@ -60,7 +60,7 @@ func NewSDKError(message string) Error {
 	}
 }
 
-func NewHTTPError(avataError AvataError) Error {
+func NewAvataError(avataError AvataError) Error {
 	return ErrorRes{
 		codeSpace: avataError.CodeSpace,
 		code:      avataError.Code,

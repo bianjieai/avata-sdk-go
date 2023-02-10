@@ -66,7 +66,7 @@ func (h httpClient) DoHttpRequest(method, path string, bodyParams, queryParams [
 		if err = json.Unmarshal(body, &response); err != nil {
 			return nil, models.NewSDKError(err.Error())
 		}
-		return body, models.NewHTTPError(response.AvataError)
+		return body, models.NewAvataError(response.AvataError)
 	}
 	return body, nil
 }

@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/bianjieai/avata-sdk-go/models"
 	"github.com/siddontang/go-log/loggers"
 
+	"github.com/bianjieai/avata-sdk-go/models"
 	"github.com/bianjieai/avata-sdk-go/utils"
 )
 
