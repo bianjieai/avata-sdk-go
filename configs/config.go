@@ -3,9 +3,10 @@ package configs
 import (
 	"time"
 
-	"github.com/bianjieai/avata-sdk-go/utils"
 	"github.com/siddontang/go-log/loggers"
 	log "github.com/sirupsen/logrus"
+
+	"github.com/bianjieai/avata-sdk-go/utils"
 )
 
 const httpTimeout = 10
