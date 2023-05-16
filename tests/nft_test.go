@@ -6,12 +6,14 @@ import (
 	"github.com/bianjieai/avata-sdk-go/models"
 )
 
+//tx_hash=0x9666364e2f932c49bbabef252ce0776be6d7373597f100487dbc292149258d3b
 // 创建 NFT 类别示例
 func TestCreateNFTClass(t *testing.T) {
 	params := &models.CreateNFTClassReq{
-		Name:        "TestCreateNFTClass2",
-		Owner:       "iaa1tu0gve9se3qgqkadn22d7ar74pal7vqt3yvna9",
-		OperationID: OperationID,
+		Name:        "v2_CreateNFTClass",
+		Symbol:      "v2_class",
+		Owner:       "0x1A6f8Ed0d40Fcb915e59444AA096241146108D82",
+		OperationID: "v2_TestCreateNFTClass",
 	}
 	result, err := client.NFT.CreateNFTClass(params)
 	if err != nil {
@@ -24,7 +26,7 @@ func TestCreateNFTClass(t *testing.T) {
 // 查询 NFT 类别示例
 func TestQueryNFTClasses(t *testing.T) {
 	params := &models.QueryNFTClassesReq{
-		Name: "TestCreateNFTClass2",
+		Name: "v2_CreateNFTClass",
 	}
 	result, err := client.NFT.QueryNFTClasses(params)
 	if err != nil {
@@ -36,8 +38,7 @@ func TestQueryNFTClasses(t *testing.T) {
 
 // 查询 NFT 类别详情示例
 func TestQueryNFTClass(t *testing.T) {
-
-	id := "avatauuj0hj53thkyahiaitfmctsensn"
+	id := "0x43eddaefa2cb9098b70a5d83cab59363ac920f0e"
 	result, err := client.NFT.QueryNFTClass(id)
 	if err != nil {
 		t.Log(err)
@@ -49,11 +50,11 @@ func TestQueryNFTClass(t *testing.T) {
 // 转让 NFT 类别示例
 func TestTransferNFTClass(t *testing.T) {
 
-	classId := "avatauuj0hj53thkyahiaitfmctsensn"
-	owner := "iaa1tu0gve9se3qgqkadn22d7ar74pal7vqt3yvna9"
+	classId := "0x43eddaefa2cb9098b70a5d83cab59363ac920f0e"
+	owner := "0x1A6f8Ed0d40Fcb915e59444AA096241146108D82"
 	params := &models.TransferNFClassReq{
-		Recipient:   "iaa10ldfc2n60ngfpwxnm8qgy5y5hh3vmse6mk4y6v",
-		OperationID: "TestTransferNFTClass",
+		Recipient:   "0x9c3d37463fCA8Cd2cec3548a63f1910ec2Cb0BCe",
+		OperationID: "v2_TestTransferNFTClass",
 	}
 	result, err := client.NFT.TransferNFTClass(params, classId, owner)
 	if err != nil {
@@ -65,10 +66,11 @@ func TestTransferNFTClass(t *testing.T) {
 
 // 发行 NFT 示例
 func TestMintNFT(t *testing.T) {
-	classId := "avatauuj0hj53thkyahiaitfmctsensn"
+	classId := "0x43eddaefa2cb9098b70a5d83cab59363ac920f0e"
 	params := &models.MintNFTReq{
-		Name:        "TestCreateNFT",
-		OperationID: "TestCreateNFT",
+		Uri:         "http://123321test.com",
+		Recipient:   "0x9c3d37463fCA8Cd2cec3548a63f1910ec2Cb0BCe",
+		OperationID: "v2_TestMintNFT",
 	}
 	result, err := client.NFT.MintNFT(params, classId)
 	if err != nil {
@@ -80,12 +82,12 @@ func TestMintNFT(t *testing.T) {
 
 // 转让 NFT 示例
 func TestTransferNFT(t *testing.T) {
-	classId := "avatauuj0hj53thkyahiaitfmctsensn"
-	owner := "iaa10ldfc2n60ngfpwxnm8qgy5y5hh3vmse6mk4y6v"
-	nftId := "avatarjqt2kiwlbbced5ieugj2h8cue3"
+	classId := "0x43eddaefa2cb9098b70a5d83cab59363ac920f0e"
+	owner := "0x9c3d37463fCA8Cd2cec3548a63f1910ec2Cb0BCe"
+	nftId := "1"
 	params := &models.TransferNFTReq{
-		Recipient:   "iaa1tu0gve9se3qgqkadn22d7ar74pal7vqt3yvna9",
-		OperationID: "TestTransferNFT",
+		Recipient:   "0x1A6f8Ed0d40Fcb915e59444AA096241146108D82",
+		OperationID: "v2_TestTransferNFT",
 	}
 	result, err := client.NFT.TransferNFT(params, classId, owner, nftId)
 	if err != nil {
@@ -97,12 +99,12 @@ func TestTransferNFT(t *testing.T) {
 
 // 编辑 NFT 示例
 func TestEditNFT(t *testing.T) {
-	classId := "avatauuj0hj53thkyahiaitfmctsensn"
-	owner := "iaa1tu0gve9se3qgqkadn22d7ar74pal7vqt3yvna9"
-	nftId := "avatarjqt2kiwlbbced5ieugj2h8cue3"
+	classId := "0x43eddaefa2cb9098b70a5d83cab59363ac920f0e"
+	owner := "0x1A6f8Ed0d40Fcb915e59444AA096241146108D82"
+	nftId := "1"
 	params := &models.EditNFTReq{
-		Name:        "EditNFT",
-		OperationID: "EditNFT",
+		Uri:         "http://123321test.com",
+		OperationID: "v2_TestEditNFT",
 	}
 	result, err := client.NFT.EditNFT(params, classId, owner, nftId)
 	if err != nil {
@@ -115,9 +117,9 @@ func TestEditNFT(t *testing.T) {
 // 销毁 NFT 示例
 func TestBurnNFT(t *testing.T) {
 
-	classId := "avatauuj0hj53thkyahiaitfmctsensn"
-	owner := "iaa1tu0gve9se3qgqkadn22d7ar74pal7vqt3yvna9"
-	nftId := "avatarjqt2kiwlbbced5ieugj2h8cue3"
+	classId := "0x43eddaefa2cb9098b70a5d83cab59363ac920f0e"
+	owner := "0x1A6f8Ed0d40Fcb915e59444AA096241146108D82"
+	nftId := "1"
 	params := &models.BurnNFTReq{
 		OperationID: "BurnNFT",
 	}
@@ -129,109 +131,13 @@ func TestBurnNFT(t *testing.T) {
 	t.Logf("%+v \n", result)
 }
 
-// 批量发行 NFT 示例
-func TestBatchMintNFT(t *testing.T) {
-
-	classId := "avatauuj0hj53thkyahiaitfmctsensn"
-	var recipients []models.Recipients
-	recipients = append(recipients, models.Recipients{Amount: 1, Recipient: "iaa1tu0gve9se3qgqkadn22d7ar74pal7vqt3yvna9"})
-	params := &models.BatchMintNFTReq{
-		Name:        "TestBatchCreateNFT1",
-		Recipients:  recipients,
-		OperationID: "TestBatchCreateNFT2",
-	}
-	result, err := client.NFT.BatchMintNFT(params, classId)
-	if err != nil {
-		t.Log(err)
-		return
-	}
-	t.Logf("%+v \n", result)
-}
-
-// 批量转让 NFT 示例
-func TestBatchTransferNFT(t *testing.T) {
-
-	owner := "iaa1tu0gve9se3qgqkadn22d7ar74pal7vqt3yvna9"
-	var nfts []models.BatchTransferNFTs
-	nfts = append(nfts, models.BatchTransferNFTs{
-		ClassID: "avatauuj0hj53thkyahiaitfmctsensn",
-		NFTID:   "avataj5h7algcaibxiz5ipbi5o97kfqs",
-	}, models.BatchTransferNFTs{
-		ClassID: "avatauuj0hj53thkyahiaitfmctsensn",
-		NFTID:   "avatarxamgw6sqwvclfqfnvkgkwkp6zf",
-	})
-	var data []models.BatchTransferNFTData
-	data = append(data, models.BatchTransferNFTData{
-		NFTs:      nil,
-		Recipient: "iaa153uyr6ghtumt3lrtdwndplk4ggal9r6gm6953g",
-	})
-	params := &models.BatchTransferNFTReq{
-		Data:        data,
-		OperationID: "TestBatchTransferNFT",
-	}
-	result, err := client.NFT.BatchTransferNFT(params, owner)
-	if err != nil {
-		t.Log(err)
-		return
-	}
-	t.Logf("%+v \n", result)
-}
-
-// 批量编辑 NFT 示例
-func TestBatchEditNFT(t *testing.T) {
-
-	owner := "iaa153uyr6ghtumt3lrtdwndplk4ggal9r6gm6953g"
-
-	var nfts []models.BatchEditNfts
-	nfts = append(nfts, models.BatchEditNfts{
-		ClassID: "avatauuj0hj53thkyahiaitfmctsensn",
-		NFTID:   "avataj5h7algcaibxiz5ipbi5o97kfqs",
-		Name:    "TestBatchEditNFT",
-	}, models.BatchEditNfts{
-		ClassID: "avatauuj0hj53thkyahiaitfmctsensn",
-		NFTID:   "avatarxamgw6sqwvclfqfnvkgkwkp6zf",
-		Name:    "TestBatchEditNFT",
-	})
-	params := &models.BatchEditNFTReq{
-		NFTs:        nfts,
-		OperationID: OperationID,
-	}
-	result, err := client.NFT.BatchEditNFT(params, owner)
-	if err != nil {
-		t.Log(err)
-		return
-	}
-	t.Logf("%+v \n", result)
-}
-
-// 批量销毁 NFT 示例
-func TestBatchBurnNFT(t *testing.T) {
-	owner := "iaa153uyr6ghtumt3lrtdwndplk4ggal9r6gm6953g"
-	var nfts []models.NFTs
-	nfts = append(nfts, models.NFTs{
-		ClassID: "avatauuj0hj53thkyahiaitfmctsensn",
-		NFTID:   "avataj5h7algcaibxiz5ipbi5o97kfqs",
-	}, models.NFTs{
-		ClassID: "avatauuj0hj53thkyahiaitfmctsensn",
-		NFTID:   "avatarxamgw6sqwvclfqfnvkgkwkp6zf",
-	})
-
-	params := &models.BatchBurnNFTReq{
-		NFTs:        nfts,
-		OperationID: OperationID,
-	}
-	result, err := client.NFT.BatchBurnNFT(params, owner)
-	if err != nil {
-		t.Log(err)
-		return
-	}
-	t.Logf("%+v \n", result)
-}
-
 // 查询 NFT 示例
 func TestQueryNFTs(t *testing.T) {
 
-	params := &models.QueryNFTsReq{}
+	params := &models.QueryNFTsReq{
+		ClassID: "0x43eddaefa2cb9098b70a5d83cab59363ac920f0e",
+		ID:      "1",
+	}
 	result, err := client.NFT.QueryNFTs(params)
 	if err != nil {
 		t.Log(err)
@@ -242,9 +148,8 @@ func TestQueryNFTs(t *testing.T) {
 
 // 查询 NFT 详情示例
 func TestQueryNFT(t *testing.T) {
-
-	classId := "avatauuj0hj53thkyahiaitfmctsensn"
-	nftId := "avataj5h7algcaibxiz5ipbi5o97kfqs"
+	classId := "0x43eddaefa2cb9098b70a5d83cab59363ac920f0e"
+	nftId := "1"
 	result, err := client.NFT.QueryNFT(classId, nftId)
 	if err != nil {
 		t.Log(err)
@@ -256,8 +161,8 @@ func TestQueryNFT(t *testing.T) {
 // 查询 NFT 操作记录示例
 func TestQueryNFTHistory(t *testing.T) {
 
-	classId := "avatauuj0hj53thkyahiaitfmctsensn"
-	nftId := "avataj5h7algcaibxiz5ipbi5o97kfqs"
+	classId := "0x43edDaEfa2cb9098b70a5d83cAb59363Ac920f0E"
+	nftId := "1"
 	params := &models.QueryNFTHistoryReq{}
 	result, err := client.NFT.QueryNFTHistory(params, classId, nftId)
 	if err != nil {

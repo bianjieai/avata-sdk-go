@@ -8,7 +8,7 @@ import (
 
 // 上链交易结果查询示例
 func TestQueryTxResult(t *testing.T) {
-	result, err := client.Tx.QueryTxResult("operationID1673512500")
+	result, err := client.Tx.QueryTxResult("abcderf")
 	if err != nil {
 		t.Log(err)
 		return

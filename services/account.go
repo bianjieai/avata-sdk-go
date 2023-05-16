@@ -48,10 +48,6 @@ func (a accountService) CreateAccount(params *models.CreateAccountReq) (*models.
 		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
 		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "params"))
 	}
-	if params.Name == "" {
-		log.Debugln(fmt.Sprintf(models.ErrParam, "name"))
-		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "name"))
-	}
 	if params.OperationID == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
 		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "operation_id"))

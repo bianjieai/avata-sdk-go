@@ -1,8 +1,8 @@
 package models
 
 const (
-	QueryTxResult    = "/v1beta1/tx/%s"         // 上链交易结果查询接口
-	QueryTxQueueInfo = "/v1beta1/tx/queue/info" // 上链交易排队状态查询接口
+	QueryTxResult    = "/v2/tx/%s"         // 上链交易结果查询接口
+	QueryTxQueueInfo = "/v2/tx/queue/info" // 上链交易排队状态查询接口
 )
 
 // QueryTxResultRes 上链交易结果查询返回值
@@ -13,8 +13,8 @@ const (
 //status 为 2（失败），说明该交易执行失败。请在业务侧做容错处理。可以参考接口返回的 message（交易失败的错误描述信息） 对 NFT / MT / 业务接口的请求参数做适当调整后，使用「新的 Operation ID 」重新发起 NFT / MT / 业务接口请求。
 type QueryTxResultRes struct {
 	Data struct {
-		Type        string `json:"type"`         // 用户操作类型；Enum: "issue_class" "transfer_class" "mint_nft" "edit_nft" "burn_nft" "transfer_nft" "issue_class_mt" "transfer_class_mt" "issue_mt" "mint_mt" "edit_mt" "burn_mt" "transfer_mt" "mint_nft_batch" "edit_nft_batch" "burn_nft_batch" "transfer_nft_batch" "create_record"
-		Module      string `json:"module"`       // 交易模块；Enum: "nft" "mt" "record"
+		Module      int    `json:"module"`       // 交易模块；Enum: 1 nft  2 ns(域名)  3 record(存证)
+		Operation   int    `json:"operation"`    // 用户操作类型；Enum: 1：issue_class； 2：transfer_class； 3：mint_nft； 4：edit_nft； 5：transfer_nft； 6：burn_nft
 		TxHash      string `json:"tx_hash"`      // 交易哈希
 		Status      int    `json:"status"`       // 交易状态， 0 处理中； 1 成功； 2 失败； 3 未处理；Enum: 0 1 2 3
 		Message     string `json:"message"`      // 交易失败的错误描述信息
@@ -22,22 +22,19 @@ type QueryTxResultRes struct {
 		Timestamp   string `json:"timestamp"`    // 交易上链时间（UTC 时间）
 		Nft         struct {
 			ClassId string `json:"class_id"`
-			NftId   string `json:"nft_id"`
+			ID      int    `json:"id"`
 		} `json:"nft"` // 具体参考接口文档
-		Mt struct {
-			ClassId string `json:"class_id"`
-			MtId    string `json:"mt_id"`
-		} `json:"mt"` // 具体参考接口文档
-		Record struct {
-			RecordId       string `json:"record_id"`
-			CertificateUrl string `json:"certificate_url"`
-		} `json:"record"` // 具体参考接口文档
+		Ns struct {
+			Name    string `json:"name"`
+			Owner   string `json:"owner"`
+			Expires int    `json:"expires"`
+		} `json:"ns"` // 具体参考接口文档
 	} `json:"data"`
 }
 
 // QueryTxQueueInfoReq 上链交易排队状态查询请求参数
 type QueryTxQueueInfoReq struct {
-	OperationID string `json:"operation_id"` // 操作 ID，是指用户在进行具体的NFT/MT/业务接口请求时，自定义的操作ID。注意：不支持创建链账户/批量创建链账户的操作 ID 查询。
+	OperationID string `json:"operation_id,omitempty"` // 操作 ID，是指用户在进行具体的NFT/MT/业务接口请求时，自定义的操作ID。注意：不支持创建链账户/批量创建链账户的操作 ID 查询。
 }
 
 // QueryTxQueueInfoRes 上链交易排队状态查询返回值

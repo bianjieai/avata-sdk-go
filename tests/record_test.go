@@ -9,15 +9,15 @@ import (
 // 数字作品存证示例
 func TestCreateRecord(t *testing.T) {
 	params := &models.CreateRecordReq{
-		//IdentityType: 0,
-		//IdentityName: "",
-		//IdentityNum:  "",
-		Type:        1,
-		Name:        "血色海棠",
-		Description: "问海棠花，谁留恋、未教飘坠。真个好，一般标格，聘梅双李。怯冷拟将苏幕护，怕惊莫把金铃缀。望铜梁、玉垒正春深，花空美。",
-		Hash:        "234ertyujnbvfrukmnertyhgfetyjgfhgfryuhgf",
-		HashType:    3,
-		OperationId: OperationID,
+		IdentityType: 1,
+		IdentityName: "测试数据",
+		IdentityNum:  "",
+		Type:         1,
+		Name:         "trstttt",
+		Description:  "",
+		Hash:         "ac7f0f712ab9d13fdbaed27a82bf1e62",
+		HashType:     1,
+		OperationId:  "abcderf",
 	}
 
 	result, err := client.Record.CreateRecord(params)

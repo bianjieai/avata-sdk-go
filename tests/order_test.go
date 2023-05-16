@@ -13,10 +13,10 @@ var orderID = fmt.Sprintf("orderID_%v", time.Now().Unix())
 // 购买能量值/业务费接口示例
 func TestCreateOrder(t *testing.T) {
 	params := &models.CreateOrderReq{
-		Account:   "0x7982C2FEEECCB2A86C5346762AF9DCAC4DF79219",
-		Amount:    10100,
-		OrderType: "gas",
-		OrderId:   orderID,
+		Account:     "0x7982C2FEEECCB2A86C5346762AF9DCAC4DF79219",
+		Amount:      10100,
+		OrderType:   1,
+		OperationID: orderID,
 	}
 
 	result, err := client.Order.CreateOrder(params)
@@ -58,8 +58,8 @@ func TestCreateBatchOrder(t *testing.T) {
 		Amount:  100,
 	})
 	params := &models.BatchCreateOrderReq{
-		List:    list,
-		OrderId: orderID,
+		List:        list,
+		OperationID: orderID,
 	}
 
 	result, err := client.Order.BatchCreateOrder(params)

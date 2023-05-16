@@ -10,11 +10,13 @@ import (
 
 var OperationID = fmt.Sprintf("%s%d", "operationID", time.Now().Unix())
 
+//account=0x1A6f8Ed0d40Fcb915e59444AA096241146108D82
 // 创建链账户示例
 func TestCreateAccount(t *testing.T) {
 	params := &models.CreateAccountReq{
 		Name:        "链账户1",
-		OperationID: OperationID,
+		OperationID: "v2_createaccount",
+		UserID:      "72l390X471J0t0w3",
 	}
 
 	result, err := client.Account.CreateAccount(params)
@@ -25,11 +27,12 @@ func TestCreateAccount(t *testing.T) {
 	t.Logf("%+v \n", result)
 }
 
+//"accounts\":[\"0x9c3d37463fCA8Cd2cec3548a63f1910ec2Cb0BCe\",\"0x876886B4B14F4c9C7A694616Aa4d463aB61332Fb\"
 // 批量创建链账户示例
 func TestBatchCreateAccounts(t *testing.T) {
 	params := &models.BatchCreateAccountsReq{
-		Count:       3,
-		OperationID: OperationID,
+		Count:       2,
+		OperationID: "v2_createaccounts",
 	}
 
 	result, err := client.Account.BatchCreateAccounts(params)
@@ -43,9 +46,8 @@ func TestBatchCreateAccounts(t *testing.T) {
 // 查询链账户示例
 func TestQueryAccounts(t *testing.T) {
 	params := &models.QueryAccountsReq{
-		Account: "iaa1tf7wa9vm9zvlhxcdnctcxd3mag99uyefs58vjl",
+		PageKey: "587mvF9aNXbGhFK8jaLdK4gFJPuKhsOb7Efr/gIz+5At70ZxeehlcHyhUPYSZx/3uAVyrfoX4UWLNELSB7zwP7vrtNnkwyrSqMDdTTFBt8jlD6WvdvU+etjIIvpsY4AX+gZDmw==",
 	}
-
 	result, err := client.Account.QueryAccounts(params)
 	if err != nil {
 		t.Log(err)
@@ -57,7 +59,7 @@ func TestQueryAccounts(t *testing.T) {
 // 查询链账户操作记录示例
 func TestQueryAccountsHistory(t *testing.T) {
 	params := &models.QueryAccountsHistoryReq{
-		//TxHash: "83333FF1BB96F17EC5F8ADD1FAEAC6AC9C6B7D2E463E35F1E3DB035FF9188C9E",
+		Account: "0x9c3d37463fCA8Cd2cec3548a63f1910ec2Cb0BCe",
 	}
 
 	result, err := client.Account.QueryAccountsHistory(params)
