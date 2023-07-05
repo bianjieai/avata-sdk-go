@@ -17,6 +17,7 @@ type AccountService interface {
 	BatchCreateAccounts(params *models.BatchCreateAccountsReq) (*models.BatchCreateAccountsRes, models.Error)    // 批量创建链账户
 	QueryAccounts(params *models.QueryAccountsReq) (*models.QueryAccountsRes, models.Error)                      // 查询链账户
 	QueryAccountsHistory(params *models.QueryAccountsHistoryReq) (*models.QueryAccountsHistoryRes, models.Error) // 查询链账户操作记录
+	QueryNativeAccountsHistory(params *models.QueryNativeAccountsHistoryReq) (*models.QueryNativeAccountsHistoryRes, models.Error)
 }
 
 type accountService struct {
@@ -47,10 +48,6 @@ func (a accountService) CreateAccount(params *models.CreateAccountReq) (*models.
 	if params == nil {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
 		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "params"))
-	}
-	if params.Name == "" {
-		log.Debugln(fmt.Sprintf(models.ErrParam, "name"))
-		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "name"))
 	}
 	if params.OperationID == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
@@ -192,5 +189,40 @@ func (a accountService) QueryAccountsHistory(params *models.QueryAccountsHistory
 	}
 
 	log.Info("QueryAccountsHistory end")
+	return result, nil
+}
+
+// QueryNativeAccountsHistory 以原生方式查询链账户操作记录
+func (a accountService) QueryNativeAccountsHistory(params *models.QueryNativeAccountsHistoryReq) (*models.QueryNativeAccountsHistoryRes, models.Error) {
+	log := a.Logger
+	log.Debugln(map[string]interface{}{
+		"module":   "Account",
+		"function": "QueryAccountsHistory",
+		"params":   fmt.Sprintf("%v", params),
+	})
+	log.Info("QueryAccountsHistory start")
+
+	nilRes := &models.QueryNativeAccountsHistoryRes{}
+
+	bytesData, err := json.Marshal(params)
+	if err != nil {
+		log.Errorf("QueryNativeAccountsHistory Marshal Params: %s", err.Error())
+		return nilRes, models.NewSDKError(fmt.Sprintf("Marshal Params: %s", err.Error()))
+	}
+
+	body, errorRes := a.HttpClient.DoHttpRequest(http.MethodGet, models.QueryNativeAccountsHistory, nil, bytesData)
+	log.Debugf("QueryNativeAccountsHistory body: %s", string(body))
+	if errorRes != nil {
+		log.Errorf("QueryNativeAccountsHistory DoHttpRequest error: %s", errorRes.Error())
+		return nilRes, errorRes
+	}
+
+	result := &models.QueryNativeAccountsHistoryRes{}
+	if err = json.Unmarshal(body, &result); err != nil {
+		log.Errorf("QueryNativeAccountsHistory Unmarshal Params: %s", err.Error())
+		return nilRes, models.NewSDKError(fmt.Sprintf("Unmarshal Params: %s", err.Error()))
+	}
+
+	log.Info("QueryNativeAccountsHistory end")
 	return result, nil
 }

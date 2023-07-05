@@ -194,10 +194,6 @@ func (m mtService) TransferMTClass(classID, owner string, params *models.Transfe
 		log.Debugln(fmt.Sprintf(models.ErrParam, "recipient"))
 		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "recipient"))
 	}
-	if params.OperationId == "" {
-		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
-		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "operation_id"))
-	}
 
 	bytesData, err := json.Marshal(params)
 	if err != nil {
@@ -243,10 +239,6 @@ func (m mtService) IssueMT(classID string, params *models.IssueMTReq) (*models.T
 	if params == nil {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
 		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "params"))
-	}
-	if params.OperationId == "" {
-		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
-		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "operation_id"))
 	}
 
 	bytesData, err := json.Marshal(params)
@@ -298,10 +290,6 @@ func (m mtService) MintMT(classID, mtID string, params *models.MintMTReq) (*mode
 	if params == nil {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
 		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "params"))
-	}
-	if params.OperationId == "" {
-		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
-		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "operation_id"))
 	}
 
 	bytesData, err := json.Marshal(params)
@@ -358,10 +346,6 @@ func (m mtService) TransferMT(classID, owner, mtID string, params *models.Transf
 	if params == nil {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
 		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "params"))
-	}
-	if params.OperationId == "" {
-		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
-		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "operation_id"))
 	}
 	if params.Recipient == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "recipient"))
@@ -423,10 +407,7 @@ func (m mtService) EditMT(classID, owner, mtID string, params *models.EditMTReq)
 		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
 		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "params"))
 	}
-	if params.OperationId == "" {
-		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
-		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "operation_id"))
-	}
+
 	if params.Data == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "data"))
 		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "data"))

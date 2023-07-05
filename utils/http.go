@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"time"
 
@@ -41,32 +41,32 @@ func (h httpClient) DoHttpRequest(method, path string, bodyParams, queryParams [
 		if err = json.Unmarshal(queryParams, &queryParamsMap); err != nil {
 			return nil, models.NewSDKError(err.Error())
 		}
-		q := r.URL.Query()
+		q := r.URL.Query() //检查格式错误的键值对
 		for k, v := range queryParamsMap {
 			q.Add(k, v)
 		}
-		r.URL.RawQuery = q.Encode()
+		r.URL.RawQuery = q.Encode() //编码成url形式
 	}
 
-	SignRequest(r, h.baseParams.APIKey, h.baseParams.APISecret)
+	SignRequest(r, h.baseParams.APIKey, h.baseParams.APISecret) //调用签名服务
 
-	res, err := h.client.Do(r)
+	res, err := h.client.Do(r) //发送http请求，将返回值赋给res
 	if err != nil {
 		return nil, models.NewSDKError(err.Error())
 	}
 	defer res.Body.Close()
-
-	body, err := ioutil.ReadAll(res.Body)
+	body := new(bytes.Buffer) //写入器是一个buffer也会自动扩容，详见buffer.Write
+	_, err = io.Copy(body, res.Body)
+	bodyBytes := body.Bytes()
 	if err != nil {
 		return nil, models.NewSDKError(err.Error())
 	}
-
 	if res.StatusCode != http.StatusOK {
 		var response *models.Response
-		if err = json.Unmarshal(body, &response); err != nil {
-			return nil, models.NewSDKError(err.Error())
+		if err = json.Unmarshal(bodyBytes, &response); err != nil {
+			return bodyBytes, models.NewSDKError(err.Error())
 		}
-		return body, models.NewAvataError(response.AvataError)
+		return bodyBytes, models.NewAvataError(response.AvataError)
 	}
-	return body, nil
+	return bodyBytes, nil
 }

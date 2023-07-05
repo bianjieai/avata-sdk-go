@@ -82,8 +82,8 @@ func (r recordService) CreateRecord(params *models.CreateRecordReq) (*models.TxR
 		log.Errorf("CreateRecord DoHttpRequest error: %s", errorRes.Error())
 		return nilRes, errorRes
 	}
-
 	result := &models.TxRes{}
+
 	if err = json.Unmarshal(body, &result); err != nil {
 		log.Errorf("CreateRecord Unmarshal Params: %s", err.Error())
 		return nilRes, models.NewSDKError(fmt.Sprintf("Unmarshal Params: %s", err.Error()))
