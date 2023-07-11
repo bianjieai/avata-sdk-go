@@ -22,7 +22,7 @@ func initClient() *sdk.AvataClient {
 		configs.HttpTimeout(15 * time.Second),
 	}
 
-	client = sdk.NewClient("http://openapi.avata.qa.nj.bianjie.ai", "J2r350y6U2F8T1X0d0L534a819W2w0Zf", "2243Y0B642A8a1K0J0y5F4q8M90290B5", options...)
+	client = sdk.NewClient("域名，不同环境对应不同的域名", "项目参数 API KEY", "项目参数 API SECRET", options...)
 	return client
 }
 

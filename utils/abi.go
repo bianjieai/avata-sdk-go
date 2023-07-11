@@ -8,19 +8,24 @@ import (
 	"github.com/ethereum/go-ethereum/common/hexutil"
 )
 
-//调用合约 的 abi编码
-func ABICoding(node string, id int64, value string) (string, error) {
+/**
+* abi：调用合约生成data
+* node：域名
+* value：自定义数据
+* method：abi:setABI 、 addr:setAddr 、 text:setText
+ */
+func ABICoding(node, value, method string, id int64) (string, error) {
 	// 获取 abi
-	abi, err := GetResolveAbi()
+	abi, err := getResolveAbi()
 	if err != nil {
 		return "", err
 	}
-	byte32Node, err := GetBytes32Node(node)
+	byte32Node, err := getBytes32Node(node)
 	if err != nil {
 		return "", err
 	}
 	// 生成调用合约 hex data
-	packData, err := abi.Pack("setABI", []interface{}{
+	packData, err := abi.Pack(method, []interface{}{
 		byte32Node,
 		big.NewInt(id),
 		[]byte(value),
@@ -31,19 +36,23 @@ func ABICoding(node string, id int64, value string) (string, error) {
 	return hexutil.Encode(packData), nil
 }
 
-//解析合约的 abi编码
-func QueryABICoding(node string, id int64) (string, error) {
+/**
+* abi：查询合约生成data
+* node：域名
+* method：abi:ABI 、 addr:addr0 、 text:text
+ */
+func QueryABICoding(node, method string, id int64) (string, error) {
 	// 获取 abi
-	abi, err := GetResolveAbi()
+	abi, err := getResolveAbi()
 	if err != nil {
 		return "", err
 	}
-	byte32Node, err := GetBytes32Node(node)
+	byte32Node, err := getBytes32Node(node)
 	if err != nil {
 		return "", err
 	}
 	//查询合约 hex data
-	packData, err := abi.Pack("ABI", []interface{}{
+	packData, err := abi.Pack(method, []interface{}{
 		byte32Node,
 		big.NewInt(id),
 	}...)
@@ -53,9 +62,13 @@ func QueryABICoding(node string, id int64) (string, error) {
 	return hexutil.Encode(packData), nil
 }
 
-//abi解析
-func ABIResolver(resultHex string) ([]interface{}, error) {
-	abi, err := GetResolveAbi()
+/**
+* abi：解析
+* resultHex：查询合约的结果
+* method：abi:ABI 、 addr:addr0 、 text:text
+ */
+func ABIResolver(resultHex, method string) ([]interface{}, error) {
+	abi, err := getResolveAbi()
 	if err != nil {
 		return nil, err
 	}
@@ -63,14 +76,14 @@ func ABIResolver(resultHex string) ([]interface{}, error) {
 	if err != nil {
 		return nil, err
 	}
-	resultData, err := abi.Methods["ABI"].Outputs.Unpack(resultBytes)
+	resultData, err := abi.Methods[method].Outputs.Unpack(resultBytes)
 	if err != nil {
 		return nil, err
 	}
 	return resultData, nil
 }
 
-func HexStrToByte32(str string) ([32]byte, error) {
+func hexStrToByte32(str string) ([32]byte, error) {
 	var bytes32 [32]byte
 	hexBytes, err := hexutil.Decode(str)
 	if err != nil {
@@ -80,15 +93,15 @@ func HexStrToByte32(str string) ([32]byte, error) {
 	return bytes32, nil
 }
 
-func GetBytes32Node(node string) ([32]byte, error) {
-	byte32Node, err := HexStrToByte32(node) // 域名 key
+func getBytes32Node(node string) ([32]byte, error) {
+	byte32Node, err := hexStrToByte32(node) // 域名 key
 	if err != nil {
 		return [32]byte{}, err
 	}
 	return byte32Node, nil
 }
 
-func GetResolveAbi() (abi.ABI, error) {
+func getResolveAbi() (abi.ABI, error) {
 	resolveAbi, err := abi.JSON(strings.NewReader(UtilsMetaData.ABI)) // 初始化 abi
 	if err != nil {
 		return abi.ABI{}, err

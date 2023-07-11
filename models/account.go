@@ -18,9 +18,8 @@ type CreateAccountReq struct {
 // CreateAccountRes 创建链账户正确返回值
 type CreateAccountRes struct {
 	Data struct {
-		Account       string `json:"account"`        // 链账户地址
-		NativeAddress string `json:"native_address"` //
-		HexAddress    string `json:"hex_address"`    //
+		NativeAddress string `json:"native_address"` //原生链账户
+		HexAddress    string `json:"hex_address"`    //evm链账户
 	} `json:"data"`
 }
 
@@ -33,8 +32,11 @@ type BatchCreateAccountsReq struct {
 // BatchCreateAccountsRes 批量创建链账户正确返回值
 type BatchCreateAccountsRes struct {
 	Data struct {
-		Accounts    []string `json:"accounts"`     // 链账户地址列表
-		OperationID string   `json:"operation_id"` // 操作 ID，保证幂等性，避免重复请求，保证对于同一操作发起的一次请求或者多次请求的结果是一致的；由接入方生成的、针对每个 Project ID 唯一的、不超过 64 个大小写字母、数字、-、下划线的字符串。此操作 ID 仅限在查询链账户接口中使用，用于查询创建链账户的授权状态。
+		Addresses []struct {
+			NativeAddress string `json:"native_address"` //原生链账户
+			HexAddress    string `json:"hex_address"`    //evm链账户
+		} `json:"addresses"` // 链账户地址列表
+		OperationID string `json:"operation_id"` // 操作 ID，保证幂等性，避免重复请求，保证对于同一操作发起的一次请求或者多次请求的结果是一致的；由接入方生成的、针对每个 Project ID 唯一的、不超过 64 个大小写字母、数字、-、下划线的字符串。此操作 ID 仅限在查询链账户接口中使用，用于查询创建链账户的授权状态。
 	} `json:"data"`
 }
 
@@ -66,7 +68,6 @@ type (
 	}
 
 	Accounts struct {
-		Account       string `json:"account"`        // 链账户地址
 		NativeAddress string `json:"native_address"` //
 		HexAddress    string `json:"hex_address"`    //
 		Name          string `json:"name"`           // 链账户名称
