@@ -35,7 +35,7 @@ type QueryMTClassesReq struct {
 	StartDate  string `json:"start_date,omitempty"`  // MT 类别创建日期范围 - 开始，yyyy-MM-dd（UTC 时间）
 	EndDate    string `json:"end_date,omitempty"`    // MT 类别创建日期范围 - 结束，yyyy-MM-dd（UTC 时间）
 	SortBy     string `json:"sort_by,omitempty"`     // 排序规则：DATE_ASC / DATE_DESC
-	CountTotal string `json:"count_total,omitempty"` //是否查询数据的总数量 0：不查询总数（默认） 1：查询总数
+	CountTotal string `json:"count_total,omitempty"` // 是否查询数据的总数量 0：不查询总数（默认） 1：查询总数
 }
 
 // QueryMTClassesRes 查询 MT 类别返回值
@@ -71,7 +71,7 @@ type QueryMTClassRes struct {
 
 // TransferMTClassReq 转让 MT 类别请求参数
 type TransferMTClassReq struct {
-	Recipient   string `json:"recipient"`    // MT 类别接收者地址，支持任一 Avata 内合法链账户地址
+	Recipient   string `json:"recipient"`    // MT 类别接收者地址，支持任一 AVATA 内合法链账户地址
 	OperationID string `json:"operation_id"` // 操作 ID，保证幂等性，避免重复请求，保证对于同一操作发起的一次请求或者多次请求的结果是一致的；由接入方生成的、针对每个 Project ID 唯一的、不超过 64 个大小写字母、数字、-、下划线的字符串
 }
 

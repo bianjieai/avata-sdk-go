@@ -17,7 +17,7 @@ func TestCreateRecord(t *testing.T) {
 		Description:  "recordtest",
 		Hash:         "ac7f0f712ab9d13fdbaed27a82bf1e62",
 		HashType:     1,
-		OperationId:  "abcderf111shiheng",
+		OperationId:  "abcderf111shihen1g111s",
 	}
 
 	result, err := client.Record.CreateRecord(params)

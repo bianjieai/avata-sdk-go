@@ -13,10 +13,10 @@ var operationID = fmt.Sprintf("orderID_%v", time.Now().Unix())
 // 购买能量值/业务费接口示例
 func TestCreateOrder(t *testing.T) {
 	params := &models.CreateOrderReq{
-		Account:     "0xfb74240135ebCf3bB56F1CDe680FB85bd36E71F9",
+		Account:     "iaa1d7wj6se24u23zp66r0v4luu772yvhj872fwzzl",
 		Amount:      10100,
 		OrderType:   1,
-		OperationID: operationID,
+		OperationID: "buygas168872324643111",
 	}
 
 	result, err := client.Order.CreateOrder(params)

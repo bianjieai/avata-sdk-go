@@ -6,7 +6,7 @@ import (
 
 // 以 EVM 方式上链交易结果查询示例
 func TestQueryTxResult(t *testing.T) {
-	result, err := client.Tx.QueryTxResult("v3_TestUseContract34411")
+	result, err := client.Tx.QueryTxResult("v3_TestTransferDomin")
 	if err != nil {
 		t.Log(err)
 		return
@@ -16,7 +16,7 @@ func TestQueryTxResult(t *testing.T) {
 
 // 以原生方式查询上链交易结果查询示例
 func TestQueryNativeTxResult(t *testing.T) {
-	result, err := client.Tx.QueryNativeTxResult("abcderf111shiheng")
+	result, err := client.Tx.QueryNativeTxResult("v3_TestTransferDomin")
 	if err != nil {
 		t.Log(err)
 		return

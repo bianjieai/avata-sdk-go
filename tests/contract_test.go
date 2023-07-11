@@ -18,7 +18,7 @@ func TestUseContract(t *testing.T) {
 		To:          "0xc2B8C8849A02E8D98BE114c128aab536B4E98b62", //固定
 		Data:        data,
 		GasLimit:    500000,
-		OperationID: "v3_TestUseContract34411",
+		OperationID: "v3_TestUseContract344112",
 		From:        "0xfb74240135ebCf3bB56F1CDe680FB85bd36E71F9",
 	}
 	result, err := client.Contract.UseContract(params)

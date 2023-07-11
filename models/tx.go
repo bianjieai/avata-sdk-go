@@ -1,19 +1,19 @@
 package models
 
 const (
-	QueryTxResult       = "/v3/evm/tx/%s"            // 上链交易结果查询/evm
-	QueryNativeTxResult = "/v3/native/tx/%s"         // 以原生方式上链交易结果查询接口
-	QueryTxTypes        = "/v3/evm/dict/tx_types"    // 查询枚举值列表
+	QueryTxResult       = "/v3/evm/tx/%s"            // 以 EVM 方式结果上链交易查询/evm
+	QueryNativeTxResult = "/v3/native/tx/%s"         // 以原生方式查询上链交易结果接口
+	QueryTxTypes        = "/v3/evm/dict/tx_types"    // 以 EVM 查询枚举值列表
 	QueryNativeTxTypes  = "/v3/native/dict/tx_types" // 以原生方式查询枚举值列表
 
 )
 
-// QueryTxResultRes 上链交易结果查询返回值
+// QueryTxResultRes 以 EVM 方式查询上链交易结果返回值
 // 交易状态说明：
-// status 为 3（未处理），上链请求还在等待处理，请稍等；
 // status 为 0（处理中），上链请求正在处理，请等待处理完成；
 // status 为 1（成功），交易已上链并执行成功；
 // status 为 2（失败），说明该交易执行失败。请在业务侧做容错处理。可以参考接口返回的 message（交易失败的错误描述信息） 对 NFT / MT / 业务接口的请求参数做适当调整后，使用「新的 Operation ID 」重新发起 NFT / MT / 业务接口请求。
+// status 为 3（未处理），上链请求还在等待处理，请稍等；
 type QueryTxResultRes struct {
 	Data struct {
 		Module      int    `json:"module"`       // 交易模块；Enum: 1 nft  2 ns(域名)  3 record(存证)
@@ -35,7 +35,7 @@ type QueryTxResultRes struct {
 	} `json:"data"`
 }
 
-// QueryNativeTxResultRes 以原生方式查询上链交易结果
+// QueryNativeTxResultRes 以原生方式查询上链交易结果返回值
 type QueryNativeTxResultRes struct {
 	Data struct {
 		Module      int    `json:"module"`       // 交易模块；Enum: 1 nft  2 ns(域名)  3 record(存证)
@@ -60,7 +60,7 @@ type QueryNativeTxResultRes struct {
 	} `json:"data"`
 }
 
-// QueryTxTypesRes 查询枚举值列表
+// QueryTxTypesRes 查询枚举值列表返回值
 type QueryTxTypesRes struct {
 	Data DataItem `json:"data"`
 }

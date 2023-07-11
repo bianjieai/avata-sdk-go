@@ -326,7 +326,14 @@ func (n nftService) TransferNFTClass(params *models.TransferNFClassReq, classID,
 		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
 		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "params"))
 	}
-	// todo check 改字段后非空的校验 （对对应的字段作非空校验）
+	if params.Recipient == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "recipient"))
+		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "recipient"))
+	}
+	if params.OperationID == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
+		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "operation_id"))
+	}
 
 	bytesData, err := json.Marshal(params)
 	if err != nil {
@@ -379,7 +386,13 @@ func (n nftService) TransferNativeNFTClass(params *models.TransferNativeNFClassR
 		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
 		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "params"))
 	}
-	//todo: 将operationid 和recipient 删除后对新增的字段做非空校验
+	if params.OperationID == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "operationid"))
+
+	}
+	if params.Recipient == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "recipient"))
+	}
 
 	bytesData, err := json.Marshal(params)
 	if err != nil {

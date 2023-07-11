@@ -1,17 +1,17 @@
 package models
 
 const (
-	CreateNFTClass         = "/v3/evm/nft/classes"                   // 创建 NFT 类别
-	QueryNFTClasses        = "/v3/evm/nft/classes"                   // 查询 NFT 类别
-	QueryNFTClass          = "/v3/evm/nft/classes/%s"                // 查询 NFT 类别详情
-	TransferNFTClass       = "/v3/evm/nft/class-transfers/%s/%s"     // 转让 NFT 类别
-	MintNFT                = "/v3/evm/nft/nfts/%s"                   // 发行 NFT
-	TransferNFT            = "/v3/evm/nft/nft-transfers/%s/%s/%s"    // 转让 NFT
-	EditNFT                = "/v3/evm/nft/nfts/%s/%s/%s"             // 编辑 NFT
-	BurnNFT                = "/v3/evm/nft/nfts/%s/%s/%s"             // 销毁 NFT
-	QueryNFTs              = "/v3/evm/nft/nfts"                      // 查询 NFT
-	QueryNFT               = "/v3/evm/nft/nfts/%s/%s"                // 查询 NFT 详情
-	QueryNFTHistory        = "/v3/evm/nft/nfts/%s/%s/history"        // 查询 NFT 历史记录
+	CreateNFTClass         = "/v3/evm/nft/classes"                   // 以 EVM 方式创建 NFT 类别
+	QueryNFTClasses        = "/v3/evm/nft/classes"                   // 以 EVM 方式查询 NFT 类别
+	QueryNFTClass          = "/v3/evm/nft/classes/%s"                // 以 EVM 方式查询 NFT 类别详情
+	TransferNFTClass       = "/v3/evm/nft/class-transfers/%s/%s"     // 以 EVM 方式转让 NFT 类别
+	MintNFT                = "/v3/evm/nft/nfts/%s"                   // 以 EVM 方式发行 NFT
+	TransferNFT            = "/v3/evm/nft/nft-transfers/%s/%s/%s"    // 以 EVM 方式转让 NFT
+	EditNFT                = "/v3/evm/nft/nfts/%s/%s/%s"             // 以 EVM 方式编辑 NFT
+	BurnNFT                = "/v3/evm/nft/nfts/%s/%s/%s"             // 以 EVM 方式销毁 NFT
+	QueryNFTs              = "/v3/evm/nft/nfts"                      // 以 EVM 方式查询 NFT
+	QueryNFT               = "/v3/evm/nft/nfts/%s/%s"                // 以 EVM 方式查询 NFT 详情
+	QueryNFTHistory        = "/v3/evm/nft/nfts/%s/%s/history"        // 以 EVM 方式查询 NFT 历史记录
 	CreateNativeNFTClass   = "/v3/native/nft/classes"                // 以原生方式创建 NTF 类别
 	QueryNativeNFTClasses  = "/v3/native/nft/classes"                // 以原生方式查询 NTF 类别
 	QueryNativeNFTClass    = "/v3/native/nft/classes/%s"             // 以原生方式查询 NFT 类别详情
@@ -25,7 +25,7 @@ const (
 	QueryNativeNFTHistory  = "/v3/native/nft/nfts/%s/%s/history"     // 以原生方式查询 NFT 历史记录
 )
 
-// CreateNFTClassReq 创建 NFT 类别：request
+// CreateNFTClassReq 以 EVM 方式创建 NFT 类别：request
 type CreateNFTClassReq struct {
 	Name                 string `json:"name"`                              // NFT 类别名称
 	Uri                  string `json:"uri,omitempty"`                     // 链外数据链接
@@ -50,7 +50,7 @@ type CreateNativeNFTClassReq struct {
 	OperationID     string `json:"operation_id"`                // 操作 ID，保证幂等性；由接入方生成的唯一的、大小写敏感、不超过 64 个 ASCII 字符的字符串
 }
 
-// QueryNFTClassesReq 查询 NFT 类别：request
+// QueryNFTClassesReq 以 EVM 方式查询 NFT 类别：request
 type QueryNFTClassesReq struct {
 	PageKey    string `json:"page_key,omitempty"`    // 分页数据的Key， Avata会根据该值进行上下页的查询， 该值请从返回的数据体中获取，首页查询可以不传该参数
 	Limit      string `json:"limit,omitempty"`       // 每页记录数，默认为 10，上限为 50
@@ -78,7 +78,7 @@ type QueryNativeNFTClassesReq struct {
 	CountTotal string `json:"count_total,omitempty"` // 是否查询数据的总数量0：不查询总数（默认）1：查询总数
 }
 
-// QueryNFTClassesRes 查询 NFT 类别：Response
+// QueryNFTClassesRes 以 EVM 方式查询 NFT 类别：Response
 type QueryNFTClassesRes struct {
 	Data struct {
 		PrevPageKey string `json:"prev_page_key"` // 上一页数据的Key， Avata会根据该值进行上一页数据的查询
@@ -116,7 +116,7 @@ type QueryNativeNFTClassesRes struct {
 	} `json:"data"`
 }
 
-// QueryNFTClassRes 查询 NFT 类别详情：Response
+// QueryNFTClassRes 以 EVM 方式查询 NFT 类别详情：Response
 type QueryNFTClassRes struct {
 	Data struct {
 		ID                   string `json:"id"`                      // NFT 类别 ID
@@ -150,19 +150,19 @@ type QueryNativeNFTClassRes struct {
 	} `json:"data"`
 }
 
-// TransferNFClassReq 转让 NFT 类别：request
+// TransferNFClassReq 以 EVM 方式转让 NFT 类别：request
 type TransferNFClassReq struct {
 	Recipient   string `json:"recipient"`    // NFT 合约接收者地址
-	OperationId string `json:"operation_id"` // 保证幂等性，避免重复请求
+	OperationID string `json:"operation_id"` // 保证幂等性，避免重复请求
 }
 
 // TransferNativeNFClassReq 原生方式转让 NFT 类别：request
 type TransferNativeNFClassReq struct {
 	Recipient   string `json:"recipient"`    // NFT 合约接收者地址
-	OperationId string `json:"operation_id"` // 保证幂等性，避免重复请求
+	OperationID string `json:"operation_id"` // 保证幂等性，避免重复请求
 }
 
-// MintNFTReq 发行 NFT：request
+// MintNFTReq 以 EVM 方式发行 NFT：request
 type MintNFTReq struct {
 	Uri         string `json:"uri"`                // 链外数据链接
 	UriHash     string `json:"uri_hash,omitempty"` // 链外数据 Hash
@@ -180,7 +180,7 @@ type MintNativeNFTReq struct {
 	OperationID string `json:"operation_id"`        // 操作 ID，保证幂等性，避免重复请求，保证对于同一操作发起的一次请求或者多次请求的结果是一致的；由接入方生成的、针对每个 Project ID 唯一的、不超过 64 个大小写字母、数字、-、下划线的字符串
 }
 
-// TransferNFTReq 转让 NFT ：request
+// TransferNFTReq  以 EVM 方式转让 NFT ：request
 type TransferNFTReq struct {
 	Recipient   string `json:"recipient"`    // NFT 接收者地址
 	OperationID string `json:"operation_id"` // 操作 ID，保证幂等性，避免重复请求，保证对于同一操作发起的一次请求或者多次请求的结果是一致的；由接入方生成的、针对每个 Project ID 唯一的、不超过 64 个大小写字母、数字、-、下划线的字符串
@@ -192,7 +192,7 @@ type TransferNativeNFTReq struct {
 	OperationID string `json:"operation_id"` // 操作 ID，保证幂等性，避免重复请求，保证对于同一操作发起的一次请求或者多次请求的结果是一致的；由接入方生成的、针对每个 Project ID 唯一的、不超过 64 个大小写字母、数字、-、下划线的字符串
 }
 
-// EditNFTReq 编辑 NFT ：request
+// EditNFTReq  以 EVM 方式编辑 NFT ：request
 type EditNFTReq struct {
 	Uri         string `json:"uri"`                // 链外数据链接
 	UriHash     string `json:"uri_hash,omitempty"` // 链外数据 Hash
@@ -208,7 +208,7 @@ type EditNativeNFTReq struct {
 	OperationID string `json:"operation_id"`       // 操作 ID，保证幂等性，避免重复请求，保证对于同一操作发起的一次请求或者多次请求的结果是一致的；由接入方生成的、针对每个 Project ID 唯一的、不超过 64 个大小写字母、数字、-、下划线的字符串
 }
 
-// BurnNFTReq 销毁 NFT ：request
+// BurnNFTReq  以 EVM 方式销毁 NFT ：request
 type BurnNFTReq struct {
 	OperationID string `json:"operation_id"` // 操作 ID，保证幂等性，避免重复请求，保证对于同一操作发起的一次请求或者多次请求的结果是一致的；由接入方生成的、针对每个 Project ID 唯一的、不超过 64 个大小写字母、数字、-、下划线的字符串
 }
@@ -218,7 +218,7 @@ type BurnNativeNFTReq struct {
 	OperationID string `json:"operation_id"` // 操作 ID，保证幂等性，避免重复请求，保证对于同一操作发起的一次请求或者多次请求的结果是一致的；由接入方生成的、针对每个 Project ID 唯一的、不超过 64 个大小写字母、数字、-、下划线的字符串
 }
 
-// QueryNFTsReq 查询 NFT ：request
+// QueryNFTsReq  以 EVM 方式查询 NFT ：request
 type QueryNFTsReq struct {
 	PageKey    string `json:"page_key,omitempty"`    // 分页数据的Key， Avata会根据该值进行上下页的查询， 该值请从返回的数据体中获取，首页查询可以不传该参数
 	Limit      string `json:"limit,omitempty"`       // 每页记录数，默认为 10，上限为 50
@@ -249,7 +249,7 @@ type QueryNativeNFTsReq struct {
 	CountTotal string `json:"count_total,omitempty"` // 是否查询数据的总数量0：不查询总数（默认）1：查询总数
 }
 
-// QueryNFTsRes 查询 NFT ：Response
+// QueryNFTsRes  以 EVM 方式查询 NFT ：Response
 type QueryNFTsRes struct {
 	Data struct {
 		PrevPageKey string `json:"prev_page_key"`         //上一页数据的Key， Avata会根据该值进行上一页数据的查询
@@ -293,7 +293,7 @@ type QueryNativeNFTsRes struct {
 	} `json:"data"`
 }
 
-// QueryNFTRes 查询 NFT 详情：Response
+// QueryNFTRes  以 EVM 方式查询 NFT 详情：Response
 type QueryNFTRes struct {
 	Data struct {
 		ID          int    `json:"id"`           // NFT ID
@@ -327,7 +327,7 @@ type QueryNativeNFTRes struct {
 	} `json:"data"`
 }
 
-// QueryNFTHistoryReq 查询 NFT 操作记录：request
+// QueryNFTHistoryReq  以 EVM 方式查询 NFT 操作记录：request
 type QueryNFTHistoryReq struct {
 	PageKey    string `json:"page_key,omitempty"`    //分页数据的Key， Avata会根据该值进行上下页的查询， 该值请从返回的数据体中获取，首页查询可以不传该参数
 	Limit      string `json:"limit,omitempty"`       // 每页记录数，默认为 10，上限为 50
@@ -353,7 +353,7 @@ type QueryNativeNFTHistoryReq struct {
 	CountTotal string `json:"count_total"`          // 是否查询数据的总数量0：不查询总数（默认）1：查询总数
 }
 
-// QueryNFTHistoryRes 查询 NFT 操作记录：Response
+// QueryNFTHistoryRes  以 EVM 方式查询 NFT 操作记录：Response
 type QueryNFTHistoryRes struct {
 	Data struct {
 		PrevPageKey      string `json:"prev_page_key"` //上一页数据的Key， Avata会根据该值进行上一页数据的查询

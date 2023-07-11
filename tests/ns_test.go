@@ -10,9 +10,9 @@ import (
 // 注册域名示例
 func TestRegisterDomain(t *testing.T) {
 	params := &models.RegisterDomainReq{
-		Name:        "v3-ns-test-sh-xs-s.w",
+		Name:        "v3-ns-test-sh-xss-s.w",
 		Owner:       "0xfb74240135ebCf3bB56F1CDe680FB85bd36E71F9",
-		OperationID: "v3_TestRegisterDomain11ss221",
+		OperationID: "v3_TestRegisterDomain11ss2121",
 		Duration:    1,
 	}
 	result, err := client.NS.RegisterDomain(params)

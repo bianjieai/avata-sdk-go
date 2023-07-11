@@ -89,7 +89,7 @@ func TestTransferNFTClass(t *testing.T) {
 	classId := "0xb195397d69A85edD12552182f360DC83d86Ee5d6"
 	owner := "0xfb74240135ebCf3bB56F1CDe680FB85bd36E71F9"
 	params := &models.TransferNFClassReq{
-		OperationId: "testshihengtransfernftclass",
+		OperationID: "testshihengtransfernftclass",
 		Recipient:   "0x362C87e50Ef0d60AA9f827DCa0136FF6E7927398",
 	}
 	result, err := client.NFT.TransferNFTClass(params, classId, owner)
@@ -107,7 +107,7 @@ func TestTransferNativeNFTClass(t *testing.T) {
 	owner := "iaa123sl8s8wpqzxpuwvz5xj5ltc8p5apksdrfr5wc"
 	params := &models.TransferNativeNFClassReq{
 		Recipient:   "iaa1jjmwg5ah27aynuwt2phwa8sfvzh4lvvlelddxm",
-		OperationId: OperationID,
+		OperationID: OperationID,
 	}
 	result, err := client.NFT.TransferNativeNFTClass(params, classId, owner)
 	if err != nil {

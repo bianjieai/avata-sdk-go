@@ -13,11 +13,11 @@ import (
 
 // AccountService 链账户接口
 type AccountService interface {
-	CreateAccount(params *models.CreateAccountReq) (*models.CreateAccountRes, models.Error)                      // 创建链账户
-	BatchCreateAccounts(params *models.BatchCreateAccountsReq) (*models.BatchCreateAccountsRes, models.Error)    // 批量创建链账户
-	QueryAccounts(params *models.QueryAccountsReq) (*models.QueryAccountsRes, models.Error)                      // 查询链账户
-	QueryAccountsHistory(params *models.QueryAccountsHistoryReq) (*models.QueryAccountsHistoryRes, models.Error) // 查询链账户操作记录
-	QueryNativeAccountsHistory(params *models.QueryNativeAccountsHistoryReq) (*models.QueryNativeAccountsHistoryRes, models.Error)
+	CreateAccount(params *models.CreateAccountReq) (*models.CreateAccountRes, models.Error)                                        // 创建链账户
+	BatchCreateAccounts(params *models.BatchCreateAccountsReq) (*models.BatchCreateAccountsRes, models.Error)                      // 批量创建链账户
+	QueryAccounts(params *models.QueryAccountsReq) (*models.QueryAccountsRes, models.Error)                                        // 查询链账户
+	QueryAccountsHistory(params *models.QueryAccountsHistoryReq) (*models.QueryAccountsHistoryRes, models.Error)                   // 以 EVM 方式查询链账户操作记录
+	QueryNativeAccountsHistory(params *models.QueryNativeAccountsHistoryReq) (*models.QueryNativeAccountsHistoryRes, models.Error) // 以原生方式查询链账户操作记录
 }
 
 type accountService struct {
@@ -157,7 +157,7 @@ func (a accountService) QueryAccounts(params *models.QueryAccountsReq) (*models.
 	return result, nil
 }
 
-// QueryAccountsHistory 查询链账户操作记录
+// QueryAccountsHistory  以 EVM 方式查询链账户操作记录
 func (a accountService) QueryAccountsHistory(params *models.QueryAccountsHistoryReq) (*models.QueryAccountsHistoryRes, models.Error) {
 	log := a.Logger
 	log.Debugln(map[string]interface{}{
