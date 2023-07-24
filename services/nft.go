@@ -248,10 +248,6 @@ func (n nftService) MintNFT(params *models.MintNFTReq, classID string) (*models.
 		log.Debugln(fmt.Sprintf(models.ErrParam, "uri"))
 		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "uri"))
 	}
-	if params.Recipient == "" {
-		log.Debugln(fmt.Sprintf(models.ErrParam, "recipient"))
-		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "recipient"))
-	}
 	if params.OperationID == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
 		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "operation_id"))
