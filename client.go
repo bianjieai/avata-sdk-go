@@ -16,6 +16,7 @@ type AvataClient struct {
 	NS       services.NSService
 	Contract services.ContractService
 	MT       services.MTService
+	Users    services.UsersService
 }
 
 func NewClient(domain, apiKey, apiSecret string, options ...configs.Options) *AvataClient {
@@ -46,6 +47,7 @@ func NewClient(domain, apiKey, apiSecret string, options ...configs.Options) *Av
 		NS:       services.NewNSService(cfg.Logger, httpClient),
 		Contract: services.NewContractService(cfg.Logger, httpClient),
 		MT:       services.NewMTService(cfg.Logger, httpClient),
+		Users:    services.NewUsersService(cfg.Logger, httpClient),
 	}
 }
 
