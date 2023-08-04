@@ -16,8 +16,8 @@ const (
 // status 为 3（未处理），上链请求还在等待处理，请稍等；
 type QueryTxResultRes struct {
 	Data struct {
-		Module      int    `json:"module"`       // 交易模块；Enum: 1 nft  2 ns(域名)  3 record(存证)
-		Operation   int    `json:"operation"`    // 用户操作类型；Enum: 1：issue_class； 2：transfer_class； 3：mint_nft； 4：edit_nft； 5：transfer_nft； 6：burn_nft
+		Module      int    `json:"module"`       // 交易模块；Enum: 1 nft  2 ns(域名)  3 record(存证) 4 合约调用；
+		Operation   int    `json:"operation"`    // 用户操作类型；
 		TxHash      string `json:"tx_hash"`      // 交易哈希
 		Status      int    `json:"status"`       // 交易状态， 0 处理中； 1 成功； 2 失败； 3 未处理；Enum: 0 1 2 3
 		Message     string `json:"message"`      // 交易失败的错误描述信息
@@ -31,7 +31,18 @@ type QueryTxResultRes struct {
 			Name    string `json:"name"`
 			Owner   string `json:"owner"`
 			Expires int    `json:"expires"`
+			Node    string `json:"node"`
+			Addr    struct {
+				BlockChain int    `json:"block_chain"`
+				AddrValue  string `json:"addr_value"`
+			} `json:"addr"`
+			Text struct {
+				Key       string `json:"key"`
+				TextValue string `json:"text_value"`
+			} `json:"text"`
+			Add string `json:"addr"`
 		} `json:"ns"` // 具体参考接口文档
+
 	} `json:"data"`
 }
 

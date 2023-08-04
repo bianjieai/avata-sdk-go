@@ -30,7 +30,7 @@ func NewContractService(log loggers.Advanced, httpClient utils.HttpClient) *cont
 func (c contractService) UseContract(params *models.UseContractReq) (*models.TxRes, models.Error) {
 	log := c.Logger
 	log.Debugln(map[string]interface{}{
-		"module":   "NFT",
+		"module":   "ns",
 		"function": "UseContract",
 		"params":   fmt.Sprintf("%v", params),
 	})
@@ -85,7 +85,7 @@ func (c contractService) UseContract(params *models.UseContractReq) (*models.TxR
 func (c contractService) QueryContract(params *models.QueryContractReq) (*models.QueryContractRes, models.Error) {
 	log := c.Logger
 	log.Debugln(map[string]interface{}{
-		"module":   "NFT",
+		"module":   "ns",
 		"function": "QueryContract",
 		"params":   fmt.Sprintf("%v", params),
 	})
