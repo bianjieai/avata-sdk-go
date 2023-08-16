@@ -29,7 +29,11 @@ func NewNSService(log loggers.Advanced, httpClient utils.HttpClient) *nsService 
 	}
 }
 
-// 注册域名
+/**
+ * @description: 注册域名
+ * @param {*models.RegisterDomainReq} params
+ * @return {*}
+ */
 func (n nsService) RegisterDomain(params *models.RegisterDomainReq) (*models.TxRes, models.Error) {
 	log := n.Logger
 	log.Debugln(map[string]interface{}{
@@ -79,7 +83,11 @@ func (n nsService) RegisterDomain(params *models.RegisterDomainReq) (*models.TxR
 	return result, nil
 }
 
-// 查询域名
+/**
+ * @description: 查询域名
+ * @param {*models.QueryDomainReq} params
+ * @return {*}
+ */
 func (n nsService) QueryDomain(params *models.QueryDomainReq) (*models.QueryDomainRes, models.Error) {
 	log := n.Logger
 	log.Debugln(map[string]interface{}{
@@ -121,7 +129,10 @@ func (n nsService) QueryDomain(params *models.QueryDomainReq) (*models.QueryDoma
 	return result, nil
 }
 
-// 转让域名
+/**
+ * @description: 转让域名
+ * @return {*}
+ */
 func (n nsService) TransferDomin(params *models.TransferDominReq, owner, name string) (*models.TxRes, models.Error) {
 	log := n.Logger
 	log.Debugln(map[string]interface{}{
@@ -163,7 +174,10 @@ func (n nsService) TransferDomin(params *models.TransferDominReq, owner, name st
 	return result, nil
 }
 
-// 查询用户域名
+/**
+ * @description: 查询用户域名
+ * @return {*}
+ */
 func (n nsService) QueryDomains(params *models.QueryDomainsReq, owner string) (*models.QueryDomainsRes, models.Error) {
 	log := n.Logger
 	log.Debugln(map[string]interface{}{

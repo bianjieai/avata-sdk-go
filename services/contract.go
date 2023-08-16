@@ -11,8 +11,8 @@ import (
 )
 
 type ContractService interface {
-	UseContract(params *models.UseContractReq) (*models.TxRes, models.Error)
-	QueryContract(params *models.QueryContractReq) (*models.QueryContractRes, models.Error)
+	UseContract(params *models.UseContractReq) (*models.TxRes, models.Error)                //调用合约
+	QueryContract(params *models.QueryContractReq) (*models.QueryContractRes, models.Error) //查询合约
 }
 type contractService struct {
 	Logger loggers.Advanced // 日志
@@ -26,7 +26,11 @@ func NewContractService(log loggers.Advanced, httpClient utils.HttpClient) *cont
 	}
 }
 
-// UseContract 调用合约示例
+/**
+ * @description: 调用合约示例
+ * @param {*models.UseContractReq} params
+ * @return {*}
+ */
 func (c contractService) UseContract(params *models.UseContractReq) (*models.TxRes, models.Error) {
 	log := c.Logger
 	log.Debugln(map[string]interface{}{
@@ -81,7 +85,11 @@ func (c contractService) UseContract(params *models.UseContractReq) (*models.TxR
 	return result, nil
 }
 
-// QueryContract 查询合约示例
+/**
+ * @description: 查询合约示例
+ * @param {*models.QueryContractReq} params
+ * @return {*}
+ */
 func (c contractService) QueryContract(params *models.QueryContractReq) (*models.QueryContractRes, models.Error) {
 	log := c.Logger
 	log.Debugln(map[string]interface{}{

@@ -14,9 +14,9 @@ import (
 // TxService 交易结果查询接口
 type TxService interface {
 	QueryTxResult(operationID string) (*models.QueryTxResultRes, models.Error)             // 上链交易结果查询
-	QueryNativeTxResult(operationID string) (*models.QueryNativeTxResultRes, models.Error) // 以原生方式查询上链交易结果
-	QueryTxTypes() (*models.QueryTxTypesRes, models.Error)                                 // 枚举值列表查询
-	QueryNativeTxTypes() (*models.QueryNativeTxTypesRes, models.Error)                     // 以原生方式查询枚举值列表
+	QueryNativeTxResult(operationID string) (*models.QueryNativeTxResultRes, models.Error) // 上链交易结果查询(原生模块)
+	QueryTxTypes() (*models.QueryTxTypesRes, models.Error)                                 // 查询枚举值列表
+	QueryNativeTxTypes() (*models.QueryNativeTxTypesRes, models.Error)                     // 查询枚举值列表(原生模块)
 }
 
 type txService struct {
@@ -31,7 +31,11 @@ func NewTxService(log loggers.Advanced, client utils.HttpClient) *txService {
 	}
 }
 
-// QueryNativeTxResult 上链交易结果查询
+/**
+ * @description: 上链交易结果查询(原生模块)
+ * @param {string} operationID ：操作id
+ * @return {*}
+ */
 func (t txService) QueryNativeTxResult(operationID string) (*models.QueryNativeTxResultRes, models.Error) {
 	log := t.Logger
 	log.Debugln(map[string]interface{}{
@@ -67,7 +71,11 @@ func (t txService) QueryNativeTxResult(operationID string) (*models.QueryNativeT
 	return result, nil
 }
 
-// QueryTxResult 上链交易结果查询
+/**
+ * @description: 上链交易结果查询
+ * @param {string} operationID ：操作id
+ * @return {*}
+ */
 func (t txService) QueryTxResult(operationID string) (*models.QueryTxResultRes, models.Error) {
 	log := t.Logger
 	log.Debugln(map[string]interface{}{
@@ -103,7 +111,10 @@ func (t txService) QueryTxResult(operationID string) (*models.QueryTxResultRes, 
 	return result, nil
 }
 
-// QueryTxTypes 枚举值列表查询
+/**
+ * @description: 枚举值列表查询
+ * @return {*}
+ */
 func (t txService) QueryTxTypes() (*models.QueryTxTypesRes, models.Error) {
 	log := t.Logger
 	log.Debugln(map[string]interface{}{
@@ -129,10 +140,12 @@ func (t txService) QueryTxTypes() (*models.QueryTxTypesRes, models.Error) {
 
 	log.Info("QueryTxTypesRes end")
 	return result, nil
-
 }
 
-// QueryNativeTxTypes 枚举值列表
+/**
+ * @description: 枚举值列表查询(原生模块)
+ * @return {*}
+ */
 func (t txService) QueryNativeTxTypes() (*models.QueryNativeTxTypesRes, models.Error) {
 	log := t.Logger
 	log.Debugln(map[string]interface{}{
@@ -158,5 +171,4 @@ func (t txService) QueryNativeTxTypes() (*models.QueryNativeTxTypesRes, models.E
 
 	log.Info("QueryNativeTxTypesRes end")
 	return result, nil
-
 }

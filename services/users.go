@@ -11,9 +11,9 @@ import (
 )
 
 type UsersService interface {
-	CreateUsers(params *models.CreateUsersReq) (*models.CreateUsersRes, models.Error)
-	EditUsers(params *models.EditUsersReq) (*models.TxRes, models.Error)
-	QueryUsers(params *models.QueryUsersReq) (*models.QueryUsersRes, models.Error)
+	CreateUsers(params *models.CreateUsersReq) (*models.CreateUsersRes, models.Error) //创建钱包用户
+	EditUsers(params *models.EditUsersReq) (*models.TxRes, models.Error)              //更新钱包用户
+	QueryUsers(params *models.QueryUsersReq) (*models.QueryUsersRes, models.Error)    //查询钱包用户信息
 }
 
 type usersService struct {
@@ -28,6 +28,11 @@ func NewUsersService(log loggers.Advanced, httpClient utils.HttpClient) *usersSe
 	}
 }
 
+/**
+ * @description: 创建钱包用户
+ * @param {*models.CreateUsersReq} params
+ * @return {*}
+ */
 func (a usersService) CreateUsers(params *models.CreateUsersReq) (*models.CreateUsersRes, models.Error) {
 	log := a.Logger
 	log.Debugln(map[string]interface{}{
@@ -87,6 +92,11 @@ func (a usersService) CreateUsers(params *models.CreateUsersReq) (*models.Create
 	return result, nil
 }
 
+/**
+ * @description: 更新钱包用户
+ * @param {*models.EditUsersReq} params
+ * @return {*}
+ */
 func (a usersService) EditUsers(params *models.EditUsersReq) (*models.TxRes, models.Error) {
 	log := a.Logger
 	log.Debugln(map[string]interface{}{
@@ -130,6 +140,11 @@ func (a usersService) EditUsers(params *models.EditUsersReq) (*models.TxRes, mod
 	return result, nil
 }
 
+/**
+ * @description: 查询钱包用户信息
+ * @param {*models.QueryUsersReq} params
+ * @return {*}
+ */
 func (a usersService) QueryUsers(params *models.QueryUsersReq) (*models.QueryUsersRes, models.Error) {
 	log := a.Logger
 	log.Debugln(map[string]interface{}{

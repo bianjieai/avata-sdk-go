@@ -40,7 +40,7 @@ func CallBackV1(r *http.Request, apiSecret string) string {
 	return "SUCCESS"
 }
 
-//v2版本签名回调验签
+//v2及以上版本请使用以下签名、验签
 func CallBackV2(r *http.Request, path, apiSecret string) string {
 	// 获取 path params
 	params := map[string]interface{}{}

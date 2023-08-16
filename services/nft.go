@@ -14,27 +14,27 @@ import (
 // NFTService NFT 接口
 type NFTService interface {
 	CreateNFTClass(params *models.CreateNFTClassReq) (*models.TxRes, models.Error)                                                         // 创建 NFT 类别
-	CreateNativeNFTClass(params *models.CreateNativeNFTClassReq) (*models.TxRes, models.Error)                                             // 以原生方式创建 NFT 类别
+	CreateNativeNFTClass(params *models.CreateNativeNFTClassReq) (*models.TxRes, models.Error)                                             // 创建 NFT 类别(原生模块)
 	QueryNFTClasses(params *models.QueryNFTClassesReq) (*models.QueryNFTClassesRes, models.Error)                                          // 查询 NFT 类别
-	QueryNativeNFTClasses(params *models.QueryNativeNFTClassesReq) (*models.QueryNativeNFTClassesRes, models.Error)                        // 以原生方式 查询 NFT 类别
+	QueryNativeNFTClasses(params *models.QueryNativeNFTClassesReq) (*models.QueryNativeNFTClassesRes, models.Error)                        // 查询 NFT 类别(原生模块)
 	QueryNFTClass(id string) (*models.QueryNFTClassRes, models.Error)                                                                      // 查询 NFT 类别详情
-	QueryNativeNFTClass(id string) (*models.QueryNativeNFTClassRes, models.Error)                                                          // 以原生方式 查询 NFT 类别详情
+	QueryNativeNFTClass(id string) (*models.QueryNativeNFTClassRes, models.Error)                                                          // 查询 NFT 类别详情(原生模块)
 	TransferNFTClass(params *models.TransferNFClassReq, classID, owner string) (*models.TxRes, models.Error)                               // 转让 NFT 类别
-	TransferNativeNFTClass(params *models.TransferNativeNFClassReq, classID, owner string) (*models.TxRes, models.Error)                   // 以原生方式 转让 NFT 类别
+	TransferNativeNFTClass(params *models.TransferNativeNFClassReq, classID, owner string) (*models.TxRes, models.Error)                   // 转让 NFT 类别(原生模块)
 	MintNFT(params *models.MintNFTReq, classID string) (*models.TxRes, models.Error)                                                       // 发行 NFT
-	MintNativeNFT(params *models.MintNativeNFTReq, classID string) (*models.TxRes, models.Error)                                           // 以原生方式 发行 NFT
+	MintNativeNFT(params *models.MintNativeNFTReq, classID string) (*models.TxRes, models.Error)                                           // 发行 NFT(原生模块)
 	TransferNFT(params *models.TransferNFTReq, classID, owner, nftID string) (*models.TxRes, models.Error)                                 // 转让 NFT
-	TransferNativeNFT(params *models.TransferNativeNFTReq, classID, owner, nftID string) (*models.TxRes, models.Error)                     // 以原生方式 转让 NFT
+	TransferNativeNFT(params *models.TransferNativeNFTReq, classID, owner, nftID string) (*models.TxRes, models.Error)                     // 转让 NFT(原生模块)
 	EditNFT(params *models.EditNFTReq, classID, owner, nftID string) (*models.TxRes, models.Error)                                         // 编辑 NFT
-	EditNativeNFT(params *models.EditNativeNFTReq, classID, owner, nftID string) (*models.TxRes, models.Error)                             // 以原生方式 编辑 NFT
+	EditNativeNFT(params *models.EditNativeNFTReq, classID, owner, nftID string) (*models.TxRes, models.Error)                             // 编辑 NFT(原生模块)
 	BurnNFT(params *models.BurnNFTReq, classID, owner, nftID string) (*models.TxRes, models.Error)                                         // 销毁 NFT
-	BurnNativeNFT(params *models.BurnNativeNFTReq, classID, owner, nftID string) (*models.TxRes, models.Error)                             // 以原生方式 销毁 NFT
+	BurnNativeNFT(params *models.BurnNativeNFTReq, classID, owner, nftID string) (*models.TxRes, models.Error)                             // 销毁 NFT(原生模块)
 	QueryNFTs(params *models.QueryNFTsReq) (*models.QueryNFTsRes, models.Error)                                                            // 查询 NFT
-	QueryNativeNFTs(params *models.QueryNativeNFTsReq) (*models.QueryNativeNFTsRes, models.Error)                                          // 以原生方式 查询 NFT
+	QueryNativeNFTs(params *models.QueryNativeNFTsReq) (*models.QueryNativeNFTsRes, models.Error)                                          // 查询 NFT(原生模块)
 	QueryNFT(classID, nftID string) (*models.QueryNFTRes, models.Error)                                                                    // 查询 NFT 详情
-	QueryNativeNFT(classID, nftID string) (*models.QueryNativeNFTRes, models.Error)                                                        // 以原生方式 查询 NFT 详情
+	QueryNativeNFT(classID, nftID string) (*models.QueryNativeNFTRes, models.Error)                                                        // 查询 NFT 详情(原生模块)
 	QueryNFTHistory(params *models.QueryNFTHistoryReq, classID, nftID string) (*models.QueryNFTHistoryRes, models.Error)                   // 查询 NFT 操作记录
-	QueryNativeNFTHistory(params *models.QueryNativeNFTHistoryReq, classID, nftID string) (*models.QueryNativeNFTHistoryRes, models.Error) // 以原生方式 查询 NFT 操作记录
+	QueryNativeNFTHistory(params *models.QueryNativeNFTHistoryReq, classID, nftID string) (*models.QueryNativeNFTHistoryRes, models.Error) // 查询 NFT 操作记录(原生模块)
 }
 
 type nftService struct {
@@ -49,7 +49,10 @@ func NewNFTService(log loggers.Advanced, httpClient utils.HttpClient) *nftServic
 	}
 }
 
-// CreateNFTClass 创建 NFT 类别
+/**
+ * @description: 创建 NFT 类别
+ * @return {*}
+ */
 func (n nftService) CreateNFTClass(params *models.CreateNFTClassReq) (*models.TxRes, models.Error) {
 	log := n.Logger
 	log.Debugln(map[string]interface{}{
@@ -104,7 +107,10 @@ func (n nftService) CreateNFTClass(params *models.CreateNFTClassReq) (*models.Tx
 	return result, nil
 }
 
-// CreateNativeNFTClass 以原生方式创建 NFT 类别
+/**
+ * @description: 创建 NFT 类别(原生模块)
+ * @return {*}
+ */
 func (n nftService) CreateNativeNFTClass(params *models.CreateNativeNFTClassReq) (*models.TxRes, models.Error) {
 	log := n.Logger
 	log.Debugln(map[string]interface{}{
@@ -155,7 +161,11 @@ func (n nftService) CreateNativeNFTClass(params *models.CreateNativeNFTClassReq)
 	return result, nil
 }
 
-// QueryNFTClasses 查询 NFT 类别
+/**
+ * @description: 查询 NFT 类别
+ * @param {*models.QueryNFTClassesReq} params
+ * @return {*}
+ */
 func (n nftService) QueryNFTClasses(params *models.QueryNFTClassesReq) (*models.QueryNFTClassesRes, models.Error) {
 	log := n.Logger
 	log.Debugln(map[string]interface{}{
@@ -190,7 +200,11 @@ func (n nftService) QueryNFTClasses(params *models.QueryNFTClassesReq) (*models.
 	return result, nil
 }
 
-// QueryNativeNFTClasses 以原生方式查询 NFT 类别
+/**
+ * @description: 查询 NFT 类别(原生模块)
+ * @param {*models.QueryNativeNFTClassesReq} params
+ * @return {*}
+ */
 func (n nftService) QueryNativeNFTClasses(params *models.QueryNativeNFTClassesReq) (*models.QueryNativeNFTClassesRes, models.Error) {
 	log := n.Logger
 	log.Debugln(map[string]interface{}{
@@ -229,7 +243,11 @@ func (n nftService) QueryNativeNFTClasses(params *models.QueryNativeNFTClassesRe
 	return result, nil
 }
 
-// QueryNFTClass 查询 NFT 类别详情
+/**
+ * @description: 查询 NFT 类别详情
+ * @param {string} id ：类别id
+ * @return {*}
+ */
 func (n nftService) QueryNFTClass(id string) (*models.QueryNFTClassRes, models.Error) {
 	log := n.Logger
 	log.Debugln(map[string]interface{}{
@@ -264,7 +282,11 @@ func (n nftService) QueryNFTClass(id string) (*models.QueryNFTClassRes, models.E
 	return result, nil
 }
 
-// QueryNativeNFTClass 以原生方式查询 NFT 类别详情
+/**
+ * @description: 查询 NFT 类别详情(原生模块)
+ * @param {string} id ：类别id
+ * @return {*}
+ */
 func (n nftService) QueryNativeNFTClass(id string) (*models.QueryNativeNFTClassRes, models.Error) {
 	log := n.Logger
 	log.Debugln(map[string]interface{}{
@@ -299,7 +321,10 @@ func (n nftService) QueryNativeNFTClass(id string) (*models.QueryNativeNFTClassR
 	return result, nil
 }
 
-// TransferNFTClass 转让 NFT 类别
+/**
+ * @description: 转让 NFT 类别
+ * @return {*}
+ */
 func (n nftService) TransferNFTClass(params *models.TransferNFClassReq, classID, owner string) (*models.TxRes, models.Error) {
 	log := n.Logger
 	log.Debugln(map[string]interface{}{
@@ -358,7 +383,13 @@ func (n nftService) TransferNFTClass(params *models.TransferNFClassReq, classID,
 	return result, nil
 }
 
-// TransferNativeNFTClass  以原生方式转让 NFT 类别
+/**
+ * @description: 转让 NFT 类别(原生模块)
+ * @param {*models.TransferNativeNFClassReq} params
+ * @param {*} classID ：类别id
+ * @param {string} owner ：类别拥有者(链账户)
+ * @return {*}
+ */
 func (n nftService) TransferNativeNFTClass(params *models.TransferNativeNFClassReq, classID, owner string) (*models.TxRes, models.Error) {
 	log := n.Logger
 	log.Debugln(map[string]interface{}{
@@ -417,7 +448,12 @@ func (n nftService) TransferNativeNFTClass(params *models.TransferNativeNFClassR
 	return result, nil
 }
 
-// MintNFT 发行 NFT
+/**
+ * @description: 发行 NFT
+ * @param {*models.MintNFTReq} params
+ * @param {string} classID ：类别id
+ * @return {*}
+ */
 func (n nftService) MintNFT(params *models.MintNFTReq, classID string) (*models.TxRes, models.Error) {
 	log := n.Logger
 	log.Debugln(map[string]interface{}{
@@ -475,7 +511,12 @@ func (n nftService) MintNFT(params *models.MintNFTReq, classID string) (*models.
 	return result, nil
 }
 
-// MintNativeNFT 以原生方式发行 NFT
+/**
+ * @description: 发行 NFT(原生模块)
+ * @param {*models.MintNativeNFTReq} params
+ * @param {string} classID ：类别id
+ * @return {*}
+ */
 func (n nftService) MintNativeNFT(params *models.MintNativeNFTReq, classID string) (*models.TxRes, models.Error) {
 	log := n.Logger
 	log.Debugln(map[string]interface{}{
@@ -526,7 +567,14 @@ func (n nftService) MintNativeNFT(params *models.MintNativeNFTReq, classID strin
 	return result, nil
 }
 
-// TransferNFT 转让 NFT
+/**
+ * @description: 转让 NFT
+ * @param {*models.TransferNFTReq} params
+ * @param {*} classID ：类别id
+ * @param {*} owner ：资产拥有者(链账户)
+ * @param {string} nftID
+ * @return {*}
+ */
 func (n nftService) TransferNFT(params *models.TransferNFTReq, classID, owner, nftID string) (*models.TxRes, models.Error) {
 	log := n.Logger
 	log.Debugln(map[string]interface{}{
@@ -590,7 +638,14 @@ func (n nftService) TransferNFT(params *models.TransferNFTReq, classID, owner, n
 	return result, nil
 }
 
-// TransferNativeNFT  以原生方式转让 NFT
+/**
+ * @description: 转让 NFT(原生模块)
+ * @param {*models.TransferNativeNFTReq} params
+ * @param {*} classID ：类别id
+ * @param {*} owner ：资产拥有者(链账户)
+ * @param {string} nftID
+ * @return {*}
+ */
 func (n nftService) TransferNativeNFT(params *models.TransferNativeNFTReq, classID, owner, nftID string) (*models.TxRes, models.Error) {
 	log := n.Logger
 	log.Debugln(map[string]interface{}{
@@ -654,7 +709,14 @@ func (n nftService) TransferNativeNFT(params *models.TransferNativeNFTReq, class
 	return result, nil
 }
 
-// EditNFT 编辑 NFT
+/**
+ * @description: 编辑 NFT
+ * @param {*models.EditNFTReq} params
+ * @param {*} classID ：类别id
+ * @param {*} owner ：资产拥有者(链账户)
+ * @param {string} nftID
+ * @return {*}
+ */
 func (n nftService) EditNFT(params *models.EditNFTReq, classID, owner, nftID string) (*models.TxRes, models.Error) {
 	log := n.Logger
 	log.Debugln(map[string]interface{}{
@@ -718,7 +780,14 @@ func (n nftService) EditNFT(params *models.EditNFTReq, classID, owner, nftID str
 	return result, nil
 }
 
-// EditNativeNFT 以原生方式 编辑 NFT
+/**
+ * @description: 编辑 NFT(原生模块)
+ * @param {*models.EditNativeNFTReq} params
+ * @param {*} classID ：类别id
+ * @param {*} owner ：资产拥有者(链账户)
+ * @param {string} nftID
+ * @return {*}
+ */
 func (n nftService) EditNativeNFT(params *models.EditNativeNFTReq, classID, owner, nftID string) (*models.TxRes, models.Error) {
 	log := n.Logger
 	log.Debugln(map[string]interface{}{
@@ -779,7 +848,13 @@ func (n nftService) EditNativeNFT(params *models.EditNativeNFTReq, classID, owne
 	return result, nil
 }
 
-// BurnNFT 销毁 NFT
+/**
+ * @description: 销毁 NFT
+ * @param {*} classID ：类别id
+ * @param {*} owner ：资产拥有者(链账户)
+ * @param {string} nftID
+ * @return {*}
+ */
 func (n nftService) BurnNFT(params *models.BurnNFTReq, classID, owner, nftID string) (*models.TxRes, models.Error) {
 	log := n.Logger
 	log.Debugln(map[string]interface{}{
@@ -839,7 +914,14 @@ func (n nftService) BurnNFT(params *models.BurnNFTReq, classID, owner, nftID str
 	return result, nil
 }
 
-// BurnNativeNFT 以原生方式 销毁 NFT
+/**
+ * @description: 销毁 NFT(原生模块)
+ * @param {*models.BurnNativeNFTReq} params
+ * @param {*} classID ：类别id
+ * @param {*} owner ：资产拥有者(链账户)
+ * @param {string} nftID
+ * @return {*}
+ */
 func (n nftService) BurnNativeNFT(params *models.BurnNativeNFTReq, classID, owner, nftID string) (*models.TxRes, models.Error) {
 	log := n.Logger
 	log.Debugln(map[string]interface{}{
@@ -899,7 +981,11 @@ func (n nftService) BurnNativeNFT(params *models.BurnNativeNFTReq, classID, owne
 	return result, nil
 }
 
-// QueryNFTs 查询 NFT
+/**
+ * @description: 查询 NFT
+ * @param {*models.QueryNFTsReq} params
+ * @return {*}
+ */
 func (n nftService) QueryNFTs(params *models.QueryNFTsReq) (*models.QueryNFTsRes, models.Error) {
 	log := n.Logger
 	log.Debugln(map[string]interface{}{
@@ -933,7 +1019,11 @@ func (n nftService) QueryNFTs(params *models.QueryNFTsReq) (*models.QueryNFTsRes
 	return result, nil
 }
 
-// QueryNativeNFTs 以原生方式查询 NFT
+/**
+ * @description: 查询 NFT(原生模块)
+ * @param {*models.QueryNativeNFTsReq} params
+ * @return {*}
+ */
 func (n nftService) QueryNativeNFTs(params *models.QueryNativeNFTsReq) (*models.QueryNativeNFTsRes, models.Error) {
 	log := n.Logger
 	log.Debugln(map[string]interface{}{
@@ -967,7 +1057,12 @@ func (n nftService) QueryNativeNFTs(params *models.QueryNativeNFTsReq) (*models.
 	return result, nil
 }
 
-// QueryNFT 查询 NFT 详情
+/**
+ * @description: 查询 NFT 详情
+ * @param {*} classID ：类别id
+ * @param {string} nftID
+ * @return {*}
+ */
 func (n nftService) QueryNFT(classID, nftID string) (*models.QueryNFTRes, models.Error) {
 	log := n.Logger
 	log.Debugln(map[string]interface{}{
@@ -1006,7 +1101,12 @@ func (n nftService) QueryNFT(classID, nftID string) (*models.QueryNFTRes, models
 	return result, nil
 }
 
-// QueryNativeNFT 以原生方式查询 NFT 详情
+/**
+ * @description: 查询 NFT 详情(原生模块)
+ * @param {*} classID ：类别id
+ * @param {string} nftID
+ * @return {*}
+ */
 func (n nftService) QueryNativeNFT(classID, nftID string) (*models.QueryNativeNFTRes, models.Error) {
 	log := n.Logger
 	log.Debugln(map[string]interface{}{
@@ -1045,7 +1145,13 @@ func (n nftService) QueryNativeNFT(classID, nftID string) (*models.QueryNativeNF
 	return result, nil
 }
 
-// QueryNFTHistory 查询 NFT 操作记录
+/**
+ * @description: 查询 NFT 操作记录
+ * @param {*models.QueryNFTHistoryReq} params
+ * @param {*} classID ：类别id
+ * @param {string} nftID
+ * @return {*}
+ */
 func (n nftService) QueryNFTHistory(params *models.QueryNFTHistoryReq, classID, nftID string) (*models.QueryNFTHistoryRes, models.Error) {
 	log := n.Logger
 	log.Debugln(map[string]interface{}{
@@ -1082,7 +1188,13 @@ func (n nftService) QueryNFTHistory(params *models.QueryNFTHistoryReq, classID, 
 	return result, nil
 }
 
-// QueryNativeNFTHistory 以原生方式查询 NFT 操作记录
+/**
+ * @description: 查询 NFT 操作记录(原生模块)
+ * @param {*models.QueryNFTHistoryReq} params
+ * @param {*} classID ：类别id
+ * @param {string} nftID
+ * @return {*}
+ */
 func (n nftService) QueryNativeNFTHistory(params *models.QueryNativeNFTHistoryReq, classID, nftID string) (*models.QueryNativeNFTHistoryRes, models.Error) {
 	log := n.Logger
 	log.Debugln(map[string]interface{}{

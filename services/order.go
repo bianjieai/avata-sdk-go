@@ -31,7 +31,11 @@ func NewOrderService(log loggers.Advanced, httpClient utils.HttpClient) *orderSe
 	}
 }
 
-// CreateOrder 购买能量值/业务费接口
+/**
+ * @description: 购买能量值/业务费接口
+ * @param {*models.CreateOrderReq} params
+ * @return {*}
+ */
 func (o orderService) CreateOrder(params *models.CreateOrderReq) (*models.OrderRes, models.Error) {
 	log := o.Logger
 	log.Debugln(map[string]interface{}{
@@ -90,7 +94,10 @@ func (o orderService) CreateOrder(params *models.CreateOrderReq) (*models.OrderR
 	return result, nil
 }
 
-// QueryOrders 查询能量值/业务费购买结果列表接口
+/**
+ * @description: 查询能量值/业务费购买结果列表接口
+ * @return {*}
+ */
 func (o orderService) QueryOrders(params *models.QueryOrdersReq) (*models.QueryOrdersRes, models.Error) {
 	log := o.Logger
 	log.Debugln(map[string]interface{}{
@@ -125,7 +132,11 @@ func (o orderService) QueryOrders(params *models.QueryOrdersReq) (*models.QueryO
 	return result, nil
 }
 
-// QueryOrder 查询能量值/业务费购买结果接口
+/**
+ * @description: 查询能量值/业务费购买结果接口
+ * @param {string} operationID ：操作id、订单流水号
+ * @return {*}
+ */
 func (o orderService) QueryOrder(operationID string) (*models.QueryOrderRes, models.Error) {
 	log := o.Logger
 	log.Debugln(map[string]interface{}{
@@ -160,7 +171,11 @@ func (o orderService) QueryOrder(operationID string) (*models.QueryOrderRes, mod
 	return result, nil
 }
 
-// BatchCreateOrder 批量购买能量值接口
+/**
+ * @description: 批量购买能量值接口
+ * @param {*models.BatchCreateOrderReq} params
+ * @return {*}
+ */
 func (o orderService) BatchCreateOrder(params *models.BatchCreateOrderReq) (*models.OrderRes, models.Error) {
 	log := o.Logger
 	log.Debugln(map[string]interface{}{

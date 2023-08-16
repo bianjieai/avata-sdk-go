@@ -11,10 +11,10 @@ import (
 )
 
 type ResolvesService interface {
-	SetResolves(params *models.SetResolvesReq, owner, name string) (*models.TxRes, models.Error)
-	QueryResolves(params *models.QueryResolvesReq, name string) (*models.QueryResolvesRes, models.Error)
-	SetReverseResolves(params *models.SetReverseResolvesReq, owner string) (*models.TxRes, models.Error)
-	QueryReverseResolves(owner string) (*models.QueryReverseResolvesRes, models.Error)
+	SetResolves(params *models.SetResolvesReq, owner, name string) (*models.TxRes, models.Error)         //设置域名解析
+	QueryResolves(params *models.QueryResolvesReq, name string) (*models.QueryResolvesRes, models.Error) //查询域名解析
+	SetReverseResolves(params *models.SetReverseResolvesReq, owner string) (*models.TxRes, models.Error) //设置域名反向解析
+	QueryReverseResolves(owner string) (*models.QueryReverseResolvesRes, models.Error)                   //查询域名反向解析
 }
 
 type resolvesService struct {
@@ -28,6 +28,14 @@ func NewResolvesService(log loggers.Advanced, client utils.HttpClient) *resolves
 		HttpClient: client,
 	}
 }
+
+/**
+ * @description: 设置域名解析
+ * @param {*models.SetResolvesReq} params
+ * @param {*} owner ：域名拥有者（链账户）
+ * @param {string} name ：域名
+ * @return {*}
+ */
 func (r resolvesService) SetResolves(params *models.SetResolvesReq, owner, name string) (*models.TxRes, models.Error) {
 	log := r.Logger
 	log.Debugln(map[string]interface{}{
@@ -76,6 +84,12 @@ func (r resolvesService) SetResolves(params *models.SetResolvesReq, owner, name 
 	return result, nil
 }
 
+/**
+ * @description: 查询域名解析
+ * @param {*models.QueryResolvesReq} params
+ * @param {string} name ：域名
+ * @return {*}
+ */
 func (r resolvesService) QueryResolves(params *models.QueryResolvesReq, name string) (*models.QueryResolvesRes, models.Error) {
 	log := r.Logger
 	log.Debugln(map[string]interface{}{
@@ -114,6 +128,12 @@ func (r resolvesService) QueryResolves(params *models.QueryResolvesReq, name str
 	return result, nil
 }
 
+/**
+ * @description: 设置域名反解析
+ * @param {*models.SetReverseResolvesReq} params
+ * @param {string} owner ：域名拥有者（链账户）
+ * @return {*}
+ */
 func (r resolvesService) SetReverseResolves(params *models.SetReverseResolvesReq, owner string) (*models.TxRes, models.Error) {
 	log := r.Logger
 	log.Debugln(map[string]interface{}{
@@ -155,6 +175,11 @@ func (r resolvesService) SetReverseResolves(params *models.SetReverseResolvesReq
 	return result, nil
 }
 
+/**
+ * @description: 查询域名反解析
+ * @param {string} owner ：域名拥有者（链账户）
+ * @return {*}
+ */
 func (r resolvesService) QueryReverseResolves(owner string) (*models.QueryReverseResolvesRes, models.Error) {
 	log := r.Logger
 	log.Debugln(map[string]interface{}{

@@ -25,7 +25,7 @@ func getRequest1(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-//v2版本
+//v2及以上版本
 func CallBack2() {
 	http.HandleFunc("路由", getRequest2)
 	http.ListenAndServe("端口", nil)

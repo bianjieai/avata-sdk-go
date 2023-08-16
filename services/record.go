@@ -1,3 +1,8 @@
+/*
+ * @description:
+ * @param:
+ * @return:
+ */
 package services
 
 import (
@@ -28,7 +33,11 @@ func NewRecordService(log loggers.Advanced, client utils.HttpClient) *recordServ
 	}
 }
 
-// CreateRecord 数字作品存证接口
+/**
+ * @description: 数字作品存证接口
+ * @param {*models.CreateRecordReq} params
+ * @return {*}
+ */
 func (r recordService) CreateRecord(params *models.CreateRecordReq) (*models.TxRes, models.Error) {
 	log := r.Logger
 	log.Debugln(map[string]interface{}{
