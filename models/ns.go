@@ -1,3 +1,8 @@
+/*
+ * @description:
+ * @param:
+ * @return:
+ */
 package models
 
 const (
@@ -17,8 +22,8 @@ type RegisterDomainReq struct {
 
 // QueryDomainReq 查询域名请求参数
 type QueryDomainReq struct {
-	Name string `json:"name"`                    // 域名关键字
-	Tld  string `json:"tld,omitempty,omitempty"` // 根域名
+	Name string `json:"name"`          // 域名关键字
+	Tld  string `json:"tld,omitempty"` // 根域名
 }
 
 // QueryDomainRes 查询域名返回结果
