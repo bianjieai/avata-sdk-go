@@ -1,3 +1,8 @@
+/*
+ * @description:
+ * @param:
+ * @return:
+ */
 package utils
 
 import (
@@ -74,4 +79,36 @@ func CallBackV2(r *http.Request, path, apiSecret string) string {
 		return "FAILED"
 	}
 	return "SUCCESS"
+}
+
+/**
+ * @description: 接收推送消息
+ * @param {*} version :版本
+ * @param {*} apiSecret
+ * @param {string} path ：路由地址(回调地址去掉域名)
+ * @param {*http.Request} r
+ * @return {*}
+ */
+func ReceiveMessages(version, apiSecret, path string, r *http.Request) string {
+	if version == "v1" {
+		a := CallBackV1(r, apiSecret)
+		return judge(a)
+	}
+	if version == "v2" || version == "v3" {
+		a := CallBackV2(r, path, apiSecret)
+		return judge(a)
+	} else {
+		return "版本不符合，要求请重新填写"
+	}
+
+}
+
+func judge(result string) string {
+	if result == "SUCCESS" {
+		//该笔推送消息属于文昌链上链完成所推送消息，请及时存储数据
+		//TODO
+		return ""
+	} else {
+		return "验签不通过"
+	}
 }
