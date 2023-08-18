@@ -14,6 +14,8 @@ import (
 
 //回调服务
 func CallBack(r *http.Request) {
-	a := utils.ReceiveMessages("", "", "", r)
+	a := utils.ReceiveMessages("", "", "", r, func() {
+		//TODO
+	})
 	fmt.Print(a)
 }

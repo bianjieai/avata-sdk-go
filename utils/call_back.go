@@ -89,21 +89,21 @@ func CallBackV2(r *http.Request, path, apiSecret string) string {
  * @param {*http.Request} r
  * @return {*}
  */
-func ReceiveMessages(version, apiSecret, path string, r *http.Request) string {
+func ReceiveMessages(version, apiSecret, path string, r *http.Request, businessFunction business) string {
 	if version == "v1" {
 		a := CallBackV1(r, apiSecret)
-		return judge(a)
+		return judge(a, businessFunction)
 	}
 	if version == "v2" || version == "v3" {
 		a := CallBackV2(r, path, apiSecret)
-		return judge(a)
+		return judge(a, businessFunction)
 	} else {
 		return "版本不符合，要求请重新填写"
 	}
 
 }
 
-func judge(result string) string {
+func judge(result string, businessFunction business) string {
 	if result == "SUCCESS" {
 		//该笔推送消息属于文昌链上链完成所推送消息，请及时存储数据
 		//TODO
@@ -111,4 +111,7 @@ func judge(result string) string {
 	} else {
 		return "验签不通过"
 	}
+}
+
+type business interface {
 }
