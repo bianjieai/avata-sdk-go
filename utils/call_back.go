@@ -13,7 +13,7 @@ import (
 	"strings"
 )
 
-//v1版本签名回调验签
+// v1 版本签名回调验签
 func CallBackV1(r *http.Request, apiSecret string) string {
 	var bodyBytes []byte
 	params := map[string]interface{}{}
@@ -45,7 +45,7 @@ func CallBackV1(r *http.Request, apiSecret string) string {
 	return "SUCCESS"
 }
 
-//v2及以上版本请使用以下签名、验签
+// v2 及以上版本请使用以下签名、验签
 func CallBackV2(r *http.Request, path, apiSecret string) string {
 	// 获取 path params
 	params := map[string]interface{}{}
@@ -98,7 +98,7 @@ func ReceiveMessages(version, apiSecret, path string, r *http.Request, businessF
 		a := CallBackV2(r, path, apiSecret)
 		return judge(a, businessFunction)
 	} else {
-		return "版本不符合，要求请重新填写"
+		return "版本不符合要求，请重新填写"
 	}
 
 }
