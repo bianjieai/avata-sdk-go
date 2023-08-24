@@ -58,12 +58,11 @@ type QueryAccountsReq struct {
 type (
 	QueryAccountsRes struct {
 		Data struct {
-			PrevPageKey string `json:"prev_page_key"` //上一页数据的Key， Avata会根据该值进行上一页数据的查询
-			NextPageKey string `json:"next_page_key"` //下一页数据的Key， Avata会根据该值进行下一页数据的查询
-			Limit       int64  `json:"limit"`         // 每页记录数
-			TotalCount  int64  `json:"total_count"`   // 总记录数
-			//ReadOnly    int64      `json:"read_only"`     //当钱包项目查询到链账户时，返回此字段 字段用于区分是否是当前项目进行创建的链账户 0: 当前钱包创建 1: 其他钱包创建
-			Accounts []Accounts `json:"accounts"` // 链账户列表
+			PrevPageKey string     `json:"prev_page_key"` //上一页数据的Key， Avata会根据该值进行上一页数据的查询
+			NextPageKey string     `json:"next_page_key"` //下一页数据的Key， Avata会根据该值进行下一页数据的查询
+			Limit       int64      `json:"limit"`         // 每页记录数
+			TotalCount  int64      `json:"total_count"`   // 总记录数
+			Accounts    []Accounts `json:"accounts"`      // 链账户列表
 		} `json:"data"`
 	}
 
@@ -72,6 +71,7 @@ type (
 		HexAddress    string `json:"hex_address"`    //
 		Name          string `json:"name"`           // 链账户名称
 		OperationID   string `json:"operation_id"`   // 操作 ID
+		ReadOnly      int64  `json:"read_only"`      //当钱包项目查询到链账户时，返回此字段 字段用于区分是否是当前项目进行创建的链账户 0: 当前钱包创建 1: 其他钱包创建
 	}
 )
 
