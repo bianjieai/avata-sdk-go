@@ -40,9 +40,9 @@ func CallBackV1(r *http.Request, apiSecret string) string {
 	jsonEncoder.Encode(params)
 	hexHash := hash(strings.TrimRight(bf.String(), "\n") + apiSecret)
 	if hexHash != signRequest {
-		return "FAILED"
+		return "FALSE"
 	}
-	return "SUCCESS"
+	return "TRUE"
 }
 
 // v2 及以上版本请使用以下签名、验签
@@ -76,42 +76,33 @@ func CallBackV2(r *http.Request, path, apiSecret string) string {
 	jsonEncoder.Encode(params)
 	hexHash := hash(strings.TrimRight(bf.String(), "\n") + r.Header.Get("X-Timestamp") + apiSecret)
 	if hexHash != signRequest {
-		return "FAILED"
+		return "FALSE"
 	}
-	return "SUCCESS"
+	return "TRUE"
 }
 
 /**
  * @description: 接收推送消息
- * @param {*} version :版本
+ * @param {*} version :版本 ：v1需要传 v1 , v2或者v3版本传任意字符串即可
  * @param {*} apiSecret
  * @param {string} path ：路由地址(回调地址去掉域名)
  * @param {*http.Request} r
  * @return {*}
  */
-func ReceiveMessages(version, apiSecret, path string, r *http.Request, businessFunction business) string {
+func OnCallBack(version, apiSecret, path string, r *http.Request, businessFunction func()) string {
 	if version == "v1" {
-		a := CallBackV1(r, apiSecret)
-		return judge(a, businessFunction)
+		result := CallBackV1(r, apiSecret)
+		return judge(result, businessFunction)
 	}
-	if version == "v2" || version == "v3" {
-		a := CallBackV2(r, path, apiSecret)
-		return judge(a, businessFunction)
-	} else {
-		return "版本不符合要求，请重新填写"
-	}
-
+	result := CallBackV2(r, path, apiSecret)
+	return judge(result, businessFunction)
 }
 
-func judge(result string, businessFunction business) string {
+func judge(result string, businessFunction func()) string {
 	if result == "SUCCESS" {
 		//该笔推送消息属于文昌链上链完成所推送消息，请及时存储数据
-		//TODO
-		return ""
-	} else {
-		return "验签不通过"
+		businessFunction()
+		return result
 	}
-}
-
-type business interface {
+	return "验签不通过"
 }
