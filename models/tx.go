@@ -89,9 +89,9 @@ type DataItem struct {
 	Data []TxType `json:"data"`
 }
 type TxType struct {
-	Module      int64  `json:"module"`
-	Operation   int64  `json:"operation"`
-	Code        string `json:"code"`
-	Name        string `json:"name"`
-	Description string `json:"description"`
+	Module      int64  `json:"module"`      //交易模块：请通过 查询枚举值列表 接口查看
+	Operation   int64  `json:"operation"`   //用户操作类型 请通过 查询枚举值列表 接口查看
+	Code        string `json:"code"`        //标识
+	Name        string `json:"name"`        //名称
+	Description string `json:"description"` //描述
 }
