@@ -1,3 +1,8 @@
+/*
+ * @description:
+ * @param:
+ * @return:
+ */
 package models
 
 const (
@@ -63,11 +68,11 @@ type QueryNativeTxResultRes struct {
 		Mt struct {
 			MtId    string `json:"mt_id"`
 			ClassId string `json:"class_id"`
-		}
+		} `json:"mt"`
 		Record struct {
 			RecordId       string `json:"record_id"`
 			CertificateUrl string `json:"certificate_url"`
-		}
+		} `json:"record"`
 	} `json:"data"`
 }
 
