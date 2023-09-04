@@ -24,6 +24,6 @@ type QueryContractReq struct {
 // QueryContractRes 查询合约返回值
 type QueryContractRes struct {
 	Data struct {
-		Result string `json:"result"`
+		Result string `json:"result"` //合约调用结果 hex 字符串
 	} `json:"data"`
 }

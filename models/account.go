@@ -67,8 +67,8 @@ type (
 	}
 
 	Accounts struct {
-		NativeAddress string `json:"native_address"` //
-		HexAddress    string `json:"hex_address"`    //
+		NativeAddress string `json:"native_address"` //原生地址格式
+		HexAddress    string `json:"hex_address"`    //以太坊地址格式
 		Name          string `json:"name"`           // 链账户名称
 		OperationID   string `json:"operation_id"`   // 操作 ID
 		ReadOnly      int64  `json:"read_only"`      //当钱包项目查询到链账户时，返回此字段 字段用于区分是否是当前项目进行创建的链账户 0: 当前钱包创建 1: 其他钱包创建
@@ -133,22 +133,20 @@ type OperationRecord struct {
 	NFTMsg    NFTMsg `json:"nft_msg"`    // 具体参考接口文档
 }
 type NFTMsg struct {
-	ID                   interface{} `json:"id"`
-	URI                  string      `json:"uri"`
-	Name                 string      `json:"name"`
-	ClassID              string      `json:"class_id"`
-	Symbol               string      `json:"symbol"`
-	Recipient            string      `json:"recipient"`
-	EditableByOwner      int         `json:"editable_by_owner"`
-	EditableByClassOwner int         `json:"editable_by_class_owner"`
+	ID        interface{} `json:"id"`        //NFT 类别 ID
+	URI       string      `json:"uri"`       //链外数据链接
+	Name      string      `json:"name"`      //NFT 类别名称
+	ClassID   string      `json:"class_id"`  //NFT 类别 ID
+	Symbol    string      `json:"symbol"`    //NFT 类别标识
+	Recipient string      `json:"recipient"` //接收者地址
 }
 type MTMsg struct {
-	ID        string `json:"id"`
-	Name      string `json:"name"`
-	ClassID   string `json:"class_id"`
-	Amount    string `json:"amount"`
-	Recipient string `json:"recipient"`
-	ClassName string `json:"class"`
+	ID        string `json:"id"`        //MT 类别 ID
+	Name      string `json:"name"`      //MT 类别名称
+	ClassID   string `json:"class_id"`  //MT 类别 ID
+	Amount    string `json:"amount"`    //发行数量
+	Recipient string `json:"recipient"` //接收者地址
+	ClassName string `json:"class"`     //MT 类别名称
 }
 
 // QueryAccountsHistoryRes 以 EVM 方式查询链账户操作记录返回值
