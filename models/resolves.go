@@ -7,7 +7,7 @@ const (
 	QueryReverseResolves = "/v3/evm/ns/reverse-resolves/%s" //查询域名反向解析
 )
 
-//设置域名解析
+// SetResolvesReq 设置域名解析
 type SetResolvesReq struct {
 	ResolveType int `json:"resolve_type"` //域名解析类型 1：链账户 2：文本
 	Addr        struct {
@@ -21,7 +21,7 @@ type SetResolvesReq struct {
 	OperationID string `json:"operation_id"` //操作id
 }
 
-//查询域名解析
+// QueryResolvesReq 查询域名解析
 type QueryResolvesReq struct {
 	ResolveType string `json:"resolve_type,omitempty"` //域名解析类型 0：全部 1：链账户 2：文本
 }
@@ -38,13 +38,13 @@ type QueryResolvesRes struct {
 	} `json:"data"`
 }
 
-//设置域名反向解析
+// SetReverseResolvesReq 设置域名反向解析
 type SetReverseResolvesReq struct {
 	Name        string `json:"name"`         //域名名称
 	OperationID string `json:"operation_id"` //操作id
 }
 
-//查询域名反向解析
+// QueryReverseResolvesRes 查询域名反向解析
 type QueryReverseResolvesRes struct {
 	Data struct {
 		Name string `json:"name"` //域名

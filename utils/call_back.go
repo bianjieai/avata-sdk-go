@@ -7,14 +7,23 @@ package utils
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"io"
 	"net/http"
 	"strings"
+
+	"github.com/bianjieai/avata-sdk-go/models"
 )
 
-// v1 版本签名回调验签
-func CallBackV1(r *http.Request, apiSecret string) string {
+// 验证签名时传入的 API 版本号
+const (
+	APIVersionV1     = "v1" // v1 版本 AVATA Open API
+	APIVersionsOther = ""   // 其它版本 AVATA Open API
+)
+
+// CallBackV1 v1 版本签名回调验签
+func CallBackV1(r *http.Request, apiSecret string) bool {
 	var bodyBytes []byte
 	params := map[string]interface{}{}
 	if r.Body != nil {
@@ -40,13 +49,13 @@ func CallBackV1(r *http.Request, apiSecret string) string {
 	jsonEncoder.Encode(params)
 	hexHash := hash(strings.TrimRight(bf.String(), "\n") + apiSecret)
 	if hexHash != signRequest {
-		return "FALSE"
+		return false
 	}
-	return "TRUE"
+	return true
 }
 
-// v2 及以上版本请使用以下签名、验签
-func CallBackV2(r *http.Request, path, apiSecret string) string {
+// CallBack v2 及以上版本请使用以下签名、验签
+func CallBack(r *http.Request, path, apiSecret string) bool {
 	// 获取 path params
 	params := map[string]interface{}{}
 	params["path_url"] = path
@@ -76,34 +85,41 @@ func CallBackV2(r *http.Request, path, apiSecret string) string {
 	jsonEncoder.Encode(params)
 	hexHash := hash(strings.TrimRight(bf.String(), "\n") + r.Header.Get("X-Timestamp") + apiSecret)
 	if hexHash != signRequest {
-		return "FALSE"
+		return false
 	}
-	return "TRUE"
+	return true
 }
 
 /**
  * @description: 接收推送消息
- * @param {*} version :版本 ：v1需要传 v1 , v2或者v3版本传任意字符串即可
+ * @param {*} version :版本 ：v1需要传 APIVersionV1 , v2或者v3版本传 APIVersionsOther
  * @param {*} apiSecret
  * @param {string} path ：路由地址(回调地址去掉域名)
- * @param {*http.Request} r
- * @param app ：自己的业务逻辑代码
+ * @param {*http.Request} r ：该笔推送消息属于文昌链上链完成所推送消息，请及时存储数据
+ * @param app ：自己的业务逻辑代码（验证签名通过才会执行）
  * @return {*}
  */
-func OnCallBack(version, apiSecret, path string, r *http.Request, app func()) string {
-	if version == "v1" {
-		result := CallBackV1(r, apiSecret)
-		return judge(result, app)
+func OnCallBack(ctx context.Context, version, apiSecret, path string, r *http.Request, app App) (string, error) {
+	var result bool
+
+	// 验证签名
+	switch version {
+	case APIVersionV1:
+		result = CallBackV1(r, apiSecret)
+	case APIVersionsOther:
+		result = CallBack(r, path, apiSecret)
+	default:
+		return "", models.NewSDKError("version verification failed")
 	}
-	result := CallBackV2(r, path, apiSecret)
-	return judge(result, app)
+	if !result {
+		return "", models.NewSDKError("signature verification failed")
+	}
+
+	// 该笔推送消息属于文昌链上链完成所推送消息，请及时存储数据
+	app(ctx, r)
+
+	return "SUCCESS", nil
 }
 
-func judge(result string, app func()) string {
-	if result == "SUCCESS" {
-		//该笔推送消息属于文昌链上链完成所推送消息，请及时存储数据
-		app()
-		return result
-	}
-	return "验签不通过"
-}
+// App 回调函数的定义
+type App func(ctx context.Context, r *http.Request)
