@@ -24,7 +24,6 @@ func CallBack(r *http.Request, w http.ResponseWriter) error {
 	app := func(ctx context.Context, a *http.Request) {
 		// 业务逻辑
 	}
-	//result 需要返回给消息推送端
 	err := utils.OnCallBack(context.Background(), utils.APIVersionV1, "1", "", r, w, app)
 	if err != nil {
 		fmt.Println(err)
