@@ -99,7 +99,7 @@ func CallBack(r *http.Request, path, apiSecret string) bool {
  * @param app ：自己的业务逻辑代码（验证签名通过才会执行）
  * @return {*}
  */
-func OnCallBack(ctx context.Context, version, apiSecret, path string, r *http.Request, app App) (string, error) {
+func OnCallBack(ctx context.Context, version, apiSecret, path string, r *http.Request, w http.ResponseWriter, app App) error {
 	var result bool
 
 	// 验证签名
@@ -109,16 +109,19 @@ func OnCallBack(ctx context.Context, version, apiSecret, path string, r *http.Re
 	case APIVersionsOther:
 		result = CallBack(r, path, apiSecret)
 	default:
-		return "", models.NewSDKError("version verification failed")
+		return models.NewSDKError("version verification failed")
 	}
 	if !result {
-		return "", models.NewSDKError("signature verification failed")
+		return models.NewSDKError("signature verification failed")
 	}
 
 	// 该笔推送消息属于文昌链上链完成所推送消息，请及时存储数据
 	app(ctx, r)
 
-	return "SUCCESS", nil
+	// 返回给消息推送端
+	w.Write([]byte("SUCCESS"))
+
+	return nil
 }
 
 // App 回调函数的定义
