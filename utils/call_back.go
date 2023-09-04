@@ -99,10 +99,10 @@ func OnCallBack(version, apiSecret, path string, r *http.Request, app func()) st
 	return judge(result, app)
 }
 
-func judge(result string, businessFunction func()) string {
+func judge(result string, app func()) string {
 	if result == "SUCCESS" {
 		//该笔推送消息属于文昌链上链完成所推送消息，请及时存储数据
-		businessFunction()
+		app()
 		return result
 	}
 	return "验签不通过"
