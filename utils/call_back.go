@@ -87,21 +87,22 @@ func CallBackV2(r *http.Request, path, apiSecret string) string {
  * @param {*} apiSecret
  * @param {string} path ：路由地址(回调地址去掉域名)
  * @param {*http.Request} r
+ * @param app ：自己的业务逻辑代码
  * @return {*}
  */
-func OnCallBack(version, apiSecret, path string, r *http.Request, businessFunction func()) string {
+func OnCallBack(version, apiSecret, path string, r *http.Request, app func()) string {
 	if version == "v1" {
 		result := CallBackV1(r, apiSecret)
-		return judge(result, businessFunction)
+		return judge(result, app)
 	}
 	result := CallBackV2(r, path, apiSecret)
-	return judge(result, businessFunction)
+	return judge(result, app)
 }
 
-func judge(result string, businessFunction func()) string {
+func judge(result string, app func()) string {
 	if result == "SUCCESS" {
 		//该笔推送消息属于文昌链上链完成所推送消息，请及时存储数据
-		businessFunction()
+		app()
 		return result
 	}
 	return "验签不通过"

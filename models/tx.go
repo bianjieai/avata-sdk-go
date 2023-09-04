@@ -1,3 +1,8 @@
+/*
+ * @description:
+ * @param:
+ * @return:
+ */
 package models
 
 const (
@@ -24,23 +29,23 @@ type QueryTxResultRes struct {
 		BlockHeight int    `json:"block_height"` // 交易上链的区块高度
 		Timestamp   string `json:"timestamp"`    // 交易上链时间（UTC 时间）
 		Nft         struct {
-			ClassId string `json:"class_id"`
-			ID      int    `json:"id"`
+			ClassId string `json:"class_id"` //NFT 类别 ID
+			ID      int    `json:"id"`       //NFT ID
 		} `json:"nft"` // 具体参考接口文档
 		Ns struct {
-			Name    string `json:"name"`
-			Owner   string `json:"owner"`
-			Expires int    `json:"expires"`
-			Node    string `json:"node"`
+			Name    string `json:"name"`    //域名
+			Owner   string `json:"owner"`   //域名拥有者的链账户地址
+			Expires int    `json:"expires"` //当前域名过期时间戳
+			Node    string `json:"node"`    //域名 node key
 			Addr    struct {
-				BlockChain int    `json:"block_chain"`
-				AddrValue  string `json:"addr_value"`
+				BlockChain int    `json:"block_chain"` //底层区块链
+				AddrValue  string `json:"addr_value"`  //链账户地址
 			} `json:"addr"`
 			Text struct {
-				Key       string `json:"key"`
-				TextValue string `json:"text_value"`
+				Key       string `json:"key"`        //文本数据 key
+				TextValue string `json:"text_value"` //文本数据值
 			} `json:"text"`
-			Add string `json:"addr"`
+			Add string `json:"addr"` //链账户地址
 		} `json:"ns"` // 具体参考接口文档
 
 	} `json:"data"`
@@ -57,17 +62,17 @@ type QueryNativeTxResultRes struct {
 		BlockHeight int    `json:"block_height"` // 交易上链的区块高度
 		Timestamp   string `json:"timestamp"`    // 交易上链时间（UTC 时间）
 		Nft         struct {
-			ClassId string `json:"class_id"`
-			ID      string `json:"id"`
+			ClassId string `json:"class_id"` //NFT 类别 ID
+			ID      string `json:"id"`       //NFT ID
 		} `json:"nft"` // 具体参考接口文档
 		Mt struct {
-			MtId    string `json:"mt_id"`
-			ClassId string `json:"class_id"`
-		}
+			MtId    string `json:"mt_id"`    //MT ID
+			ClassId string `json:"class_id"` //MT 类别 ID
+		} `json:"mt"`
 		Record struct {
-			RecordId       string `json:"record_id"`
-			CertificateUrl string `json:"certificate_url"`
-		}
+			RecordId       string `json:"record_id"`       //区块链存证 ID
+			CertificateUrl string `json:"certificate_url"` //区块链存证证书的下载链接；证书下载链接并非长期有效，请您尽快将证书文件下载至本地并妥善保管。
+		} `json:"record"`
 	} `json:"data"`
 }
 
@@ -84,9 +89,9 @@ type DataItem struct {
 	Data []TxType `json:"data"`
 }
 type TxType struct {
-	Module      int64  `json:"module"`
-	Operation   int64  `json:"operation"`
-	Code        string `json:"code"`
-	Name        string `json:"name"`
-	Description string `json:"description"`
+	Module      int64  `json:"module"`      //交易模块：请通过 查询枚举值列表 接口查看
+	Operation   int64  `json:"operation"`   //用户操作类型 请通过 查询枚举值列表 接口查看
+	Code        string `json:"code"`        //标识
+	Name        string `json:"name"`        //名称
+	Description string `json:"description"` //描述
 }
