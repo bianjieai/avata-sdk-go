@@ -133,12 +133,12 @@ type OperationRecord struct {
 	NFTMsg    NFTMsg `json:"nft_msg"`    // 具体参考接口文档
 }
 type NFTMsg struct {
-	ID        interface{} `json:"id"`        //NFT 类别 ID
-	URI       string      `json:"uri"`       //链外数据链接
-	Name      string      `json:"name"`      //NFT 类别名称
-	ClassID   string      `json:"class_id"`  //NFT 类别 ID
-	Symbol    string      `json:"symbol"`    //NFT 类别标识
-	Recipient string      `json:"recipient"` //接收者地址
+	ID        string `json:"id"`        //NFT 类别 ID
+	URI       string `json:"uri"`       //链外数据链接
+	Name      string `json:"name"`      //NFT 类别名称
+	ClassID   string `json:"class_id"`  //NFT 类别 ID
+	Symbol    string `json:"symbol"`    //NFT 类别标识
+	Recipient string `json:"recipient"` //接收者地址
 }
 type MTMsg struct {
 	ID        string `json:"id"`        //MT 类别 ID
