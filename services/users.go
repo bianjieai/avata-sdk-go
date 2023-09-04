@@ -175,7 +175,7 @@ func (a usersService) QueryUsers(params *models.QueryUsersReq) (*models.QueryUse
 		return nilRes, models.NewSDKError(fmt.Sprintf("Marshal Params: %s", err.Error()))
 	}
 
-	body, errorRes := a.HttpClient.DoHttpRequest(http.MethodPost, models.CreateUsers, nil, bytesData)
+	body, errorRes := a.HttpClient.DoHttpRequest(http.MethodPost, models.QueryUsers, nil, bytesData)
 	log.Debugf("QueryUsers body: %s", string(body))
 	if errorRes != nil {
 		log.Errorf("QueryUsers DoHttpRequest error: %s", errorRes.Error())
