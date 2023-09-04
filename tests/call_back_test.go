@@ -21,8 +21,9 @@ import (
 // 回调服务
 func CallBack(r *http.Request, w http.ResponseWriter) error {
 	// 定义一个闭包函数，用于处理回调操作
-	app := func(ctx context.Context, a *http.Request) {
+	app := func(ctx context.Context, a *http.Request) error {
 		// 业务逻辑
+		return nil
 	}
 	err := utils.OnCallBack(context.Background(), utils.APIVersionV1, "1", "", r, w, app)
 	if err != nil {
