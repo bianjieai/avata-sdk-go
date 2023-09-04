@@ -92,10 +92,12 @@ func CallBack(r *http.Request, path, apiSecret string) bool {
 
 /**
  * @description: 接收推送消息
+ * @param {*} ctx 上下文
  * @param {*} version :版本 ：v1需要传 APIVersionV1 , v2或者v3版本传 APIVersionsOther
  * @param {*} apiSecret
  * @param {string} path ：路由地址(回调地址去掉域名)
  * @param {*http.Request} r ：该笔推送消息属于文昌链上链完成所推送消息，请及时存储数据
+ * @param {http.ResponseWriter} w ：返回给消息推送端
  * @param app ：自己的业务逻辑代码（验证签名通过才会执行）
  * @return {*}
  */
