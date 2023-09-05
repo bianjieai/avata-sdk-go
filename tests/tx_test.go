@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-// 以 EVM 方式上链交易结果查询示例
+// EVM 模块上链交易结果查询接口请求示例
 func TestQueryTxResult(t *testing.T) {
 	result, err := client.Tx.QueryTxResult("abc071100")
 	if err != nil {
@@ -14,7 +14,7 @@ func TestQueryTxResult(t *testing.T) {
 	t.Logf("%+v \n", result)
 }
 
-// 以原生方式查询上链交易结果查询示例
+// 原生模块上链交易结果查询接口请求示例
 func TestQueryNativeTxResult(t *testing.T) {
 	result, err := client.Tx.QueryNativeTxResult("abc071100")
 	if err != nil {
@@ -24,7 +24,7 @@ func TestQueryNativeTxResult(t *testing.T) {
 	t.Logf("%+v \n", result)
 }
 
-// 枚举值列表查询实例
+// EVM 模块查询枚举值列表接口请求实例
 func TestQueryTxTypes(t *testing.T) {
 	result, err := client.Tx.QueryTxTypes()
 	if err != nil {
@@ -34,7 +34,7 @@ func TestQueryTxTypes(t *testing.T) {
 	t.Logf("%+v \n", result)
 }
 
-// 以原生方式查询枚举值列表实例
+// 原生模块查询枚举值列表接口请求实例
 func TestQueryNativeTxTypes(t *testing.T) {
 	result, err := client.Tx.QueryNativeTxTypes()
 	if err != nil {

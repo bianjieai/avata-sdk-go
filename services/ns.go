@@ -13,7 +13,7 @@ import (
 type NSService interface {
 	RegisterDomain(params *models.RegisterDomainReq) (*models.TxRes, models.Error)                     //注册域名
 	QueryDomain(params *models.QueryDomainReq) (*models.QueryDomainRes, models.Error)                  //查询域名
-	TransferDomin(params *models.TransferDominReq, owner, name string) (*models.TxRes, models.Error)   //转让域名
+	TransferDomin(params *models.TransferDomainReq, owner, name string) (*models.TxRes, models.Error)  //转让域名
 	QueryDomains(params *models.QueryDomainsReq, owner string) (*models.QueryDomainsRes, models.Error) //查询用户域名
 }
 
@@ -133,14 +133,14 @@ func (n nsService) QueryDomain(params *models.QueryDomainReq) (*models.QueryDoma
  * @description: 转让域名
  * @return {*}
  */
-func (n nsService) TransferDomin(params *models.TransferDominReq, owner, name string) (*models.TxRes, models.Error) {
+func (n nsService) TransferDomin(params *models.TransferDomainReq, owner, name string) (*models.TxRes, models.Error) {
 	log := n.Logger
 	log.Debugln(map[string]interface{}{
 		"module":   "ns",
 		"function": "TransferDomin",
 		"params":   fmt.Sprintf("%v", params),
 	})
-	log.Info("TransferDominReq start")
+	log.Info("TransferDomainReq start")
 
 	nilRes := &models.TxRes{}
 

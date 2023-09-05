@@ -6,6 +6,7 @@ import (
 	"github.com/bianjieai/avata-sdk-go/models"
 )
 
+// 创建钱包用户接口请求示例
 func TestCreateUsers(t *testing.T) {
 	params := &models.CreateUsersReq{
 		UserType:        1,
@@ -23,6 +24,7 @@ func TestCreateUsers(t *testing.T) {
 	t.Logf("%+v \n", result)
 }
 
+// 更新钱包用户接口请求示例
 func TestEditUsers(t *testing.T) {
 	params := &models.EditUsersReq{
 		UserID:   "31",
@@ -36,6 +38,8 @@ func TestEditUsers(t *testing.T) {
 	}
 	t.Logf("%+v \n", result)
 }
+
+// 查询钱包用户信息接口请求示例
 func TestQueryUsers(t *testing.T) {
 	params := &models.QueryUsersReq{
 		UserType: "",

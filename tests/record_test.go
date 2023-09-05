@@ -6,7 +6,7 @@ import (
 	"github.com/bianjieai/avata-sdk-go/models"
 )
 
-// 数字作品存证示例
+// 数字作品存证接口请求示例
 func TestCreateRecord(t *testing.T) {
 	params := &models.CreateRecordReq{
 		IdentityType: 1,

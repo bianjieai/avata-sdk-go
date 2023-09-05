@@ -11,10 +11,10 @@ import (
 )
 
 type ResolvesService interface {
-	SetResolves(params *models.SetResolvesReq, owner, name string) (*models.TxRes, models.Error)         //设置域名解析
-	QueryResolves(params *models.QueryResolvesReq, name string) (*models.QueryResolvesRes, models.Error) //查询域名解析
-	SetReverseResolves(params *models.SetReverseResolvesReq, owner string) (*models.TxRes, models.Error) //设置域名反向解析
-	QueryReverseResolves(owner string) (*models.QueryReverseResolvesRes, models.Error)                   //查询域名反向解析
+	SetResolves(params *models.SetResolvesReq, owner, name string) (*models.TxRes, models.Error)         // 设置域名解析
+	QueryResolves(params *models.QueryResolvesReq, name string) (*models.QueryResolvesRes, models.Error) // 查询域名解析
+	SetReverseResolves(params *models.SetReverseResolvesReq, owner string) (*models.TxRes, models.Error) // 设置域名反向解析
+	QueryReverseResolves(owner string) (*models.QueryReverseResolvesRes, models.Error)                   // 查询域名反向解析
 }
 
 type resolvesService struct {

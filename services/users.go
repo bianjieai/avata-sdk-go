@@ -11,9 +11,9 @@ import (
 )
 
 type UsersService interface {
-	CreateUsers(params *models.CreateUsersReq) (*models.CreateUsersRes, models.Error) //创建钱包用户
-	EditUsers(params *models.EditUsersReq) (*models.TxRes, models.Error)              //更新钱包用户
-	QueryUsers(params *models.QueryUsersReq) (*models.QueryUsersRes, models.Error)    //查询钱包用户信息
+	CreateUsers(params *models.CreateUsersReq) (*models.CreateUsersRes, models.Error) // 创建钱包用户
+	EditUsers(params *models.EditUsersReq) (*models.TxRes, models.Error)              // 更新钱包用户
+	QueryUsers(params *models.QueryUsersReq) (*models.QueryUsersRes, models.Error)    // 查询钱包用户信息
 }
 
 type usersService struct {

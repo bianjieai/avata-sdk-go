@@ -1,8 +1,3 @@
-/*
- * @description:
- * @param:
- * @return:
- */
 package models
 
 const (
@@ -40,8 +35,8 @@ type QueryDomainRes struct {
 	} `json:"data"`
 }
 
-// TransferDominReq 转让域名请求参数
-type TransferDominReq struct {
+// TransferDomainReq 转让域名请求参数
+type TransferDomainReq struct {
 	Recipient   string `json:"recipient"`    // 域名接收者地址
 	OperationID string `json:"operation_id"` // 自定义订单流水号，必需且仅包含数字、下划线及英文字母大/小写
 }

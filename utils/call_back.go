@@ -1,8 +1,3 @@
-/*
- * @description:
- * @param:
- * @return:
- */
 package utils
 
 import (

@@ -1,15 +1,14 @@
 package tests
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/bianjieai/avata-sdk-go/models"
 	"github.com/bianjieai/avata-sdk-go/utils"
 )
 
-// 调用合约测试示例
-//node="0xfb74240135ebCf3bB56F1CDe680FB85bd36E71F9"
+// 调用合约接口请求示例
+// node="0xfb74240135ebCf3bB56F1CDe680FB85bd36E71F9"
 func TestUseContract(t *testing.T) {
 	data, err := utils.ABICoding("0x9ebafa531cb3627702260ea6660c6d6bec9b61e825477c1d4b304bac13723193", "v3_contract_test", "setABI", 1)
 	if err != nil {
@@ -33,7 +32,7 @@ func TestUseContract(t *testing.T) {
 	t.Logf("%+v \n", result)
 }
 
-// 查询合约 测试示例
+// 查询合约接口请求示例
 func TestQueryContract(t *testing.T) {
 	data, err := utils.QueryABICoding("0x9ebafa531cb3627702260ea6660c6d6bec9b61e825477c1d4b304bac13723193", "ABI", 1)
 	if err != nil {
@@ -53,12 +52,12 @@ func TestQueryContract(t *testing.T) {
 	t.Logf("%+v \n", result)
 }
 
-//解析合约
+// 解析合约示例
 func TestResolve(t *testing.T) {
-	data, err := utils.ABIResolver("0x00000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000040000000000000000000000000000000000000000000000000000000000000001076335f636f6e74726163745f7465737400000000000000000000000000000000", "ABI")
+	result, err := utils.ABIResolver("0x00000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000040000000000000000000000000000000000000000000000000000000000000001076335f636f6e74726163745f7465737400000000000000000000000000000000", "ABI")
 	if err != nil {
 		t.Log(err)
 		return
 	}
-	fmt.Print(data)
+	t.Logf("%+v \n", result)
 }

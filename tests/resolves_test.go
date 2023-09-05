@@ -6,6 +6,7 @@ import (
 	"github.com/bianjieai/avata-sdk-go/models"
 )
 
+// 设置域名解析接口请求示例
 func TestResolves(t *testing.T) {
 	owner := "0xF382c2b83aFdAe7c50dbea9e35ED462aa3cD5A08"
 	name := "test123123.w"
@@ -28,6 +29,7 @@ func TestResolves(t *testing.T) {
 	t.Logf("%+v \n", result)
 }
 
+// 查询域名解析接口请求示例
 func TestQueryResolves(t *testing.T) {
 	name := "test123123.w"
 	params := &models.QueryResolvesReq{
@@ -42,6 +44,7 @@ func TestQueryResolves(t *testing.T) {
 	t.Logf("%+v \n", result)
 }
 
+// 设置域名反向解析接口请求示例
 func TestSetReverseResolves(t *testing.T) {
 	owner := "0xF382c2b83aFdAe7c50dbea9e35ED462aa3cD5A08"
 	params := &models.SetReverseResolvesReq{
@@ -57,6 +60,7 @@ func TestSetReverseResolves(t *testing.T) {
 	t.Logf("%+v \n", result)
 }
 
+// 查询域名反向解析接口请求示例
 func TestQueryReverseResolves(t *testing.T) {
 	owner := "0xF382c2b83aFdAe7c50dbea9e35ED462aa3cD5A08"
 

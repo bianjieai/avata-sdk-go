@@ -1,13 +1,3 @@
-/*
- * @description:
- * @param:
- * @return:
- */
-/*
- * @description:
- * @param:
- * @return:
- */
 package tests
 
 import (
@@ -18,7 +8,7 @@ import (
 	"github.com/bianjieai/avata-sdk-go/utils"
 )
 
-// 回调服务
+// 应用方接收回调实现示例
 func CallBack(r *http.Request, w http.ResponseWriter) error {
 	// 定义一个闭包函数，用于处理回调操作
 	app := func(ctx context.Context, a *http.Request) error {
