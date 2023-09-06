@@ -113,7 +113,7 @@ func OnCallBack(ctx context.Context, version, apiSecret, path string, r *http.Re
 	}
 
 	// 该笔推送消息属于文昌链上链完成所推送消息，请及时存储数据
-	if err := app(ctx, r); err != nil {
+	if err := app(ctx, version, apiSecret, path, r); err != nil {
 		return err
 	}
 
@@ -124,4 +124,4 @@ func OnCallBack(ctx context.Context, version, apiSecret, path string, r *http.Re
 }
 
 // App 回调函数的定义
-type App func(ctx context.Context, r *http.Request) error
+type App func(ctx context.Context, version, apiSecret, path string, r *http.Request) error
