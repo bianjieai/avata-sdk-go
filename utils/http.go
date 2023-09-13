@@ -41,26 +41,28 @@ func (h httpClient) DoHttpRequest(method, path string, bodyParams, queryParams [
 		if err = json.Unmarshal(queryParams, &queryParamsMap); err != nil {
 			return nil, models.NewSDKError(err.Error())
 		}
-		q := r.URL.Query() //检查格式错误的键值对
+		q := r.URL.Query() // 检查格式错误的键值对
 		for k, v := range queryParamsMap {
 			q.Add(k, v)
 		}
-		r.URL.RawQuery = q.Encode() //编码成url形式
+		r.URL.RawQuery = q.Encode() // 编码成 url 形式
 	}
 
-	SignRequest(r, h.baseParams.APIKey, h.baseParams.APISecret) //调用签名服务
+	SignRequest(r, h.baseParams.APIKey, h.baseParams.APISecret)
 
-	res, err := h.client.Do(r) //发送http请求，将返回值赋给res
+	res, err := h.client.Do(r)
 	if err != nil {
 		return nil, models.NewSDKError(err.Error())
 	}
 	defer res.Body.Close()
-	body := new(bytes.Buffer) //写入器是一个buffer也会自动扩容，详见buffer.Write
+
+	body := new(bytes.Buffer) // 写入器是一个 buffer 也会自动扩容，详见 buffer.Write
 	_, err = io.Copy(body, res.Body)
-	bodyBytes := body.Bytes()
 	if err != nil {
 		return nil, models.NewSDKError(err.Error())
 	}
+	bodyBytes := body.Bytes()
+
 	if res.StatusCode != http.StatusOK {
 		var response *models.Response
 		if err = json.Unmarshal(bodyBytes, &response); err != nil {
