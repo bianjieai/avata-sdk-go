@@ -52,7 +52,7 @@ type CreateNativeNFTClassReq struct {
 
 // QueryNFTClassesReq 查询 EVM 模块 NFT 类别请求参数
 type QueryNFTClassesReq struct {
-	PageKey    string `json:"page_key,omitempty"`    // 分页数据的Key， Avata会根据该值进行上下页的查询， 该值请从返回的数据体中获取，首页查询可以不传该参数
+	PageKey    string `json:"page_key,omitempty"`    // 分页数据的 Key，AVATA 会根据该值进行上下页的查询， 该值请从返回的数据体中获取，首页查询可以不传该参数
 	Limit      string `json:"limit,omitempty"`       // 每页记录数，默认为 10，上限为 50
 	ID         string `json:"id,omitempty"`          // NFT 类别 ID
 	Name       string `json:"name,omitempty"`        // NFT 类别名称，支持模糊查询
@@ -66,7 +66,7 @@ type QueryNFTClassesReq struct {
 
 // QueryNativeNFTClassesReq 查询原生模块 NFT 类别请求参数
 type QueryNativeNFTClassesReq struct {
-	PageKey    string `json:"page_key,omitempty"`    // 分页数据的Key， Avata会根据该值进行上下页的查询， 该值请从返回的数据体中获取，首页查询可以不传该参数
+	PageKey    string `json:"page_key,omitempty"`    // 分页数据的 Key，AVATA 会根据该值进行上下页的查询， 该值请从返回的数据体中获取，首页查询可以不传该参数
 	Limit      string `json:"limit,omitempty"`       // 每页记录数，默认为 10，上限为 50
 	ID         string `json:"id,omitempty"`          // NFT 类别 ID
 	Name       string `json:"name,omitempty"`        // NFT 类别名称，支持模糊查询
@@ -81,8 +81,8 @@ type QueryNativeNFTClassesReq struct {
 // QueryNFTClassesRes 查询 EVM 模块 NFT 类别返回值
 type QueryNFTClassesRes struct {
 	Data struct {
-		PrevPageKey string `json:"prev_page_key"` // 上一页数据的Key， Avata会根据该值进行上一页数据的查询
-		NextPageKey string `json:"next_page_key"` // 下一页数据的Key， Avata会根据该值进行下一页数据的查询
+		PrevPageKey string `json:"prev_page_key"` // 上一页数据的 Key，AVATA 会根据该值进行上一页数据的查询
+		NextPageKey string `json:"next_page_key"` // 下一页数据的 Key，AVATA 会根据该值进行下一页数据的查询
 		Limit       int    `json:"limit"`         // 每页记录数
 		TotalCount  int    `json:"total_count"`   // 总记录数
 		Classes     []struct {
@@ -100,8 +100,8 @@ type QueryNFTClassesRes struct {
 // QueryNativeNFTClassesRes 查询原生模块 NFT 类别返回值
 type QueryNativeNFTClassesRes struct {
 	Data struct {
-		PrevPageKey string `json:"prev_page_key"` //上一页数据的 Key， Avata会根据该值进行上一页数据的查询
-		NextPageKey string `json:"next_page_key"` //下一页数据的 Key， Avata会根据该值进行下一页数据的查询
+		PrevPageKey string `json:"prev_page_key"` // 上一页数据的 Key，AVATA 会根据该值进行上一页数据的查询
+		NextPageKey string `json:"next_page_key"` // 下一页数据的 Key，AVATA 会根据该值进行下一页数据的查询
 		Limit       int    `json:"limit"`         // 每页记录数
 		TotalCount  int    `json:"total_count"`   // 总记录数
 		Classes     []struct {
@@ -220,7 +220,7 @@ type BurnNativeNFTReq struct {
 
 // QueryNFTsReq 查询 EVM 模块 NFT 请求参数
 type QueryNFTsReq struct {
-	PageKey    string `json:"page_key,omitempty"`    // 分页数据的Key， Avata会根据该值进行上下页的查询， 该值请从返回的数据体中获取，首页查询可以不传该参数
+	PageKey    string `json:"page_key,omitempty"`    // 分页数据的 Key， AVATA 会根据该值进行上下页的查询， 该值请从返回的数据体中获取，首页查询可以不传该参数
 	Limit      string `json:"limit,omitempty"`       // 每页记录数，默认为 10，上限为 50
 	ID         string `json:"id,omitempty"`          // NFT ID
 	ClassID    string `json:"class_id,omitempty"`    // NFT 类别 ID
@@ -235,7 +235,7 @@ type QueryNFTsReq struct {
 
 // QueryNativeNFTsReq 查询原生模块 NFT 请求参数
 type QueryNativeNFTsReq struct {
-	PageKey    string `json:"page_key,omitempty"`    // 分页数据的Key， Avata会根据该值进行上下页的查询， 该值请从返回的数据体中获取，首页查询可以不传该参数
+	PageKey    string `json:"page_key,omitempty"`    // 分页数据的 Key， AVATA 会根据该值进行上下页的查询， 该值请从返回的数据体中获取，首页查询可以不传该参数
 	Limit      string `json:"limit,omitempty"`       // 每页记录数，默认为 10，上限为 50
 	ID         string `json:"id,omitempty"`          // NFT ID
 	ClassID    string `json:"class_id,omitempty"`    // NFT 类别 ID
@@ -252,8 +252,8 @@ type QueryNativeNFTsReq struct {
 // QueryNFTsRes 查询 EVM 模块 NFT 返回值
 type QueryNFTsRes struct {
 	Data struct {
-		PrevPageKey string `json:"prev_page_key"`         //上一页数据的Key， Avata会根据该值进行上一页数据的查询
-		NextPageKey string `json:"next_page_key"`         //下一页数据的Key， Avata会根据该值进行下一页数据的查询
+		PrevPageKey string `json:"prev_page_key"`         // 上一页数据的 Key，AVATA 会根据该值进行上一页数据的查询
+		NextPageKey string `json:"next_page_key"`         // 下一页数据的 Key，AVATA 会根据该值进行下一页数据的查询
 		Limit       int    `json:"limit"`                 // 每页记录数
 		TotalCount  int    `json:"total_count,omitempty"` // 总记录数
 		NFTs        []struct {
@@ -274,8 +274,8 @@ type QueryNFTsRes struct {
 // QueryNativeNFTsRes 查询原生模块 NFT 返回值
 type QueryNativeNFTsRes struct {
 	Data struct {
-		PrevPageKey string `json:"prev_page_key"`         //上一页数据的Key， Avata会根据该值进行上一页数据的查询
-		NextPageKey string `json:"next_page_key"`         //下一页数据的Key， Avata会根据该值进行下一页数据的查询
+		PrevPageKey string `json:"prev_page_key"`         // 上一页数据的 Key，AVATA 会根据该值进行上一页数据的查询
+		NextPageKey string `json:"next_page_key"`         // 下一页数据的 Key，AVATA 会根据该值进行下一页数据的查询
 		Limit       int    `json:"limit"`                 // 每页记录数
 		TotalCount  int    `json:"total_count,omitempty"` // 总记录数
 		NFTs        []struct {
@@ -329,7 +329,7 @@ type QueryNativeNFTRes struct {
 
 // QueryNFTHistoryReq 查询 EVM 模块 NFT 操作记录请求参数
 type QueryNFTHistoryReq struct {
-	PageKey    string `json:"page_key,omitempty"`    //分页数据的Key， Avata会根据该值进行上下页的查询， 该值请从返回的数据体中获取，首页查询可以不传该参数
+	PageKey    string `json:"page_key,omitempty"`    // 分页数据的 Key，AVATA 会根据该值进行上下页的查询， 该值请从返回的数据体中获取，首页查询可以不传该参数
 	Limit      string `json:"limit,omitempty"`       // 每页记录数，默认为 10，上限为 50
 	Signer     string `json:"signer,omitempty"`      // Tx 签名者地址
 	TxHash     string `json:"tx_hash,omitempty"`     // NFT 操作 Tx Hash
@@ -342,7 +342,7 @@ type QueryNFTHistoryReq struct {
 
 // QueryNativeNFTHistoryReq 查询原生模块 NFT 操作记录请求参数
 type QueryNativeNFTHistoryReq struct {
-	PageKey    string `json:"page_key,omitempty"`   // 分页数据的Key， Avata会根据该值进行上下页的查询， 该值请从返回的数据体中获取，首页查询可以不传该参数
+	PageKey    string `json:"page_key,omitempty"`   // 分页数据的 Key，AVATA 会根据该值进行上下页的查询， 该值请从返回的数据体中获取，首页查询可以不传该参数
 	Limit      string `json:"limit,omitempty"`      // 每页记录数，默认为 10，上限为 50
 	Signer     string `json:"signer,omitempty"`     // Tx 签名者地址
 	TxHash     string `json:"tx_hash,omitempty"`    // NFT 操作 Tx Hash
@@ -356,8 +356,8 @@ type QueryNativeNFTHistoryReq struct {
 // QueryNFTHistoryRes 查询 EVM 模块 NFT 操作记录返回值
 type QueryNFTHistoryRes struct {
 	Data struct {
-		PrevPageKey      string `json:"prev_page_key"` //上一页数据的Key， Avata会根据该值进行上一页数据的查询
-		NextPageKey      string `json:"next_page_key"` //下一页数据的Key， Avata会根据该值进行下一页数据的查询
+		PrevPageKey      string `json:"prev_page_key"` // 上一页数据的 Key，AVATA 会根据该值进行上一页数据的查询
+		NextPageKey      string `json:"next_page_key"` // 下一页数据的 Key，AVATA 会根据该值进行下一页数据的查询
 		Limit            int    `json:"limit"`         // 每页记录数
 		TotalCount       int    `json:"total_count"`   // 总记录数
 		OperationRecords []struct {
@@ -373,8 +373,8 @@ type QueryNFTHistoryRes struct {
 // QueryNativeNFTHistoryRes 查询原生模块 NFT 操作记录返回值
 type QueryNativeNFTHistoryRes struct {
 	Data struct {
-		PrevPageKey      string `json:"prev_page_key"`         //上一页数据的Key， Avata会根据该值进行上一页数据的查询
-		NextPageKey      string `json:"next_page_key"`         //下一页数据的Key， Avata会根据该值进行下一页数据的查询
+		PrevPageKey      string `json:"prev_page_key"`         // 上一页数据的 Key，AVATA 会根据该值进行上一页数据的查询
+		NextPageKey      string `json:"next_page_key"`         // 下一页数据的 Key，AVATA 会根据该值进行下一页数据的查询
 		Limit            int    `json:"limit"`                 // 每页记录数
 		TotalCount       int    `json:"total_count,omitempty"` // 总记录数
 		OperationRecords []struct {

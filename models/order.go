@@ -23,24 +23,24 @@ type OrderRes struct {
 
 // QueryOrdersReq 查询能量值/业务费购买结果列表接口请求参数
 type QueryOrdersReq struct {
-	PageKey    string `json:"page_key,omitempty"`    //分页数据的Key， Avata会根据该值进行上下页的查询， 该值请从返回的数据体中获取，首页查询可以不传该参数
+	PageKey    string `json:"page_key,omitempty"`    // 分页数据的 Key，AVATA 会根据该值进行上下页的查询， 该值请从返回的数据体中获取，首页查询可以不传该参数
 	Limit      string `json:"limit,omitempty"`       // 每页记录数，默认为 10，上限为 50
 	Status     string `json:"status,omitempty"`      // 订单状态：success 充值成功 / failed 充值失败 / pending 正在充值
 	StartDate  string `json:"start_date,omitempty"`  // 充值订单创建日期范围 - 开始，yyyy-MM-dd（UTC 时间）
 	EndDate    string `json:"end_date,omitempty"`    // 充值订单创建日期范围 - 结束，yyyy-MM-dd（UTC 时间）
 	SortBy     string `json:"sort_by,omitempty"`     // 排序规则：DATE_ASC / DATE_DESC，默认为 DATE_DESC
-	CountTotal string `json:"count_total,omitempty"` //是否查询数据的总数量0：不查询总数（默认）1：查询总数
+	CountTotal string `json:"count_total,omitempty"` // 是否查询数据的总数量0：不查询总数（默认）1：查询总数
 }
 
 // QueryOrdersRes 查询能量值/业务费购买结果列表接口返回值
 type QueryOrdersRes struct {
 	Data struct {
-		PrevPageKey string `json:"prev_page_key"` //上一页数据的Key， Avata会根据该值进行上一页数据的查询
-		NextPageKey string `json:"next_page_key"` //下一页数据的Key， Avata会根据该值进行下一页数据的查询
+		PrevPageKey string `json:"prev_page_key"` // 上一页数据的 Key，AVATA 会根据该值进行上一页数据的查询
+		NextPageKey string `json:"next_page_key"` // 下一页数据的 Key，AVATA 会根据该值进行下一页数据的查询
 		Limit       int    `json:"limit"`         // 每页记录数
 		TotalCount  int    `json:"total_count"`   // 总记录数
 		OrderInfos  []struct {
-			OperationId string `json:"operation_id"` //
+			OperationId string `json:"operation_id"` // 操作 ID
 			Status      string `json:"status"`       // 订单状态：success 充值成功 / failed 充值失败 / pending 正在充值
 			Message     string `json:"message"`      // 订单失败的错误描述信息
 			Account     string `json:"account"`      // 链账户地址 （调用「批量购买能量值」接口不展示此字段）
