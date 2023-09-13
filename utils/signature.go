@@ -35,7 +35,7 @@ func SignRequest(r *http.Request, apiKey, apiSecret string) *http.Request {
 	// 把刚刚读出来的再写进去
 	if bodyBytes != nil {
 		r.Body = io.NopCloser(bytes.NewBuffer(bodyBytes))
-	}
+	} //保持请求体不变
 	paramsBody := map[string]interface{}{}
 	_ = json.Unmarshal(bodyBytes, &paramsBody)
 

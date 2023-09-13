@@ -39,3 +39,8 @@ import (
 - [MT 接口示例代码](./tests/mt_test.go)
 - [充值接口示例代码](./tests/order_test.go)
 - [存证接口示例代码](./tests/record_test.go)
+- [合约服务接口示例代码](./tests/contract_test.go)
+- [Web3 域名服务接口示例代码](./tests/ns_test.go)
+- [域名解析与反解析接口示例代码](./tests/resolves_test.go)
+- [钱包服务接口示例代码](./tests/users_test.go)
+- [回调服务示例代码](./tests/callback_test.go)

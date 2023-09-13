@@ -8,12 +8,16 @@ import (
 )
 
 type AvataClient struct {
-	Account services.AccountService
-	Tx      services.TxService
-	NFT     services.NFTService
-	MT      services.MTService
-	Record  services.RecordService
-	Order   services.OrderService
+	Account  services.AccountService
+	Tx       services.TxService
+	NFT      services.NFTService
+	Record   services.RecordService
+	Order    services.OrderService
+	NS       services.NSService
+	Contract services.ContractService
+	MT       services.MTService
+	Users    services.UsersService
+	Resolves services.ResolvesService
 }
 
 func NewClient(domain, apiKey, apiSecret string, options ...configs.Options) *AvataClient {
@@ -36,12 +40,16 @@ func NewClient(domain, apiKey, apiSecret string, options ...configs.Options) *Av
 	httpClient := utils.NewHttpClient(cfg.HttpTimeout, baseParams)
 
 	return &AvataClient{
-		Account: services.NewAccountService(cfg.Logger, httpClient),
-		Tx:      services.NewTxService(cfg.Logger, httpClient),
-		NFT:     services.NewNFTService(cfg.Logger, httpClient),
-		MT:      services.NewMTService(cfg.Logger, httpClient),
-		Record:  services.NewRecordService(cfg.Logger, httpClient),
-		Order:   services.NewOrderService(cfg.Logger, httpClient),
+		Account:  services.NewAccountService(cfg.Logger, httpClient),
+		Tx:       services.NewTxService(cfg.Logger, httpClient),
+		NFT:      services.NewNFTService(cfg.Logger, httpClient),
+		Record:   services.NewRecordService(cfg.Logger, httpClient),
+		Order:    services.NewOrderService(cfg.Logger, httpClient),
+		NS:       services.NewNSService(cfg.Logger, httpClient),
+		Contract: services.NewContractService(cfg.Logger, httpClient),
+		MT:       services.NewMTService(cfg.Logger, httpClient),
+		Users:    services.NewUsersService(cfg.Logger, httpClient),
+		Resolves: services.NewResolvesService(cfg.Logger, httpClient),
 	}
 }
 

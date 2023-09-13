@@ -31,7 +31,11 @@ func NewOrderService(log loggers.Advanced, httpClient utils.HttpClient) *orderSe
 	}
 }
 
-// CreateOrder 购买能量值/业务费接口
+/**
+ * @description: 购买能量值/业务费接口
+ * @param {*models.CreateOrderReq} params
+ * @return {*}
+ */
 func (o orderService) CreateOrder(params *models.CreateOrderReq) (*models.OrderRes, models.Error) {
 	log := o.Logger
 	log.Debugln(map[string]interface{}{
@@ -42,17 +46,16 @@ func (o orderService) CreateOrder(params *models.CreateOrderReq) (*models.OrderR
 	log.Info("CreateOrder start")
 
 	nilRes := &models.OrderRes{}
-
 	// 校验必填参数
 	if params == nil {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
 		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "params"))
 	}
-	if params.OrderId == "" {
-		log.Debugln(fmt.Sprintf(models.ErrParam, "order_id"))
-		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "order_id"))
+	if params.OperationID == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
+		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "operation_id"))
 	}
-	if params.OrderType == "" {
+	if params.OrderType != 1 && params.OrderType != 2 {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "order_type"))
 		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "order_type"))
 	}
@@ -68,7 +71,6 @@ func (o orderService) CreateOrder(params *models.CreateOrderReq) (*models.OrderR
 		log.Debugln(models.ErrAmount)
 		return nilRes, models.InvalidParam(models.ErrAmount)
 	}
-
 	bytesData, err := json.Marshal(params)
 	if err != nil {
 		log.Errorf("CreateOrder Marshal Params: %s", err.Error())
@@ -92,7 +94,10 @@ func (o orderService) CreateOrder(params *models.CreateOrderReq) (*models.OrderR
 	return result, nil
 }
 
-// QueryOrders 查询能量值/业务费购买结果列表接口
+/**
+ * @description: 查询能量值/业务费购买结果列表接口
+ * @return {*}
+ */
 func (o orderService) QueryOrders(params *models.QueryOrdersReq) (*models.QueryOrdersRes, models.Error) {
 	log := o.Logger
 	log.Debugln(map[string]interface{}{
@@ -127,25 +132,29 @@ func (o orderService) QueryOrders(params *models.QueryOrdersReq) (*models.QueryO
 	return result, nil
 }
 
-// QueryOrder 查询能量值/业务费购买结果接口
-func (o orderService) QueryOrder(orderID string) (*models.QueryOrderRes, models.Error) {
+/**
+ * @description: 查询能量值/业务费购买结果接口
+ * @param {string} operationID ：操作id、订单流水号
+ * @return {*}
+ */
+func (o orderService) QueryOrder(operationID string) (*models.QueryOrderRes, models.Error) {
 	log := o.Logger
 	log.Debugln(map[string]interface{}{
-		"module":   "Order",
-		"function": "QueryOrder",
-		"orderID":  orderID,
+		"module":       "Order",
+		"function":     "QueryOrder",
+		"operation_id": operationID,
 	})
 	log.Info("QueryOrder start")
 
 	nilRes := &models.QueryOrderRes{}
 
 	// 校验必填参数
-	if orderID == "" {
-		log.Debugln(fmt.Sprintf(models.ErrParam, "order_id"))
-		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "order_id"))
+	if operationID == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
+		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "operation_id"))
 	}
 
-	body, errorRes := o.HttpClient.DoHttpRequest(http.MethodGet, fmt.Sprintf(models.QueryOrder, orderID), nil, nil)
+	body, errorRes := o.HttpClient.DoHttpRequest(http.MethodGet, fmt.Sprintf(models.QueryOrder, operationID), nil, nil)
 	log.Debugf("QueryOrder body: %s", string(body))
 	if errorRes != nil {
 		log.Errorf("QueryOrder DoHttpRequest error: %s", errorRes.Error())
@@ -162,7 +171,11 @@ func (o orderService) QueryOrder(orderID string) (*models.QueryOrderRes, models.
 	return result, nil
 }
 
-// BatchCreateOrder 批量购买能量值接口
+/**
+ * @description: 批量购买能量值接口
+ * @param {*models.BatchCreateOrderReq} params
+ * @return {*}
+ */
 func (o orderService) BatchCreateOrder(params *models.BatchCreateOrderReq) (*models.OrderRes, models.Error) {
 	log := o.Logger
 	log.Debugln(map[string]interface{}{
@@ -183,9 +196,9 @@ func (o orderService) BatchCreateOrder(params *models.BatchCreateOrderReq) (*mod
 		log.Debugln(fmt.Sprintf(models.ErrParam, "list"))
 		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "list"))
 	}
-	if params.OrderId == "" {
-		log.Debugln(fmt.Sprintf(models.ErrParam, "order_id"))
-		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "order_id"))
+	if params.OperationID == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
+		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "operation_id"))
 	}
 
 	bytesData, err := json.Marshal(params)

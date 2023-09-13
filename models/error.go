@@ -4,7 +4,7 @@ import "fmt"
 
 const CodeSpace = "AVATA-SDK-GO"
 
-//code
+// code
 const (
 	UnknownError = "UNKNOWN_ERROR" // 未知错误
 	BadRequest   = "BAD_REQUEST"   // 参数错误
