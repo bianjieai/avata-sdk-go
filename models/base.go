@@ -10,7 +10,6 @@ type BaseParams struct {
 // TxRes 通用正确返回值(所有发起上链交易接口)
 type TxRes struct {
 	Data struct {
-		OperationId string `json:"operation_id"` // 操作 ID
 	} `json:"data"`
 }
 

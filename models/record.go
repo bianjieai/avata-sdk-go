@@ -1,7 +1,7 @@
 package models
 
 const (
-	CreateRecord = "/v1beta1/record/records" // 数字作品存证接口
+	CreateRecord = "/v3/native/record/records" // 数字作品存证接口
 )
 
 // CreateRecordReq 数字作品存证接口请求参数

@@ -13,10 +13,11 @@ import (
 
 // AccountService 链账户接口
 type AccountService interface {
-	CreateAccount(params *models.CreateAccountReq) (*models.CreateAccountRes, models.Error)                      // 创建链账户
-	BatchCreateAccounts(params *models.BatchCreateAccountsReq) (*models.BatchCreateAccountsRes, models.Error)    // 批量创建链账户
-	QueryAccounts(params *models.QueryAccountsReq) (*models.QueryAccountsRes, models.Error)                      // 查询链账户
-	QueryAccountsHistory(params *models.QueryAccountsHistoryReq) (*models.QueryAccountsHistoryRes, models.Error) // 查询链账户操作记录
+	CreateAccount(params *models.CreateAccountReq) (*models.CreateAccountRes, models.Error)                                        // 创建链账户
+	BatchCreateAccounts(params *models.BatchCreateAccountsReq) (*models.BatchCreateAccountsRes, models.Error)                      // 批量创建链账户
+	QueryAccounts(params *models.QueryAccountsReq) (*models.QueryAccountsRes, models.Error)                                        // 查询链账户
+	QueryAccountsHistory(params *models.QueryAccountsHistoryReq) (*models.QueryAccountsHistoryRes, models.Error)                   // 查询智能合约模块链账户操作记录
+	QueryNativeAccountsHistory(params *models.QueryNativeAccountsHistoryReq) (*models.QueryNativeAccountsHistoryRes, models.Error) // 查询原生模块链账户操作记录
 }
 
 type accountService struct {
@@ -31,7 +32,11 @@ func NewAccountService(log loggers.Advanced, httpClient utils.HttpClient) *accou
 	}
 }
 
-// CreateAccount 创建链账户
+/**
+ * @description: 创建链账户
+ * @param {*models.CreateAccountReq} params
+ * @return {*}
+ */
 func (a accountService) CreateAccount(params *models.CreateAccountReq) (*models.CreateAccountRes, models.Error) {
 	log := a.Logger
 	log.Debugln(map[string]interface{}{
@@ -47,10 +52,6 @@ func (a accountService) CreateAccount(params *models.CreateAccountReq) (*models.
 	if params == nil {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
 		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "params"))
-	}
-	if params.Name == "" {
-		log.Debugln(fmt.Sprintf(models.ErrParam, "name"))
-		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "name"))
 	}
 	if params.OperationID == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
@@ -80,7 +81,11 @@ func (a accountService) CreateAccount(params *models.CreateAccountReq) (*models.
 	return result, nil
 }
 
-// BatchCreateAccounts 批量创建链账户
+/**
+ * @description: 批量创建链账户
+ * @param {*models.BatchCreateAccountsReq} params
+ * @return {*}
+ */
 func (a accountService) BatchCreateAccounts(params *models.BatchCreateAccountsReq) (*models.BatchCreateAccountsRes, models.Error) {
 	log := a.Logger
 	log.Debugln(map[string]interface{}{
@@ -125,7 +130,10 @@ func (a accountService) BatchCreateAccounts(params *models.BatchCreateAccountsRe
 	return result, nil
 }
 
-// QueryAccounts 查询链账户
+/**
+ * @description: 查询链账户
+ * @return {*}
+ */
 func (a accountService) QueryAccounts(params *models.QueryAccountsReq) (*models.QueryAccountsRes, models.Error) {
 	log := a.Logger
 	log.Debugln(map[string]interface{}{
@@ -160,7 +168,11 @@ func (a accountService) QueryAccounts(params *models.QueryAccountsReq) (*models.
 	return result, nil
 }
 
-// QueryAccountsHistory 查询链账户操作记录
+/**
+ * @description: 查询链账户操作记录
+ * @param {*models.QueryAccountsHistoryReq} params
+ * @return {*}
+ */
 func (a accountService) QueryAccountsHistory(params *models.QueryAccountsHistoryReq) (*models.QueryAccountsHistoryRes, models.Error) {
 	log := a.Logger
 	log.Debugln(map[string]interface{}{
@@ -192,5 +204,44 @@ func (a accountService) QueryAccountsHistory(params *models.QueryAccountsHistory
 	}
 
 	log.Info("QueryAccountsHistory end")
+	return result, nil
+}
+
+/**
+ * @description: 查询链账户操作记录(原生模块)
+ * @param {*models.QueryNativeAccountsHistoryReq} params
+ * @return {*}
+ */
+func (a accountService) QueryNativeAccountsHistory(params *models.QueryNativeAccountsHistoryReq) (*models.QueryNativeAccountsHistoryRes, models.Error) {
+	log := a.Logger
+	log.Debugln(map[string]interface{}{
+		"module":   "Account",
+		"function": "QueryAccountsHistory",
+		"params":   fmt.Sprintf("%v", params),
+	})
+	log.Info("QueryAccountsHistory start")
+
+	nilRes := &models.QueryNativeAccountsHistoryRes{}
+
+	bytesData, err := json.Marshal(params)
+	if err != nil {
+		log.Errorf("QueryNativeAccountsHistory Marshal Params: %s", err.Error())
+		return nilRes, models.NewSDKError(fmt.Sprintf("Marshal Params: %s", err.Error()))
+	}
+
+	body, errorRes := a.HttpClient.DoHttpRequest(http.MethodGet, models.QueryNativeAccountsHistory, nil, bytesData)
+	log.Debugf("QueryNativeAccountsHistory body: %s", string(body))
+	if errorRes != nil {
+		log.Errorf("QueryNativeAccountsHistory DoHttpRequest error: %s", errorRes.Error())
+		return nilRes, errorRes
+	}
+
+	result := &models.QueryNativeAccountsHistoryRes{}
+	if err = json.Unmarshal(body, &result); err != nil {
+		log.Errorf("QueryNativeAccountsHistory Unmarshal Params: %s", err.Error())
+		return nilRes, models.NewSDKError(fmt.Sprintf("Unmarshal Params: %s", err.Error()))
+	}
+
+	log.Info("QueryNativeAccountsHistory end")
 	return result, nil
 }

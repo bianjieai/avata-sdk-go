@@ -13,8 +13,10 @@ import (
 
 // TxService 交易结果查询接口
 type TxService interface {
-	QueryTxResult(operationID string) (*models.QueryTxResultRes, models.Error)                       // 上链交易结果查询
-	QueryTxQueueInfo(params *models.QueryTxQueueInfoReq) (*models.QueryTxQueueInfoRes, models.Error) // 上链交易排队状态查询
+	QueryTxResult(operationID string) (*models.QueryTxResultRes, models.Error)             // 上链交易结果查询
+	QueryNativeTxResult(operationID string) (*models.QueryNativeTxResultRes, models.Error) // 上链交易结果查询(原生模块)
+	QueryTxTypes() (*models.QueryTxTypesRes, models.Error)                                 // 查询枚举值列表
+	QueryNativeTxTypes() (*models.QueryNativeTxTypesRes, models.Error)                     // 查询枚举值列表(原生模块)
 }
 
 type txService struct {
@@ -29,7 +31,51 @@ func NewTxService(log loggers.Advanced, client utils.HttpClient) *txService {
 	}
 }
 
-// QueryTxResult 上链交易结果查询
+/**
+ * @description: 上链交易结果查询(原生模块)
+ * @param {string} operationID ：操作id
+ * @return {*}
+ */
+func (t txService) QueryNativeTxResult(operationID string) (*models.QueryNativeTxResultRes, models.Error) {
+	log := t.Logger
+	log.Debugln(map[string]interface{}{
+		"module":      "Tx",
+		"function":    "QueryNativeTxResult",
+		"operationID": operationID,
+	})
+
+	log.Info("QueryNativeTxResult start")
+
+	nilRes := &models.QueryNativeTxResultRes{}
+
+	//校验必填参数
+	if operationID == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
+		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "operation_id"))
+	}
+
+	body, errorRes := t.HttpClient.DoHttpRequest(http.MethodGet, fmt.Sprintf(models.QueryNativeTxResult, operationID), nil, nil)
+	log.Debugf("QueryTxResult body: %s", string(body))
+	if errorRes != nil {
+		log.Errorf("QueryNativeTxResult DoHttpRequest error: %s", errorRes.Error())
+		return nilRes, errorRes
+	}
+
+	result := &models.QueryNativeTxResultRes{}
+	if err := json.Unmarshal(body, &result); err != nil {
+		log.Errorf("QueryNativeTxResult Unmarshal Params: %s", err.Error())
+		return nilRes, models.NewSDKError(fmt.Sprintf("Unmarshal Params: %s", err.Error()))
+	}
+
+	log.Info("QueryNativeTxResult end")
+	return result, nil
+}
+
+/**
+ * @description: 上链交易结果查询
+ * @param {string} operationID ：操作id
+ * @return {*}
+ */
 func (t txService) QueryTxResult(operationID string) (*models.QueryTxResultRes, models.Error) {
 	log := t.Logger
 	log.Debugln(map[string]interface{}{
@@ -65,37 +111,64 @@ func (t txService) QueryTxResult(operationID string) (*models.QueryTxResultRes, 
 	return result, nil
 }
 
-// QueryTxQueueInfo 上链交易结果查询
-func (t txService) QueryTxQueueInfo(params *models.QueryTxQueueInfoReq) (*models.QueryTxQueueInfoRes, models.Error) {
+/**
+ * @description: 枚举值列表查询
+ * @return {*}
+ */
+func (t txService) QueryTxTypes() (*models.QueryTxTypesRes, models.Error) {
 	log := t.Logger
 	log.Debugln(map[string]interface{}{
 		"module":   "Tx",
-		"function": "QueryTxQueueInfo",
-		"params":   fmt.Sprintf("%v", params),
+		"function": "QueryTxResult",
 	})
-	log.Info("QueryTxQueueInfo start")
 
-	nilRes := &models.QueryTxQueueInfoRes{}
+	log.Info("QueryTxType start")
 
-	bytesData, err := json.Marshal(params)
-	if err != nil {
-		log.Errorf("QueryTxQueueInfo Marshal Params: %s", err.Error())
-		return nilRes, models.NewSDKError(fmt.Sprintf("Marshal Params: %s", err.Error()))
-	}
-
-	body, errorRes := t.HttpClient.DoHttpRequest(http.MethodGet, models.QueryTxQueueInfo, nil, bytesData)
-	log.Debugf("QueryTxQueueInfo body: %s", string(body))
+	nilRes := &models.QueryTxTypesRes{}
+	body, errorRes := t.HttpClient.DoHttpRequest(http.MethodGet, fmt.Sprintf(models.QueryTxTypes), nil, nil)
+	log.Debugf("QueryTxTypesRes body: %s", string(body))
 	if errorRes != nil {
-		log.Errorf("QueryTxQueueInfo DoHttpRequest error: %s", errorRes.Error())
+		log.Errorf("QueryTxTypesRes DoHttpRequest error: %s", errorRes.Error())
 		return nilRes, errorRes
 	}
 
-	result := &models.QueryTxQueueInfoRes{}
-	if err = json.Unmarshal(body, &result); err != nil {
-		log.Errorf("QueryTxQueueInfo Unmarshal Params: %s", err.Error())
+	result := &models.QueryTxTypesRes{}
+	if err := json.Unmarshal(body, &result); err != nil {
+		log.Errorf("QueryTxTypesRes Unmarshal Params: %s", err.Error())
 		return nilRes, models.NewSDKError(fmt.Sprintf("Unmarshal Params: %s", err.Error()))
 	}
 
-	log.Info("QueryTxQueueInfo end")
+	log.Info("QueryTxTypesRes end")
+	return result, nil
+}
+
+/**
+ * @description: 枚举值列表查询(原生模块)
+ * @return {*}
+ */
+func (t txService) QueryNativeTxTypes() (*models.QueryNativeTxTypesRes, models.Error) {
+	log := t.Logger
+	log.Debugln(map[string]interface{}{
+		"module":   "Tx",
+		"function": "QueryNativeTxResult",
+	})
+
+	log.Info("QueryNativeTxType start")
+
+	nilRes := &models.QueryNativeTxTypesRes{}
+	body, errorRes := t.HttpClient.DoHttpRequest(http.MethodGet, fmt.Sprintf(models.QueryNativeTxTypes), nil, nil)
+	log.Debugf("QueryNativeTxTypesRes body: %s", string(body))
+	if errorRes != nil {
+		log.Errorf("QueryNativeTxTypesRes DoHttpRequest error: %s", errorRes.Error())
+		return nilRes, errorRes
+	}
+
+	result := &models.QueryNativeTxTypesRes{}
+	if err := json.Unmarshal(body, &result); err != nil {
+		log.Errorf("QueryNativeTxTypesRes Unmarshal Params: %s", err.Error())
+		return nilRes, models.NewSDKError(fmt.Sprintf("Unmarshal Params: %s", err.Error()))
+	}
+
+	log.Info("QueryNativeTxTypesRes end")
 	return result, nil
 }

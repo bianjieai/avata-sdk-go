@@ -40,7 +40,10 @@ func NewMTService(log loggers.Advanced, httpClient utils.HttpClient) *mtService 
 	}
 }
 
-// CreateMTClass 创建 MT 类别
+/**
+ * @description: 创建 MT 类别
+ * @return {*}
+ */
 func (m mtService) CreateMTClass(params *models.CreateMTClassReq) (*models.TxRes, models.Error) {
 	log := m.Logger
 	log.Debugln(map[string]interface{}{
@@ -93,7 +96,11 @@ func (m mtService) CreateMTClass(params *models.CreateMTClassReq) (*models.TxRes
 	return result, nil
 }
 
-// QueryMTClasses 查询 MT 类别
+/**
+ * @description: 查询 MT 类别
+ * @param {*models.QueryMTClassesReq} params
+ * @return {*}
+ */
 func (m mtService) QueryMTClasses(params *models.QueryMTClassesReq) (*models.QueryMTClassesRes, models.Error) {
 	log := m.Logger
 	log.Debugln(map[string]interface{}{
@@ -128,7 +135,11 @@ func (m mtService) QueryMTClasses(params *models.QueryMTClassesReq) (*models.Que
 	return result, nil
 }
 
-// QueryMTClass 查询 MT 类别详情
+/**
+ * @description: 查询 MT 类别详情
+ * @param {string} id : 类别id
+ * @return {*}
+ */
 func (m mtService) QueryMTClass(id string) (*models.QueryMTClassRes, models.Error) {
 	log := m.Logger
 	log.Debugln(map[string]interface{}{
@@ -163,7 +174,10 @@ func (m mtService) QueryMTClass(id string) (*models.QueryMTClassRes, models.Erro
 	return result, nil
 }
 
-// TransferMTClass 转让 MT 类别
+/**
+ * @description: 转让 MT 类别
+ * @return {*}
+ */
 func (m mtService) TransferMTClass(classID, owner string, params *models.TransferMTClassReq) (*models.TxRes, models.Error) {
 	log := m.Logger
 	log.Debugln(map[string]interface{}{
@@ -194,11 +208,10 @@ func (m mtService) TransferMTClass(classID, owner string, params *models.Transfe
 		log.Debugln(fmt.Sprintf(models.ErrParam, "recipient"))
 		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "recipient"))
 	}
-	if params.OperationId == "" {
+	if params.OperationID == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
 		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "operation_id"))
 	}
-
 	bytesData, err := json.Marshal(params)
 	if err != nil {
 		log.Errorf("TransferMTClass Marshal Params: %s", err.Error())
@@ -222,7 +235,12 @@ func (m mtService) TransferMTClass(classID, owner string, params *models.Transfe
 	return result, nil
 }
 
-// IssueMT 发行 MT
+/**
+ * @description: 发行 MT
+ * @param {string} classID :类别id
+ * @param {*models.IssueMTReq} params
+ * @return {*}
+ */
 func (m mtService) IssueMT(classID string, params *models.IssueMTReq) (*models.TxRes, models.Error) {
 	log := m.Logger
 	log.Debugln(map[string]interface{}{
@@ -244,7 +262,7 @@ func (m mtService) IssueMT(classID string, params *models.IssueMTReq) (*models.T
 		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
 		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "params"))
 	}
-	if params.OperationId == "" {
+	if params.OperationID == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
 		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "operation_id"))
 	}
@@ -272,7 +290,13 @@ func (m mtService) IssueMT(classID string, params *models.IssueMTReq) (*models.T
 	return result, nil
 }
 
-// MintMT 增发 MT
+/**
+ * @description: 增发 MT
+ * @param {*} classID : 类别id
+ * @param {string} mtID
+ * @param {*models.MintMTReq} params
+ * @return {*}
+ */
 func (m mtService) MintMT(classID, mtID string, params *models.MintMTReq) (*models.TxRes, models.Error) {
 	log := m.Logger
 	log.Debugln(map[string]interface{}{
@@ -299,7 +323,7 @@ func (m mtService) MintMT(classID, mtID string, params *models.MintMTReq) (*mode
 		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
 		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "params"))
 	}
-	if params.OperationId == "" {
+	if params.OperationID == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
 		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "operation_id"))
 	}
@@ -327,7 +351,14 @@ func (m mtService) MintMT(classID, mtID string, params *models.MintMTReq) (*mode
 	return result, nil
 }
 
-// TransferMT 转让 MT
+/**
+ * @description: 转让 MT
+ * @param {*} classID ：类别id
+ * @param {*} owner : mt拥有者(链账户)
+ * @param {string} mtID
+ * @param {*models.TransferMTReq} params
+ * @return {*}
+ */
 func (m mtService) TransferMT(classID, owner, mtID string, params *models.TransferMTReq) (*models.TxRes, models.Error) {
 	log := m.Logger
 	log.Debugln(map[string]interface{}{
@@ -359,13 +390,13 @@ func (m mtService) TransferMT(classID, owner, mtID string, params *models.Transf
 		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
 		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "params"))
 	}
-	if params.OperationId == "" {
-		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
-		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "operation_id"))
-	}
 	if params.Recipient == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "recipient"))
 		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "recipient"))
+	}
+	if params.OperationID == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
+		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "operation_id"))
 	}
 
 	bytesData, err := json.Marshal(params)
@@ -391,7 +422,14 @@ func (m mtService) TransferMT(classID, owner, mtID string, params *models.Transf
 	return result, nil
 }
 
-// EditMT 编辑 MT
+/**
+ * @description: 编辑 MT
+ * @param {*} classID ： 类别id
+ * @param {*} owner ：mt拥有者(链账户)
+ * @param {string} mtID
+ * @param {*models.EditMTReq} params
+ * @return {*}
+ */
 func (m mtService) EditMT(classID, owner, mtID string, params *models.EditMTReq) (*models.TxRes, models.Error) {
 	log := m.Logger
 	log.Debugln(map[string]interface{}{
@@ -423,13 +461,14 @@ func (m mtService) EditMT(classID, owner, mtID string, params *models.EditMTReq)
 		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
 		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "params"))
 	}
-	if params.OperationId == "" {
-		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
-		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "operation_id"))
-	}
+
 	if params.Data == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "data"))
 		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "data"))
+	}
+	if params.OperationID == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
+		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "operation_id"))
 	}
 
 	bytesData, err := json.Marshal(params)
@@ -455,7 +494,14 @@ func (m mtService) EditMT(classID, owner, mtID string, params *models.EditMTReq)
 	return result, nil
 }
 
-// BurnMT 销毁 MT
+/**
+ * @description: 销毁 MT
+ * @param {*} classID： 类别id
+ * @param {*} owner ：mt拥有者(链账户)
+ * @param {string} mtID
+ * @param {*models.BurnMTReq} params
+ * @return {*}
+ */
 func (m mtService) BurnMT(classID, owner, mtID string, params *models.BurnMTReq) (*models.TxRes, models.Error) {
 	log := m.Logger
 	log.Debugln(map[string]interface{}{
@@ -515,7 +561,11 @@ func (m mtService) BurnMT(classID, owner, mtID string, params *models.BurnMTReq)
 	return result, nil
 }
 
-// QueryMTs 查询 MT
+/**
+ * @description: 查询 MT
+ * @param {*models.QueryMTsReq} params
+ * @return {*}
+ */
 func (m mtService) QueryMTs(params *models.QueryMTsReq) (*models.QueryMTsRes, models.Error) {
 	log := m.Logger
 	log.Debugln(map[string]interface{}{
@@ -550,7 +600,12 @@ func (m mtService) QueryMTs(params *models.QueryMTsReq) (*models.QueryMTsRes, mo
 	return result, nil
 }
 
-// QueryMT 查询 MT 详情
+/**
+ * @description: 查询 MT 详情
+ * @param {*} classID ： 类别id
+ * @param {string} mtID
+ * @return {*}
+ */
 func (m mtService) QueryMT(classID, mtID string) (*models.QueryMTRes, models.Error) {
 	log := m.Logger
 	log.Debugln(map[string]interface{}{
@@ -592,7 +647,13 @@ func (m mtService) QueryMT(classID, mtID string) (*models.QueryMTRes, models.Err
 	return result, nil
 }
 
-// QueryMTHistory 查询 MT 操作记录
+/**
+ * @description: 查询 MT 操作记录
+ * @param {*} classID ： 类别id
+ * @param {string} mtID
+ * @param {*models.QueryMTHistoryReq} params
+ * @return {*}
+ */
 func (m mtService) QueryMTHistory(classID, mtID string, params *models.QueryMTHistoryReq) (*models.QueryMTHistoryRes, models.Error) {
 	log := m.Logger
 	log.Debugln(map[string]interface{}{
@@ -641,7 +702,10 @@ func (m mtService) QueryMTHistory(classID, mtID string, params *models.QueryMTHi
 	return result, nil
 }
 
-// QueryMTBalance 查询 MT 余额
+/**
+ * @description: 查询 MT 余额
+ * @return {*}
+ */
 func (m mtService) QueryMTBalance(classID, account string, params *models.QueryMTBalanceReq) (*models.QueryMTBalanceRes, models.Error) {
 	log := m.Logger
 	log.Debugln(map[string]interface{}{

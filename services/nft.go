@@ -13,21 +13,28 @@ import (
 
 // NFTService NFT 接口
 type NFTService interface {
-	CreateNFTClass(params *models.CreateNFTClassReq) (*models.TxRes, models.Error)                                       // 创建 NFT 类别
-	QueryNFTClasses(params *models.QueryNFTClassesReq) (*models.QueryNFTClassesRes, models.Error)                        // 查询 NFT 类别
-	QueryNFTClass(id string) (*models.QueryNFTClassRes, models.Error)                                                    // 查询 NFT 类别详情
-	TransferNFTClass(params *models.TransferNFClassReq, classID, owner string) (*models.TxRes, models.Error)             // 转让 NFT 类别
-	MintNFT(params *models.MintNFTReq, classID string) (*models.TxRes, models.Error)                                     // 发行 NFT
-	TransferNFT(params *models.TransferNFTReq, classID, owner, nftID string) (*models.TxRes, models.Error)               // 转让 NFT
-	EditNFT(params *models.EditNFTReq, classID, owner, nftID string) (*models.TxRes, models.Error)                       // 编辑 NFT
-	BurnNFT(params *models.BurnNFTReq, classID, owner, nftID string) (*models.TxRes, models.Error)                       // 销毁 NFT
-	BatchMintNFT(params *models.BatchMintNFTReq, classID string) (*models.TxRes, models.Error)                           // 批量发行 NFT
-	BatchTransferNFT(params *models.BatchTransferNFTReq, owner string) (*models.TxRes, models.Error)                     // 批量转让 NFT
-	BatchEditNFT(params *models.BatchEditNFTReq, owner string) (*models.TxRes, models.Error)                             // 批量编辑 NFT
-	BatchBurnNFT(params *models.BatchBurnNFTReq, owner string) (*models.TxRes, models.Error)                             // 批量销毁 NFT
-	QueryNFTs(params *models.QueryNFTsReq) (*models.QueryNFTsRes, models.Error)                                          // 查询 NFT
-	QueryNFT(classID, nftID string) (*models.QueryNFTRes, models.Error)                                                  // 查询 NFT 详情
-	QueryNFTHistory(params *models.QueryNFTHistoryReq, classID, nftID string) (*models.QueryNFTHistoryRes, models.Error) // 查询 NFT 操作记录
+	CreateNFTClass(params *models.CreateNFTClassReq) (*models.TxRes, models.Error)                                                         // 创建 NFT 类别
+	CreateNativeNFTClass(params *models.CreateNativeNFTClassReq) (*models.TxRes, models.Error)                                             // 创建 NFT 类别(原生模块)
+	QueryNFTClasses(params *models.QueryNFTClassesReq) (*models.QueryNFTClassesRes, models.Error)                                          // 查询 NFT 类别
+	QueryNativeNFTClasses(params *models.QueryNativeNFTClassesReq) (*models.QueryNativeNFTClassesRes, models.Error)                        // 查询 NFT 类别(原生模块)
+	QueryNFTClass(id string) (*models.QueryNFTClassRes, models.Error)                                                                      // 查询 NFT 类别详情
+	QueryNativeNFTClass(id string) (*models.QueryNativeNFTClassRes, models.Error)                                                          // 查询 NFT 类别详情(原生模块)
+	TransferNFTClass(params *models.TransferNFClassReq, classID, owner string) (*models.TxRes, models.Error)                               // 转让 NFT 类别
+	TransferNativeNFTClass(params *models.TransferNativeNFClassReq, classID, owner string) (*models.TxRes, models.Error)                   // 转让 NFT 类别(原生模块)
+	MintNFT(params *models.MintNFTReq, classID string) (*models.TxRes, models.Error)                                                       // 发行 NFT
+	MintNativeNFT(params *models.MintNativeNFTReq, classID string) (*models.TxRes, models.Error)                                           // 发行 NFT(原生模块)
+	TransferNFT(params *models.TransferNFTReq, classID, owner, nftID string) (*models.TxRes, models.Error)                                 // 转让 NFT
+	TransferNativeNFT(params *models.TransferNativeNFTReq, classID, owner, nftID string) (*models.TxRes, models.Error)                     // 转让 NFT(原生模块)
+	EditNFT(params *models.EditNFTReq, classID, owner, nftID string) (*models.TxRes, models.Error)                                         // 编辑 NFT
+	EditNativeNFT(params *models.EditNativeNFTReq, classID, owner, nftID string) (*models.TxRes, models.Error)                             // 编辑 NFT(原生模块)
+	BurnNFT(params *models.BurnNFTReq, classID, owner, nftID string) (*models.TxRes, models.Error)                                         // 销毁 NFT
+	BurnNativeNFT(params *models.BurnNativeNFTReq, classID, owner, nftID string) (*models.TxRes, models.Error)                             // 销毁 NFT(原生模块)
+	QueryNFTs(params *models.QueryNFTsReq) (*models.QueryNFTsRes, models.Error)                                                            // 查询 NFT
+	QueryNativeNFTs(params *models.QueryNativeNFTsReq) (*models.QueryNativeNFTsRes, models.Error)                                          // 查询 NFT(原生模块)
+	QueryNFT(classID, nftID string) (*models.QueryNFTRes, models.Error)                                                                    // 查询 NFT 详情
+	QueryNativeNFT(classID, nftID string) (*models.QueryNativeNFTRes, models.Error)                                                        // 查询 NFT 详情(原生模块)
+	QueryNFTHistory(params *models.QueryNFTHistoryReq, classID, nftID string) (*models.QueryNFTHistoryRes, models.Error)                   // 查询 NFT 操作记录
+	QueryNativeNFTHistory(params *models.QueryNativeNFTHistoryReq, classID, nftID string) (*models.QueryNativeNFTHistoryRes, models.Error) // 查询 NFT 操作记录(原生模块)
 }
 
 type nftService struct {
@@ -42,7 +49,10 @@ func NewNFTService(log loggers.Advanced, httpClient utils.HttpClient) *nftServic
 	}
 }
 
-// CreateNFTClass 创建 NFT 类别
+/**
+ * @description: 创建 NFT 类别
+ * @return {*}
+ */
 func (n nftService) CreateNFTClass(params *models.CreateNFTClassReq) (*models.TxRes, models.Error) {
 	log := n.Logger
 	log.Debugln(map[string]interface{}{
@@ -57,6 +67,18 @@ func (n nftService) CreateNFTClass(params *models.CreateNFTClassReq) (*models.Tx
 	if params == nil {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
 		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "params"))
+	}
+	if params.Name == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "name"))
+		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "name"))
+	}
+	if params.Symbol == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "symbol"))
+		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "symbol"))
+	}
+	if params.Owner == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "owner"))
+		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "owner"))
 	}
 	if params.OperationID == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
@@ -85,7 +107,65 @@ func (n nftService) CreateNFTClass(params *models.CreateNFTClassReq) (*models.Tx
 	return result, nil
 }
 
-// QueryNFTClasses 查询 NFT 类别
+/**
+ * @description: 创建 NFT 类别(原生模块)
+ * @return {*}
+ */
+func (n nftService) CreateNativeNFTClass(params *models.CreateNativeNFTClassReq) (*models.TxRes, models.Error) {
+	log := n.Logger
+	log.Debugln(map[string]interface{}{
+		"module":   "NFT",
+		"function": "CreateNativeNFTClass",
+		"params":   fmt.Sprintf("%v", params),
+	})
+	log.Info("CreateNativeNFTClass start")
+
+	nilRes := &models.TxRes{}
+
+	if params == nil {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
+		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "params"))
+	}
+	if params.Name == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "name"))
+		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "name"))
+	}
+	if params.Owner == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "owner"))
+		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "owner"))
+	}
+	if params.OperationID == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
+		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "operation_id"))
+	}
+
+	bytesData, err := json.Marshal(params)
+	if err != nil {
+		log.Errorf("CreateNativeNFTClass Marshal Params: %s", err.Error())
+		return nilRes, models.NewSDKError(fmt.Sprintf("Marshal Params: %s", err.Error()))
+	}
+	body, errorRes := n.HttpClient.DoHttpRequest(http.MethodPost, models.CreateNativeNFTClass, bytesData, nil)
+	log.Debugf("CreateNativeNFTClass body: %s", string(body))
+	if errorRes != nil {
+		log.Errorf("CreateNativeNFTClass DoHttpRequest error: %s", errorRes.Error())
+		return nilRes, errorRes
+	}
+
+	result := &models.TxRes{}
+	if err = json.Unmarshal(body, &result); err != nil {
+		log.Errorf("CreateNativeNFTClass Unmarshal Params: %s", err.Error())
+		return nilRes, models.NewSDKError(fmt.Sprintf("Unmarshal Params: %s", err.Error()))
+	}
+
+	log.Info("CreateNativeNFTClass end")
+	return result, nil
+}
+
+/**
+ * @description: 查询 NFT 类别
+ * @param {*models.QueryNFTClassesReq} params
+ * @return {*}
+ */
 func (n nftService) QueryNFTClasses(params *models.QueryNFTClassesReq) (*models.QueryNFTClassesRes, models.Error) {
 	log := n.Logger
 	log.Debugln(map[string]interface{}{
@@ -120,7 +200,54 @@ func (n nftService) QueryNFTClasses(params *models.QueryNFTClassesReq) (*models.
 	return result, nil
 }
 
-// QueryNFTClass 查询 NFT 类别详情
+/**
+ * @description: 查询 NFT 类别(原生模块)
+ * @param {*models.QueryNativeNFTClassesReq} params
+ * @return {*}
+ */
+func (n nftService) QueryNativeNFTClasses(params *models.QueryNativeNFTClassesReq) (*models.QueryNativeNFTClassesRes, models.Error) {
+	log := n.Logger
+	log.Debugln(map[string]interface{}{
+		"module":   "NFT",
+		"function": "QueryNativeNFTClasses",
+		"params":   fmt.Sprintf("%v", params),
+	})
+	log.Info("QueryNativeNFTClasses start")
+
+	nilRes := &models.QueryNativeNFTClassesRes{}
+	if params.CountTotal != "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "CountTotal"))
+		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "CountTotal"))
+	}
+
+	bytesData, err := json.Marshal(params)
+	if err != nil {
+		log.Errorf("QueryNativeNFTClasses Marshal Params: %s", err.Error())
+		return nilRes, models.NewSDKError(fmt.Sprintf("Marshal Params: %s", err.Error()))
+	}
+
+	body, errorRes := n.HttpClient.DoHttpRequest(http.MethodGet, models.QueryNativeNFTClasses, nil, bytesData)
+	log.Debugf("QueryNativeNFTClasses body: %s", string(body))
+	if errorRes != nil {
+		log.Errorf("QueryNativeNFTClasses DoHttpRequest error: %s", errorRes.Error())
+		return nilRes, errorRes
+	}
+
+	result := &models.QueryNativeNFTClassesRes{}
+	if err = json.Unmarshal(body, &result); err != nil {
+		log.Errorf("QueryNativeNFTClasses Unmarshal Params: %s", err.Error())
+		return nilRes, models.NewSDKError(fmt.Sprintf("Unmarshal Params: %s", err.Error()))
+	}
+
+	log.Info("QueryNativeNFTClasses end")
+	return result, nil
+}
+
+/**
+ * @description: 查询 NFT 类别详情
+ * @param {string} id ：类别id
+ * @return {*}
+ */
 func (n nftService) QueryNFTClass(id string) (*models.QueryNFTClassRes, models.Error) {
 	log := n.Logger
 	log.Debugln(map[string]interface{}{
@@ -155,7 +282,49 @@ func (n nftService) QueryNFTClass(id string) (*models.QueryNFTClassRes, models.E
 	return result, nil
 }
 
-// TransferNFTClass 转让 NFT 类别
+/**
+ * @description: 查询 NFT 类别详情(原生模块)
+ * @param {string} id ：类别id
+ * @return {*}
+ */
+func (n nftService) QueryNativeNFTClass(id string) (*models.QueryNativeNFTClassRes, models.Error) {
+	log := n.Logger
+	log.Debugln(map[string]interface{}{
+		"module":   "NFT",
+		"function": "QueryNativeNFTClass",
+		"id":       id,
+	})
+	log.Info("QueryNativeNFTClass start")
+
+	nilRes := &models.QueryNativeNFTClassRes{}
+
+	// 校验必填参数
+	if id == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "id"))
+		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "id"))
+	}
+
+	body, errorRes := n.HttpClient.DoHttpRequest(http.MethodGet, fmt.Sprintf(models.QueryNativeNFTClass, id), nil, nil)
+	log.Debugf("QueryNativeNFTClass body: %s", string(body))
+	if errorRes != nil {
+		log.Errorf("QueryNativeNFTClass DoHttpRequest error: %s", errorRes.Error())
+		return nilRes, errorRes
+	}
+
+	result := &models.QueryNativeNFTClassRes{}
+	if err := json.Unmarshal(body, &result); err != nil {
+		log.Errorf("QueryNativeNFTClass Unmarshal Params: %s", err.Error())
+		return nilRes, models.NewSDKError(fmt.Sprintf("Unmarshal Params: %s", err.Error()))
+	}
+
+	log.Info("QueryNativeNFTClass end")
+	return result, nil
+}
+
+/**
+ * @description: 转让 NFT 类别
+ * @return {*}
+ */
 func (n nftService) TransferNFTClass(params *models.TransferNFClassReq, classID, owner string) (*models.TxRes, models.Error) {
 	log := n.Logger
 	log.Debugln(map[string]interface{}{
@@ -181,6 +350,10 @@ func (n nftService) TransferNFTClass(params *models.TransferNFClassReq, classID,
 	if params == nil {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
 		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "params"))
+	}
+	if params.Recipient == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "recipient"))
+		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "recipient"))
 	}
 	if params.OperationID == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
@@ -210,7 +383,77 @@ func (n nftService) TransferNFTClass(params *models.TransferNFClassReq, classID,
 	return result, nil
 }
 
-// MintNFT 发行 NFT
+/**
+ * @description: 转让 NFT 类别(原生模块)
+ * @param {*models.TransferNativeNFClassReq} params
+ * @param {*} classID ：类别id
+ * @param {string} owner ：类别拥有者(链账户)
+ * @return {*}
+ */
+func (n nftService) TransferNativeNFTClass(params *models.TransferNativeNFClassReq, classID, owner string) (*models.TxRes, models.Error) {
+	log := n.Logger
+	log.Debugln(map[string]interface{}{
+		"module":   "NFT",
+		"function": "TransferNativeNFTClass",
+		"params":   fmt.Sprintf("%v", params),
+		"classID":  classID,
+		"owner":    owner,
+	})
+	log.Info("TransferNativeNFTClass start")
+
+	nilRes := &models.TxRes{}
+
+	// 校验必填参数
+	if classID == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "class_id"))
+		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "class_id"))
+	}
+	if owner == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "owner"))
+		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "owner"))
+	}
+
+	if params == nil {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
+		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "params"))
+	}
+	if params.OperationID == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "operationid"))
+
+	}
+	if params.Recipient == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "recipient"))
+	}
+
+	bytesData, err := json.Marshal(params)
+	if err != nil {
+		log.Errorf("TransferNFTClass Marshal Params: %s", err.Error())
+		return nilRes, models.NewSDKError(fmt.Sprintf("Marshal Params: %s", err.Error()))
+	}
+
+	body, errorRes := n.HttpClient.DoHttpRequest(http.MethodPost, fmt.Sprintf(models.TransferNativeNFTClass, classID, owner), bytesData, nil)
+	log.Debugf("TransferNativeNFTClass body: %s", string(body))
+	if errorRes != nil {
+		log.Errorf("TransferNativeNFTClass DoHttpRequest error: %s", errorRes.Error())
+		return nilRes, errorRes
+	}
+
+	result := &models.TxRes{}
+	if err = json.Unmarshal(body, &result); err != nil {
+		log.Errorf("TransferNativeNFTClass Unmarshal Params: %s", err.Error())
+		return nilRes, models.NewSDKError(fmt.Sprintf("Unmarshal Params: %s", err.Error()))
+	}
+
+	log.Info("TransferNativeNFTClass end")
+	return result, nil
+}
+
+/**
+ * @description: 发行 NFT
+ * @param {*models.MintNFTReq} params
+ * @param {string} classID ：类别id
+ * @return {*}
+ */
 func (n nftService) MintNFT(params *models.MintNFTReq, classID string) (*models.TxRes, models.Error) {
 	log := n.Logger
 	log.Debugln(map[string]interface{}{
@@ -231,6 +474,14 @@ func (n nftService) MintNFT(params *models.MintNFTReq, classID string) (*models.
 	if params == nil {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
 		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "params"))
+	}
+	if params.Uri == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "uri"))
+		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "uri"))
+	}
+	if params.Recipient == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "recipient"))
+		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "recipient"))
 	}
 	if params.OperationID == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
@@ -260,7 +511,70 @@ func (n nftService) MintNFT(params *models.MintNFTReq, classID string) (*models.
 	return result, nil
 }
 
-// TransferNFT 转让 NFT
+/**
+ * @description: 发行 NFT(原生模块)
+ * @param {*models.MintNativeNFTReq} params
+ * @param {string} classID ：类别id
+ * @return {*}
+ */
+func (n nftService) MintNativeNFT(params *models.MintNativeNFTReq, classID string) (*models.TxRes, models.Error) {
+	log := n.Logger
+	log.Debugln(map[string]interface{}{
+		"module":   "NFT",
+		"function": "MintNativeNFT",
+		"params":   fmt.Sprintf("%v", params),
+		"classID":  classID,
+	})
+	log.Info("MintNativeNFT start")
+
+	nilRes := &models.TxRes{}
+
+	// 校验必填参数
+	if classID == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "class_id"))
+		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "class_id"))
+	}
+	if params == nil {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
+		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "params"))
+	}
+
+	if params.OperationID == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
+		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "operation_id"))
+	}
+
+	bytesData, err := json.Marshal(params)
+	if err != nil {
+		log.Errorf("MintNativeNFT Marshal Params: %s", err.Error())
+		return nilRes, models.NewSDKError(fmt.Sprintf("Marshal Params: %s", err.Error()))
+	}
+
+	body, errorRes := n.HttpClient.DoHttpRequest(http.MethodPost, fmt.Sprintf(models.MintNativeNFT, classID), bytesData, nil)
+	log.Debugf("MintNativeNFT body: %s", string(body))
+	if errorRes != nil {
+		log.Errorf("MintNativeNFT DoHttpRequest error: %s", errorRes.Error())
+		return nilRes, errorRes
+	}
+
+	result := &models.TxRes{}
+	if err = json.Unmarshal(body, &result); err != nil {
+		log.Errorf("MintNativeNFT Unmarshal Params: %s", err.Error())
+		return nilRes, models.NewSDKError(fmt.Sprintf("Unmarshal Params: %s", err.Error()))
+	}
+
+	log.Info("MintNativeNFT end")
+	return result, nil
+}
+
+/**
+ * @description: 转让 NFT
+ * @param {*models.TransferNFTReq} params
+ * @param {*} classID ：类别id
+ * @param {*} owner ：资产拥有者(链账户)
+ * @param {string} nftID
+ * @return {*}
+ */
 func (n nftService) TransferNFT(params *models.TransferNFTReq, classID, owner, nftID string) (*models.TxRes, models.Error) {
 	log := n.Logger
 	log.Debugln(map[string]interface{}{
@@ -292,6 +606,10 @@ func (n nftService) TransferNFT(params *models.TransferNFTReq, classID, owner, n
 		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
 		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "params"))
 	}
+	if params.Recipient == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "recipient"))
+		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "recipient"))
+	}
 	if params.OperationID == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
 		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "operation_id"))
@@ -320,7 +638,85 @@ func (n nftService) TransferNFT(params *models.TransferNFTReq, classID, owner, n
 	return result, nil
 }
 
-// EditNFT 编辑 NFT
+/**
+ * @description: 转让 NFT(原生模块)
+ * @param {*models.TransferNativeNFTReq} params
+ * @param {*} classID ：类别id
+ * @param {*} owner ：资产拥有者(链账户)
+ * @param {string} nftID
+ * @return {*}
+ */
+func (n nftService) TransferNativeNFT(params *models.TransferNativeNFTReq, classID, owner, nftID string) (*models.TxRes, models.Error) {
+	log := n.Logger
+	log.Debugln(map[string]interface{}{
+		"module":   "NFT",
+		"function": "TransferNativeNFT",
+		"params":   fmt.Sprintf("%v", params),
+		"classID":  classID,
+		"owner":    owner,
+		"nftID":    nftID,
+	})
+	log.Info("TransferNativeNFT start")
+
+	nilRes := &models.TxRes{}
+
+	// 校验必填参数
+	if classID == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "class_id"))
+		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "class_id"))
+	}
+	if owner == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "owner"))
+		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "owner"))
+	}
+	if nftID == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "nft_id"))
+		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "nft_id"))
+	}
+	if params == nil {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
+		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "params"))
+	}
+	if params.Recipient == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "recipient"))
+		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "recipient"))
+	}
+	if params.OperationID == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
+		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "operation_id"))
+	}
+
+	bytesData, err := json.Marshal(params)
+	if err != nil {
+		log.Errorf("TransferNativeNFT Marshal Params: %s", err.Error())
+		return nilRes, models.NewSDKError(fmt.Sprintf("Marshal Params: %s", err.Error()))
+	}
+
+	body, errorRes := n.HttpClient.DoHttpRequest(http.MethodPost, fmt.Sprintf(models.TransferNativeNFT, classID, owner, nftID), bytesData, nil)
+	log.Debugf("TransferNativeNFT body: %s", string(body))
+	if errorRes != nil {
+		log.Errorf("TransferNativeNFT DoHttpRequest error: %s", errorRes.Error())
+		return nilRes, errorRes
+	}
+
+	result := &models.TxRes{}
+	if err = json.Unmarshal(body, &result); err != nil {
+		log.Errorf("TransferNativeNFT Unmarshal Params: %s", err.Error())
+		return nilRes, models.NewSDKError(fmt.Sprintf("Unmarshal Params: %s", err.Error()))
+	}
+
+	log.Info("TransferNativeNFT end")
+	return result, nil
+}
+
+/**
+ * @description: 编辑 NFT
+ * @param {*models.EditNFTReq} params
+ * @param {*} classID ：类别id
+ * @param {*} owner ：资产拥有者(链账户)
+ * @param {string} nftID
+ * @return {*}
+ */
 func (n nftService) EditNFT(params *models.EditNFTReq, classID, owner, nftID string) (*models.TxRes, models.Error) {
 	log := n.Logger
 	log.Debugln(map[string]interface{}{
@@ -352,6 +748,10 @@ func (n nftService) EditNFT(params *models.EditNFTReq, classID, owner, nftID str
 		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
 		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "params"))
 	}
+	if params.Uri == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "uri"))
+		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "uri"))
+	}
 	if params.OperationID == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
 		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "operation_id"))
@@ -380,7 +780,81 @@ func (n nftService) EditNFT(params *models.EditNFTReq, classID, owner, nftID str
 	return result, nil
 }
 
-// BurnNFT 销毁 NFT
+/**
+ * @description: 编辑 NFT(原生模块)
+ * @param {*models.EditNativeNFTReq} params
+ * @param {*} classID ：类别id
+ * @param {*} owner ：资产拥有者(链账户)
+ * @param {string} nftID
+ * @return {*}
+ */
+func (n nftService) EditNativeNFT(params *models.EditNativeNFTReq, classID, owner, nftID string) (*models.TxRes, models.Error) {
+	log := n.Logger
+	log.Debugln(map[string]interface{}{
+		"module":   "NFT",
+		"function": "EditNativeNFT",
+		"params":   fmt.Sprintf("%v", params),
+		"classID":  classID,
+		"owner":    owner,
+		"nftID":    nftID,
+	})
+	log.Info("EditNativeNFT start")
+
+	nilRes := &models.TxRes{}
+
+	// 校验必填参数
+	if classID == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "class_id"))
+		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "class_id"))
+	}
+	if owner == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "owner"))
+		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "owner"))
+	}
+	if nftID == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "nft_id"))
+		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "nft_id"))
+	}
+	if params == nil {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
+		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "params"))
+	}
+
+	if params.OperationID == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
+		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "operation_id"))
+	}
+
+	bytesData, err := json.Marshal(params)
+	if err != nil {
+		log.Errorf("EditNFT Marshal Params: %s", err.Error())
+		return nilRes, models.NewSDKError(fmt.Sprintf("Marshal Params: %s", err.Error()))
+	}
+
+	body, errorRes := n.HttpClient.DoHttpRequest(http.MethodPatch, fmt.Sprintf(models.EditNativeNFT, classID, owner, nftID), bytesData, nil)
+	log.Debugf("EditNativeNFT body: %s", string(body))
+	if errorRes != nil {
+		log.Errorf("EditNativeNFT DoHttpRequest error: %s", errorRes.Error())
+		return nilRes, errorRes
+	}
+
+	result := &models.TxRes{}
+	if err = json.Unmarshal(body, &result); err != nil {
+		log.Errorf("EditNativeNFT Unmarshal Params: %s", err.Error())
+		return nilRes, models.NewSDKError(fmt.Sprintf("Unmarshal Params: %s", err.Error()))
+	}
+
+	log.Info("EditNativeNFT end")
+	return result, nil
+}
+
+/**
+ * @description: 销毁 NFT
+ * @param {*} classID ：类别id
+ * @param {*} owner ：资产拥有者(链账户)
+ * @param {string} nftID
+ * @return {*}
+ */
 func (n nftService) BurnNFT(params *models.BurnNFTReq, classID, owner, nftID string) (*models.TxRes, models.Error) {
 	log := n.Logger
 	log.Debugln(map[string]interface{}{
@@ -440,16 +914,25 @@ func (n nftService) BurnNFT(params *models.BurnNFTReq, classID, owner, nftID str
 	return result, nil
 }
 
-// BatchMintNFT 批量发行 NFT
-func (n nftService) BatchMintNFT(params *models.BatchMintNFTReq, classID string) (*models.TxRes, models.Error) {
+/**
+ * @description: 销毁 NFT(原生模块)
+ * @param {*models.BurnNativeNFTReq} params
+ * @param {*} classID ：类别id
+ * @param {*} owner ：资产拥有者(链账户)
+ * @param {string} nftID
+ * @return {*}
+ */
+func (n nftService) BurnNativeNFT(params *models.BurnNativeNFTReq, classID, owner, nftID string) (*models.TxRes, models.Error) {
 	log := n.Logger
 	log.Debugln(map[string]interface{}{
 		"module":   "NFT",
-		"function": "BatchMintNFT",
+		"function": "BurnNativeNFT",
 		"params":   fmt.Sprintf("%v", params),
 		"classID":  classID,
+		"owner":    owner,
+		"nftID":    nftID,
 	})
-	log.Info("BatchMintNFT start")
+	log.Info("BurnNativeNFT start")
 
 	nilRes := &models.TxRes{}
 
@@ -458,105 +941,13 @@ func (n nftService) BatchMintNFT(params *models.BatchMintNFTReq, classID string)
 		log.Debugln(fmt.Sprintf(models.ErrParam, "class_id"))
 		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "class_id"))
 	}
-	if params == nil {
-		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
-		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "params"))
-	}
-	if params.OperationID == "" {
-		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
-		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "operation_id"))
-	}
-
-	bytesData, err := json.Marshal(params)
-	if err != nil {
-		log.Errorf("BatchMintNFT Marshal Params: %s", err.Error())
-		return nilRes, models.NewSDKError(fmt.Sprintf("Marshal Params: %s", err.Error()))
-	}
-
-	body, errorRes := n.HttpClient.DoHttpRequest(http.MethodPost, fmt.Sprintf(models.BatchMintNFT, classID), bytesData, nil)
-	log.Debugf("BatchMintNFT body: %s", string(body))
-	if errorRes != nil {
-		log.Errorf("BatchMintNFT DoHttpRequest error: %s", errorRes.Error())
-		return nilRes, errorRes
-	}
-
-	result := &models.TxRes{}
-	if err = json.Unmarshal(body, &result); err != nil {
-		log.Errorf("BatchMintNFT Unmarshal Params: %s", err.Error())
-		return nilRes, models.NewSDKError(fmt.Sprintf("Unmarshal Params: %s", err.Error()))
-	}
-
-	log.Info("BatchMintNFT end")
-	return result, nil
-}
-
-// BatchTransferNFT 批量转让 NFT
-func (n nftService) BatchTransferNFT(params *models.BatchTransferNFTReq, owner string) (*models.TxRes, models.Error) {
-	log := n.Logger
-	log.Debugln(map[string]interface{}{
-		"module":   "NFT",
-		"function": "BatchTransferNFT",
-		"params":   fmt.Sprintf("%v", params),
-		"owner":    owner,
-	})
-	log.Info("BatchTransferNFT start")
-
-	nilRes := &models.TxRes{}
-
-	// 校验必填参数
 	if owner == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "owner"))
 		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "owner"))
 	}
-	if params == nil {
-		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
-		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "params"))
-	}
-	if params.OperationID == "" {
-		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
-		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "operation_id"))
-	}
-
-	bytesData, err := json.Marshal(params)
-	if err != nil {
-		log.Errorf("BatchTransferNFT Marshal Params: %s", err.Error())
-		return nilRes, models.NewSDKError(fmt.Sprintf("Marshal Params: %s", err.Error()))
-	}
-
-	body, errorRes := n.HttpClient.DoHttpRequest(http.MethodPost, fmt.Sprintf(models.BatchTransferNFT, owner), bytesData, nil)
-	log.Debugf("BatchTransferNFT body: %s", string(body))
-	if errorRes != nil {
-		log.Errorf("BatchTransferNFT DoHttpRequest error: %s", errorRes.Error())
-		return nilRes, errorRes
-	}
-
-	result := &models.TxRes{}
-	if err = json.Unmarshal(body, &result); err != nil {
-		log.Errorf("BatchTransferNFT Unmarshal Params: %s", err.Error())
-		return nilRes, models.NewSDKError(fmt.Sprintf("Unmarshal Params: %s", err.Error()))
-	}
-
-	log.Info("BatchTransferNFT end")
-	return result, nil
-}
-
-// BatchEditNFT 批量编辑 NFT
-func (n nftService) BatchEditNFT(params *models.BatchEditNFTReq, owner string) (*models.TxRes, models.Error) {
-	log := n.Logger
-	log.Debugln(map[string]interface{}{
-		"module":   "NFT",
-		"function": "BatchEditNFT",
-		"params":   fmt.Sprintf("%v", params),
-		"owner":    owner,
-	})
-	log.Info("BatchEditNFT start")
-
-	nilRes := &models.TxRes{}
-
-	// 校验必填参数
-	if owner == "" {
-		log.Debugln(fmt.Sprintf(models.ErrParam, "owner"))
-		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "owner"))
+	if nftID == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "nft_id"))
+		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "nft_id"))
 	}
 	if params == nil {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
@@ -569,78 +960,32 @@ func (n nftService) BatchEditNFT(params *models.BatchEditNFTReq, owner string) (
 
 	bytesData, err := json.Marshal(params)
 	if err != nil {
-		log.Errorf("BatchEditNFT Marshal Params: %s", err.Error())
+		log.Errorf("BurnNativeNFT Marshal Params: %s", err.Error())
 		return nilRes, models.NewSDKError(fmt.Sprintf("Marshal Params: %s", err.Error()))
 	}
 
-	body, errorRes := n.HttpClient.DoHttpRequest(http.MethodPatch, fmt.Sprintf(models.BatchEditNFT, owner), bytesData, nil)
-	log.Debugf("BatchEditNFT body: %s", string(body))
+	body, errorRes := n.HttpClient.DoHttpRequest(http.MethodDelete, fmt.Sprintf(models.BurnNativeNFT, classID, owner, nftID), bytesData, nil)
+	log.Debugf("BurnNativeNFT body: %s", string(body))
 	if errorRes != nil {
-		log.Errorf("BatchEditNFT DoHttpRequest error: %s", errorRes.Error())
+		log.Errorf("BurnNativeNFT DoHttpRequest error: %s", errorRes.Error())
 		return nilRes, errorRes
 	}
 
 	result := &models.TxRes{}
 	if err = json.Unmarshal(body, &result); err != nil {
-		log.Errorf("BatchEditNFT Unmarshal Params: %s", err.Error())
+		log.Errorf("BurnNativeNFT Unmarshal Params: %s", err.Error())
 		return nilRes, models.NewSDKError(fmt.Sprintf("Unmarshal Params: %s", err.Error()))
 	}
 
-	log.Info("BatchEditNFT end")
+	log.Info("BurnNativeNFT end")
 	return result, nil
 }
 
-// BatchBurnNFT 批量销毁 NFT
-func (n nftService) BatchBurnNFT(params *models.BatchBurnNFTReq, owner string) (*models.TxRes, models.Error) {
-	log := n.Logger
-	log.Debugln(map[string]interface{}{
-		"module":   "NFT",
-		"function": "BatchBurnNFT",
-		"params":   fmt.Sprintf("%v", params),
-		"owner":    owner,
-	})
-	log.Info("BatchBurnNFT start")
-
-	nilRes := &models.TxRes{}
-
-	// 校验必填参数
-	if owner == "" {
-		log.Debugln(fmt.Sprintf(models.ErrParam, "owner"))
-		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "owner"))
-	}
-	if params == nil {
-		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
-		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "params"))
-	}
-	if params.OperationID == "" {
-		log.Debugln(fmt.Sprintf(models.ErrParam, "operation_id"))
-		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "operation_id"))
-	}
-
-	bytesData, err := json.Marshal(params)
-	if err != nil {
-		log.Errorf("BatchBurnNFT Marshal Params: %s", err.Error())
-		return nilRes, models.NewSDKError(fmt.Sprintf("Marshal Params: %s", err.Error()))
-	}
-
-	body, errorRes := n.HttpClient.DoHttpRequest(http.MethodDelete, fmt.Sprintf(models.BatchBurnNFT, owner), bytesData, nil)
-	log.Debugf("BatchBurnNFT body: %s", string(body))
-	if errorRes != nil {
-		log.Errorf("BatchBurnNFT DoHttpRequest error: %s", errorRes.Error())
-		return nilRes, errorRes
-	}
-
-	result := &models.TxRes{}
-	if err = json.Unmarshal(body, &result); err != nil {
-		log.Errorf("BatchBurnNFT Unmarshal Params: %s", err.Error())
-		return nilRes, models.NewSDKError(fmt.Sprintf("Unmarshal Params: %s", err.Error()))
-	}
-
-	log.Info("BatchBurnNFT end")
-	return result, nil
-}
-
-// QueryNFTs 查询 NFT
+/**
+ * @description: 查询 NFT
+ * @param {*models.QueryNFTsReq} params
+ * @return {*}
+ */
 func (n nftService) QueryNFTs(params *models.QueryNFTsReq) (*models.QueryNFTsRes, models.Error) {
 	log := n.Logger
 	log.Debugln(map[string]interface{}{
@@ -674,7 +1019,50 @@ func (n nftService) QueryNFTs(params *models.QueryNFTsReq) (*models.QueryNFTsRes
 	return result, nil
 }
 
-// QueryNFT 查询 NFT 详情
+/**
+ * @description: 查询 NFT(原生模块)
+ * @param {*models.QueryNativeNFTsReq} params
+ * @return {*}
+ */
+func (n nftService) QueryNativeNFTs(params *models.QueryNativeNFTsReq) (*models.QueryNativeNFTsRes, models.Error) {
+	log := n.Logger
+	log.Debugln(map[string]interface{}{
+		"module":   "NFT",
+		"function": "QueryNativeNFTs",
+		"params":   fmt.Sprintf("%v", params),
+	})
+	log.Info("QueryNativeNFTs start")
+
+	nilRes := &models.QueryNativeNFTsRes{}
+
+	bytesData, err := json.Marshal(params)
+	if err != nil {
+		log.Errorf("QueryNativeNFTs Marshal Params: %s", err.Error())
+		return nilRes, models.NewSDKError(fmt.Sprintf("Marshal Params: %s", err.Error()))
+	}
+	body, errorRes := n.HttpClient.DoHttpRequest(http.MethodGet, models.QueryNativeNFTs, nil, bytesData)
+	log.Debugf("QueryNativeNFTs body: %s", string(body))
+	if errorRes != nil {
+		log.Errorf("QueryNativeNFTs DoHttpRequest error: %s", errorRes.Error())
+		return nilRes, errorRes
+	}
+
+	result := &models.QueryNativeNFTsRes{}
+	if err = json.Unmarshal(body, &result); err != nil {
+		log.Errorf("QueryNativeNFTs Unmarshal Params: %s", err.Error())
+		return nilRes, models.NewSDKError(fmt.Sprintf("Unmarshal Params: %s", err.Error()))
+	}
+
+	log.Info("QueryNativeNFTs end")
+	return result, nil
+}
+
+/**
+ * @description: 查询 NFT 详情
+ * @param {*} classID ：类别id
+ * @param {string} nftID
+ * @return {*}
+ */
 func (n nftService) QueryNFT(classID, nftID string) (*models.QueryNFTRes, models.Error) {
 	log := n.Logger
 	log.Debugln(map[string]interface{}{
@@ -696,7 +1084,6 @@ func (n nftService) QueryNFT(classID, nftID string) (*models.QueryNFTRes, models
 		log.Debugln(fmt.Sprintf(models.ErrParam, "nft_id"))
 		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "nft_id"))
 	}
-
 	body, errorRes := n.HttpClient.DoHttpRequest(http.MethodGet, fmt.Sprintf(models.QueryNFT, classID, nftID), nil, nil)
 	log.Debugf("QueryNFT body: %s", string(body))
 	if errorRes != nil {
@@ -714,7 +1101,57 @@ func (n nftService) QueryNFT(classID, nftID string) (*models.QueryNFTRes, models
 	return result, nil
 }
 
-// QueryNFTHistory 查询 NFT 操作记录
+/**
+ * @description: 查询 NFT 详情(原生模块)
+ * @param {*} classID ：类别id
+ * @param {string} nftID
+ * @return {*}
+ */
+func (n nftService) QueryNativeNFT(classID, nftID string) (*models.QueryNativeNFTRes, models.Error) {
+	log := n.Logger
+	log.Debugln(map[string]interface{}{
+		"module":   "NFT",
+		"function": "QueryNativeNFT",
+		"classID":  classID,
+		"nftID":    nftID,
+	})
+	log.Info("QueryNativeNFT start")
+
+	nilRes := &models.QueryNativeNFTRes{}
+
+	// 校验必填参数
+	if classID == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "class_id"))
+		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "class_id"))
+	}
+	if nftID == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "nft_id"))
+		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "nft_id"))
+	}
+	body, errorRes := n.HttpClient.DoHttpRequest(http.MethodGet, fmt.Sprintf(models.QueryNativeNFT, classID, nftID), nil, nil)
+	log.Debugf("QueryNFT body: %s", string(body))
+	if errorRes != nil {
+		log.Errorf("QueryNFT DoHttpRequest error: %s", errorRes.Error())
+		return nilRes, errorRes
+	}
+
+	result := &models.QueryNativeNFTRes{}
+	if err := json.Unmarshal(body, &result); err != nil {
+		log.Errorf("QueryNFT Unmarshal Params: %s", err.Error())
+		return nilRes, models.NewSDKError(fmt.Sprintf("Unmarshal Params: %s", err.Error()))
+	}
+
+	log.Info("QueryNativeNFT end")
+	return result, nil
+}
+
+/**
+ * @description: 查询 NFT 操作记录
+ * @param {*models.QueryNFTHistoryReq} params
+ * @param {*} classID ：类别id
+ * @param {string} nftID
+ * @return {*}
+ */
 func (n nftService) QueryNFTHistory(params *models.QueryNFTHistoryReq, classID, nftID string) (*models.QueryNFTHistoryRes, models.Error) {
 	log := n.Logger
 	log.Debugln(map[string]interface{}{
@@ -748,5 +1185,48 @@ func (n nftService) QueryNFTHistory(params *models.QueryNFTHistoryReq, classID, 
 	}
 
 	log.Info("QueryNFTHistory end")
+	return result, nil
+}
+
+/**
+ * @description: 查询 NFT 操作记录(原生模块)
+ * @param {*models.QueryNFTHistoryReq} params
+ * @param {*} classID ：类别id
+ * @param {string} nftID
+ * @return {*}
+ */
+func (n nftService) QueryNativeNFTHistory(params *models.QueryNativeNFTHistoryReq, classID, nftID string) (*models.QueryNativeNFTHistoryRes, models.Error) {
+	log := n.Logger
+	log.Debugln(map[string]interface{}{
+		"module":   "NFT",
+		"function": "QueryNativeNFTHistory",
+		"params":   fmt.Sprintf("%v", params),
+		"classID":  classID,
+		"nftID":    nftID,
+	})
+	log.Info("QueryNativeNFTHistory start")
+
+	nilRes := &models.QueryNativeNFTHistoryRes{}
+
+	bytesData, err := json.Marshal(params)
+	if err != nil {
+		log.Errorf("QueryNativeNFTHistory Marshal Params: %s", err.Error())
+		return nilRes, models.NewSDKError(fmt.Sprintf("Marshal Params: %s", err.Error()))
+	}
+
+	body, errorRes := n.HttpClient.DoHttpRequest(http.MethodGet, fmt.Sprintf(models.QueryNativeNFTHistory, classID, nftID), nil, bytesData)
+	log.Debugf("QueryNativeNFTHistory body: %s", string(body))
+	if errorRes != nil {
+		log.Errorf("QueryNativeNFTHistory DoHttpRequest error: %s", errorRes.Error())
+		return nilRes, errorRes
+	}
+
+	result := &models.QueryNativeNFTHistoryRes{}
+	if err = json.Unmarshal(body, &result); err != nil {
+		log.Errorf("QueryNativeNFTHistory Unmarshal Params: %s", err.Error())
+		return nilRes, models.NewSDKError(fmt.Sprintf("Unmarshal Params: %s", err.Error()))
+	}
+
+	log.Info("QueryNativeNFTHistory end")
 	return result, nil
 }

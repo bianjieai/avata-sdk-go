@@ -8,15 +8,15 @@ import (
 	"github.com/bianjieai/avata-sdk-go/models"
 )
 
-var orderID = fmt.Sprintf("orderID_%v", time.Now().Unix())
+var operationID = fmt.Sprintf("orderID_%v", time.Now().Unix())
 
 // 购买能量值/业务费接口示例
 func TestCreateOrder(t *testing.T) {
 	params := &models.CreateOrderReq{
-		Account:   "0x7982C2FEEECCB2A86C5346762AF9DCAC4DF79219",
-		Amount:    10100,
-		OrderType: "gas",
-		OrderId:   orderID,
+		Account:     "iaa1d7wj6se24u23zp66r0v4luu772yvhj872fwzzl",
+		Amount:      10100,
+		OrderType:   1,
+		OperationID: "buygas168872324643111",
 	}
 
 	result, err := client.Order.CreateOrder(params)
@@ -54,12 +54,12 @@ func TestQueryOrder(t *testing.T) {
 func TestCreateBatchOrder(t *testing.T) {
 	var list []models.List
 	list = append(list, models.List{
-		Account: "iaa1cz8c3ka0wskwdxdm204jvxrmzxmd3yuy7tm7k9",
+		Account: "iaa1cz8c3ka0wskwdxdm204jvxrmzxmd3yuxy7tm7k9",
 		Amount:  100,
 	})
 	params := &models.BatchCreateOrderReq{
-		List:    list,
-		OrderId: orderID,
+		List:        list,
+		OperationID: operationID,
 	}
 
 	result, err := client.Order.BatchCreateOrder(params)

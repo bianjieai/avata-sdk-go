@@ -28,7 +28,11 @@ func NewRecordService(log loggers.Advanced, client utils.HttpClient) *recordServ
 	}
 }
 
-// CreateRecord 数字作品存证接口
+/**
+ * @description: 数字作品存证接口
+ * @param {*models.CreateRecordReq} params
+ * @return {*}
+ */
 func (r recordService) CreateRecord(params *models.CreateRecordReq) (*models.TxRes, models.Error) {
 	log := r.Logger
 	log.Debugln(map[string]interface{}{
@@ -82,8 +86,8 @@ func (r recordService) CreateRecord(params *models.CreateRecordReq) (*models.TxR
 		log.Errorf("CreateRecord DoHttpRequest error: %s", errorRes.Error())
 		return nilRes, errorRes
 	}
-
 	result := &models.TxRes{}
+
 	if err = json.Unmarshal(body, &result); err != nil {
 		log.Errorf("CreateRecord Unmarshal Params: %s", err.Error())
 		return nilRes, models.NewSDKError(fmt.Sprintf("Unmarshal Params: %s", err.Error()))
