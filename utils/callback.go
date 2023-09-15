@@ -95,6 +95,7 @@ func Callback(r *http.Request, path, apiSecret string) bool {
 func OnCallback(ctx context.Context, version, apiSecret, path string, r *http.Request, w http.ResponseWriter, app App) error {
 	var onCallbackRes interface{}
 	var kindRes *models.KindRes
+	var kind string
 
 	switch version {
 	case models.APIVersionV1:
@@ -129,7 +130,8 @@ func OnCallback(ctx context.Context, version, apiSecret, path string, r *http.Re
 		if err := json.Unmarshal(body.Bytes(), &kindRes); err != nil {
 			return models.NewSDKError(fmt.Sprintf("unmarshal body to kind failed: %s", err.Error()))
 		}
-		switch kindRes.Kind {
+		kind = kindRes.Kind
+		switch kind {
 		case models.Native:
 			onCallbackResNative := &models.OnCallbackResNative{}
 			if err := json.Unmarshal(body.Bytes(), &onCallbackResNative); err != nil {
@@ -148,7 +150,7 @@ func OnCallback(ctx context.Context, version, apiSecret, path string, r *http.Re
 	}
 
 	// 该笔推送消息属于文昌链上链完成所推送消息，请及时存储数据
-	if err := app(ctx, version, kindRes.Kind, onCallbackRes); err != nil {
+	if err := app(ctx, version, kind, onCallbackRes); err != nil {
 		return err
 	}
 
