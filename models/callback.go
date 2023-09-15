@@ -23,9 +23,9 @@ type (
 		Message     string `json:"message,omitempty"`      // 交易失败的错误描述信息
 		BlockHeight int64  `json:"block_height,omitempty"` // 交易上链的区块高度
 		Timestamp   string `json:"timestamp,omitempty"`    // 交易上链时间（UTC 时间）
-		Nft         NftV1  `json:"nft,omitempty"`          // 对应不同操作类型的消息体
-		Mt          Mt     `json:"mt,omitempty"`           // 对应不同操作类型的消息体
-		Record      Record `json:"record,omitempty"`       // 对应不同操作类型的消息体
+		Nft         string `json:"nft,omitempty"`          // 对应不同操作类型的消息体
+		Mt          string `json:"mt,omitempty"`           // 对应不同操作类型的消息体
+		Record      string `json:"record,omitempty"`       // 对应不同操作类型的消息体
 	}
 )
 
