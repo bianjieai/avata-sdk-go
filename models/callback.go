@@ -59,26 +59,31 @@ type OnCallbackResEVM struct {
 	Nft         NftEVM `json:"nft,omitempty"`          // 对应不同操作类型的消息体
 }
 
+// Mt 回调返回的 MT 相关参数（不同版本通用）
 type Mt struct {
 	ClassId string `json:"class_id,omitempty"` // MT 类别 ID
 	MtId    string `json:"mt_id,omitempty"`    // MT ID
 }
 
+// Record 回调返回的 Record 相关参数（不同版本通用）
 type Record struct {
 	RecordId       string `json:"record_id"`       // 区块链存证 ID
 	CertificateUrl string `json:"certificate_url"` // 区块链存证证书的下载链接；证书下载链接并非长期有效，请您尽快将证书文件下载至本地并妥善保管。
 }
 
+// NftV1 V1 版本回调返回的 NFT 相关参数
 type NftV1 struct {
 	ClassId string `json:"class_id,omitempty"` // 类别 ID
 	NftId   string `json:"nft_id,omitempty"`   // NFT ID
 }
 
+// NftNative V2 及以上版本回调返回的原生模块 NFT 相关参数
 type NftNative struct {
 	ClassId string `json:"class_id,omitempty"` // 类别 ID
 	Id      string `json:"id,omitempty"`       // NFT ID
 }
 
+// NftEVM V2 及以上版本回调返回的 EVM 模块 NFT 相关参数
 type NftEVM struct {
 	ClassId string `json:"class_id,omitempty"` // 类别 ID
 	Id      int64  `json:"id,omitempty"`       // NFT ID
