@@ -220,7 +220,7 @@ type BurnNativeNFTReq struct {
 
 // QueryNFTsReq 查询 EVM 模块 NFT 请求参数
 type QueryNFTsReq struct {
-	PageKey    string `json:"page_key,omitempty"`    // 分页数据的 Key， AVATA 会根据该值进行上下页的查询， 该值请从返回的数据体中获取，首页查询可以不传该参数
+	PageKey    string `json:"page_key,omitempty"`    // 分页数据的 Key，AVATA 会根据该值进行上下页的查询， 该值请从返回的数据体中获取，首页查询可以不传该参数
 	Limit      string `json:"limit,omitempty"`       // 每页记录数，默认为 10，上限为 50
 	ID         string `json:"id,omitempty"`          // NFT ID
 	ClassID    string `json:"class_id,omitempty"`    // NFT 类别 ID
