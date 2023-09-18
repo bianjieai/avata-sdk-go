@@ -55,7 +55,7 @@ func (t txService) QueryNativeTxResult(operationID string) (*models.QueryNativeT
 	}
 
 	body, errorRes := t.HttpClient.DoHttpRequest(http.MethodGet, fmt.Sprintf(models.QueryNativeTxResult, operationID), nil, nil)
-	log.Debugf("QueryTxResult body: %s", string(body))
+	log.Debugf("QueryNativeTxResult body: %s", string(body))
 	if errorRes != nil {
 		log.Errorf("QueryNativeTxResult DoHttpRequest error: %s", errorRes.Error())
 		return nilRes, errorRes
@@ -119,26 +119,26 @@ func (t txService) QueryTxTypes() (*models.QueryTxTypesRes, models.Error) {
 	log := t.Logger
 	log.Debugln(map[string]interface{}{
 		"module":   "Tx",
-		"function": "QueryTxResult",
+		"function": "QueryTxTypes",
 	})
 
 	log.Info("QueryTxType start")
 
 	nilRes := &models.QueryTxTypesRes{}
 	body, errorRes := t.HttpClient.DoHttpRequest(http.MethodGet, fmt.Sprintf(models.QueryTxTypes), nil, nil)
-	log.Debugf("QueryTxTypesRes body: %s", string(body))
+	log.Debugf("QueryTxTypes body: %s", string(body))
 	if errorRes != nil {
-		log.Errorf("QueryTxTypesRes DoHttpRequest error: %s", errorRes.Error())
+		log.Errorf("QueryTxTypes DoHttpRequest error: %s", errorRes.Error())
 		return nilRes, errorRes
 	}
 
 	result := &models.QueryTxTypesRes{}
 	if err := json.Unmarshal(body, &result); err != nil {
-		log.Errorf("QueryTxTypesRes Unmarshal Params: %s", err.Error())
+		log.Errorf("QueryTxTypes Unmarshal Params: %s", err.Error())
 		return nilRes, models.NewSDKError(fmt.Sprintf("Unmarshal Params: %s", err.Error()))
 	}
 
-	log.Info("QueryTxTypesRes end")
+	log.Info("QueryTxTypes end")
 	return result, nil
 }
 
@@ -150,25 +150,25 @@ func (t txService) QueryNativeTxTypes() (*models.QueryNativeTxTypesRes, models.E
 	log := t.Logger
 	log.Debugln(map[string]interface{}{
 		"module":   "Tx",
-		"function": "QueryNativeTxResult",
+		"function": "QueryNativeTxTypes",
 	})
 
-	log.Info("QueryNativeTxType start")
+	log.Info("QueryNativeTxTypes start")
 
 	nilRes := &models.QueryNativeTxTypesRes{}
 	body, errorRes := t.HttpClient.DoHttpRequest(http.MethodGet, fmt.Sprintf(models.QueryNativeTxTypes), nil, nil)
-	log.Debugf("QueryNativeTxTypesRes body: %s", string(body))
+	log.Debugf("QueryNativeTxTypes body: %s", string(body))
 	if errorRes != nil {
-		log.Errorf("QueryNativeTxTypesRes DoHttpRequest error: %s", errorRes.Error())
+		log.Errorf("QueryNativeTxTypes DoHttpRequest error: %s", errorRes.Error())
 		return nilRes, errorRes
 	}
 
 	result := &models.QueryNativeTxTypesRes{}
 	if err := json.Unmarshal(body, &result); err != nil {
-		log.Errorf("QueryNativeTxTypesRes Unmarshal Params: %s", err.Error())
+		log.Errorf("QueryNativeTxTypes Unmarshal Params: %s", err.Error())
 		return nilRes, models.NewSDKError(fmt.Sprintf("Unmarshal Params: %s", err.Error()))
 	}
 
-	log.Info("QueryNativeTxTypesRes end")
+	log.Info("QueryNativeTxTypes end")
 	return result, nil
 }

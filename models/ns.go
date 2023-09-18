@@ -3,7 +3,7 @@ package models
 const (
 	RegisterDomain = "/v3/evm/ns/domains"         // 注册域名
 	QueryDomain    = "/v3/evm/ns/domains"         // 查询域名
-	TransferDomin  = "/v3/evm/ns/transfers/%s/%s" // 转让域名
+	TransferDomain = "/v3/evm/ns/transfers/%s/%s" // 转让域名
 	QueryDomains   = "/v3/evm/ns/domains/%s"      // 查询用户域名
 )
 

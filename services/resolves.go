@@ -138,7 +138,7 @@ func (r resolvesService) SetReverseResolves(params *models.SetReverseResolvesReq
 	log := r.Logger
 	log.Debugln(map[string]interface{}{
 		"module":   "ns",
-		"function": "QueryResolves",
+		"function": "SetReverseResolves",
 		"params":   fmt.Sprintf("%v", params),
 	})
 	log.Info("SetReverseResolves start")
@@ -190,13 +190,16 @@ func (r resolvesService) QueryReverseResolves(owner string) (*models.QueryRevers
 	nilRes := &models.QueryReverseResolvesRes{}
 
 	body, errorRes := r.HttpClient.DoHttpRequest(http.MethodGet, fmt.Sprintf(models.QueryReverseResolves, owner), nil, nil)
-	log.Debugf("SetReverseResolves body: %s", string(body))
+	log.Debugf("QueryReverseResolves body: %s", string(body))
 	if errorRes != nil {
-		log.Errorf("SetReverseResolves DoHttpRequest error: %s", errorRes.Error())
+		log.Errorf("QueryReverseResolves DoHttpRequest error: %s", errorRes.Error())
 		return nilRes, errorRes
 	}
 	result := &models.QueryReverseResolvesRes{}
-	json.Unmarshal(body, &result)
-	log.Info("SetReverseResolves end")
+	if err := json.Unmarshal(body, &result); err != nil {
+		log.Errorf("QueryReverseResolves Unmarshal Params: %s", err.Error())
+		return nilRes, models.NewSDKError(fmt.Sprintf("Unmarshal Params: %s", err.Error()))
+	}
+	log.Info("QueryReverseResolves end")
 	return result, nil
 }

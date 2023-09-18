@@ -216,10 +216,10 @@ func (a accountService) QueryNativeAccountsHistory(params *models.QueryNativeAcc
 	log := a.Logger
 	log.Debugln(map[string]interface{}{
 		"module":   "Account",
-		"function": "QueryAccountsHistory",
+		"function": "QueryNativeAccountsHistory",
 		"params":   fmt.Sprintf("%v", params),
 	})
-	log.Info("QueryAccountsHistory start")
+	log.Info("QueryNativeAccountsHistory start")
 
 	nilRes := &models.QueryNativeAccountsHistoryRes{}
 
