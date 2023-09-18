@@ -13,7 +13,7 @@ import (
 type NSService interface {
 	RegisterDomain(params *models.RegisterDomainReq) (*models.TxRes, models.Error)                     //注册域名
 	QueryDomain(params *models.QueryDomainReq) (*models.QueryDomainRes, models.Error)                  //查询域名
-	TransferDomin(params *models.TransferDomainReq, owner, name string) (*models.TxRes, models.Error)  //转让域名
+	TransferDomain(params *models.TransferDomainReq, owner, name string) (*models.TxRes, models.Error) //转让域名
 	QueryDomains(params *models.QueryDomainsReq, owner string) (*models.QueryDomainsRes, models.Error) //查询用户域名
 }
 
@@ -133,14 +133,14 @@ func (n nsService) QueryDomain(params *models.QueryDomainReq) (*models.QueryDoma
  * @description: 转让域名
  * @return {*}
  */
-func (n nsService) TransferDomin(params *models.TransferDomainReq, owner, name string) (*models.TxRes, models.Error) {
+func (n nsService) TransferDomain(params *models.TransferDomainReq, owner, name string) (*models.TxRes, models.Error) {
 	log := n.Logger
 	log.Debugln(map[string]interface{}{
 		"module":   "ns",
-		"function": "TransferDomin",
+		"function": "TransferDomain",
 		"params":   fmt.Sprintf("%v", params),
 	})
-	log.Info("TransferDomainReq start")
+	log.Info("TransferDomain start")
 
 	nilRes := &models.TxRes{}
 
@@ -154,23 +154,23 @@ func (n nsService) TransferDomin(params *models.TransferDomainReq, owner, name s
 	}
 	bytesData, err := json.Marshal(params)
 	if err != nil {
-		log.Errorf("TransferDomin Marshal Params: %s", err.Error())
+		log.Errorf("TransferDomain Marshal Params: %s", err.Error())
 		return nilRes, models.NewSDKError(fmt.Sprintf("Marshal Params: %s", err.Error()))
 	}
-	body, errorRes := n.HttpClient.DoHttpRequest(http.MethodPost, fmt.Sprintf(models.TransferDomin, owner, name), bytesData, nil)
-	log.Debugf("TransferDomin body: %s", string(body))
+	body, errorRes := n.HttpClient.DoHttpRequest(http.MethodPost, fmt.Sprintf(models.TransferDomain, owner, name), bytesData, nil)
+	log.Debugf("TransferDomain body: %s", string(body))
 	if errorRes != nil {
-		log.Errorf("TransferDomin DoHttpRequest error: %s", errorRes.Error())
+		log.Errorf("TransferDomain DoHttpRequest error: %s", errorRes.Error())
 		return nilRes, errorRes
 	}
 
 	result := &models.TxRes{}
 	if err = json.Unmarshal(body, &result); err != nil {
-		log.Errorf("TransferDomin Unmarshal Params: %s", err.Error())
+		log.Errorf("TransferDomain Unmarshal Params: %s", err.Error())
 		return nilRes, models.NewSDKError(fmt.Sprintf("Unmarshal Params: %s", err.Error()))
 	}
 
-	log.Info("TransferDomin end")
+	log.Info("TransferDomain end")
 	return result, nil
 }
 

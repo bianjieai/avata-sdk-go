@@ -427,7 +427,7 @@ func (n nftService) TransferNativeNFTClass(params *models.TransferNativeNFClassR
 
 	bytesData, err := json.Marshal(params)
 	if err != nil {
-		log.Errorf("TransferNFTClass Marshal Params: %s", err.Error())
+		log.Errorf("TransferNativeNFTClass Marshal Params: %s", err.Error())
 		return nilRes, models.NewSDKError(fmt.Sprintf("Marshal Params: %s", err.Error()))
 	}
 
@@ -827,7 +827,7 @@ func (n nftService) EditNativeNFT(params *models.EditNativeNFTReq, classID, owne
 
 	bytesData, err := json.Marshal(params)
 	if err != nil {
-		log.Errorf("EditNFT Marshal Params: %s", err.Error())
+		log.Errorf("EditNativeNFT Marshal Params: %s", err.Error())
 		return nilRes, models.NewSDKError(fmt.Sprintf("Marshal Params: %s", err.Error()))
 	}
 
@@ -1129,15 +1129,15 @@ func (n nftService) QueryNativeNFT(classID, nftID string) (*models.QueryNativeNF
 		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "nft_id"))
 	}
 	body, errorRes := n.HttpClient.DoHttpRequest(http.MethodGet, fmt.Sprintf(models.QueryNativeNFT, classID, nftID), nil, nil)
-	log.Debugf("QueryNFT body: %s", string(body))
+	log.Debugf("QueryNativeNFT body: %s", string(body))
 	if errorRes != nil {
-		log.Errorf("QueryNFT DoHttpRequest error: %s", errorRes.Error())
+		log.Errorf("QueryNativeNFT DoHttpRequest error: %s", errorRes.Error())
 		return nilRes, errorRes
 	}
 
 	result := &models.QueryNativeNFTRes{}
 	if err := json.Unmarshal(body, &result); err != nil {
-		log.Errorf("QueryNFT Unmarshal Params: %s", err.Error())
+		log.Errorf("QueryNativeNFT Unmarshal Params: %s", err.Error())
 		return nilRes, models.NewSDKError(fmt.Sprintf("Unmarshal Params: %s", err.Error()))
 	}
 

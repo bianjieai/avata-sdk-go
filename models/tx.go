@@ -40,7 +40,7 @@ type QueryTxResultRes struct {
 				Key       string `json:"key"`        // 文本数据 key
 				TextValue string `json:"text_value"` // 文本数据值
 			} `json:"text"`
-			Add string `json:"addr"` // 链账户地址
+			Address string `json:"addr"` // 链账户地址
 		} `json:"ns"` // 具体参考接口文档
 
 	} `json:"data"`

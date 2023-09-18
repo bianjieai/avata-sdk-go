@@ -55,7 +55,7 @@ func TestTransferDomin(t *testing.T) {
 		OperationID: "v3_TestTransferDomin",
 		Recipient:   "0x849Ed8726B6D755721b0EeAd2Ea5BA371f9E3c22",
 	}
-	result, err := client.NS.TransferDomin(params, owner, name)
+	result, err := client.NS.TransferDomain(params, owner, name)
 	if err != nil {
 		t.Log(err)
 		return
