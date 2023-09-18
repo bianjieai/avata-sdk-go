@@ -89,7 +89,7 @@ type QueryAccountsHistoryReq struct {
 	CountTotal string `json:"count_total,omitempty"` //　是否查询数据的总数量 0：不查询总数（默认）1：查询总数
 }
 
-// QueryNativeAccountsHistoryReq 以原生方式查询链账户操作记录请求参数
+// QueryNativeAccountsHistoryReq 查询原生模块链账户操作记录请求参数
 type QueryNativeAccountsHistoryReq struct {
 	PageKey    string `json:"page_key,omitempty"`    // 分页数据的 Key，Avata 会根据该值进行上下页的查询， 该值请从返回的数据体中获取，首页查询可以不传该参数
 	Limit      string `json:"limit,omitempty"`       // 每页记录数，默认为 10，上限为 50
@@ -103,7 +103,7 @@ type QueryNativeAccountsHistoryReq struct {
 	CountTotal string `json:"count_total,omitempty"` //　是否查询数据的总数量 0：不查询总数（默认）1：查询总数
 }
 
-// QueryNativeAccountsHistoryRes 以原生方式查询链账户操作记录返回值
+// QueryNativeAccountsHistoryRes 查询原生模块链账户操作记录返回值
 type (
 	QueryNativeAccountsHistoryRes struct {
 		Data struct {
@@ -149,7 +149,7 @@ type MTMsg struct {
 	ClassName string `json:"class"`     // MT 类别名称
 }
 
-// QueryAccountsHistoryRes 以 EVM 方式查询链账户操作记录返回值
+// QueryAccountsHistoryRes 查询 EVM 模块链账户操作记录返回值
 type (
 	QueryAccountsHistoryRes struct {
 		Data struct {

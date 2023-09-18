@@ -2,7 +2,7 @@ package models
 
 import "fmt"
 
-const CodeSpace = "AVATA-SDK-GO"
+const CodeSpace = "AVATA-SDK"
 
 // code
 const (

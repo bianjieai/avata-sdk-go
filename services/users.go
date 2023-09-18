@@ -36,7 +36,7 @@ func NewUsersService(log loggers.Advanced, httpClient utils.HttpClient) *usersSe
 func (a usersService) CreateUsers(params *models.CreateUsersReq) (*models.CreateUsersRes, models.Error) {
 	log := a.Logger
 	log.Debugln(map[string]interface{}{
-		"module":   "users",
+		"module":   "Users",
 		"function": "CreateUsers",
 		"params":   fmt.Sprintf("%v", params),
 	})
@@ -100,7 +100,7 @@ func (a usersService) CreateUsers(params *models.CreateUsersReq) (*models.Create
 func (a usersService) EditUsers(params *models.EditUsersReq) (*models.TxRes, models.Error) {
 	log := a.Logger
 	log.Debugln(map[string]interface{}{
-		"module":   "users",
+		"module":   "Users",
 		"function": "EditUsers",
 		"params":   fmt.Sprintf("%v", params),
 	})
@@ -148,7 +148,7 @@ func (a usersService) EditUsers(params *models.EditUsersReq) (*models.TxRes, mod
 func (a usersService) QueryUsers(params *models.QueryUsersReq) (*models.QueryUsersRes, models.Error) {
 	log := a.Logger
 	log.Debugln(map[string]interface{}{
-		"module":   "users",
+		"module":   "Users",
 		"function": "QueryUsers",
 		"params":   fmt.Sprintf("%v", params),
 	})
