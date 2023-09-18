@@ -1,28 +1,28 @@
 package models
 
 const (
-	CreateNFTClass         = "/v3/evm/nft/classes"                   // 以 EVM 方式创建 NFT 类别
-	QueryNFTClasses        = "/v3/evm/nft/classes"                   // 以 EVM 方式查询 NFT 类别
-	QueryNFTClass          = "/v3/evm/nft/classes/%s"                // 以 EVM 方式查询 NFT 类别详情
-	TransferNFTClass       = "/v3/evm/nft/class-transfers/%s/%s"     // 以 EVM 方式转让 NFT 类别
-	MintNFT                = "/v3/evm/nft/nfts/%s"                   // 以 EVM 方式发行 NFT
-	TransferNFT            = "/v3/evm/nft/nft-transfers/%s/%s/%s"    // 以 EVM 方式转让 NFT
-	EditNFT                = "/v3/evm/nft/nfts/%s/%s/%s"             // 以 EVM 方式编辑 NFT
-	BurnNFT                = "/v3/evm/nft/nfts/%s/%s/%s"             // 以 EVM 方式销毁 NFT
-	QueryNFTs              = "/v3/evm/nft/nfts"                      // 以 EVM 方式查询 NFT
-	QueryNFT               = "/v3/evm/nft/nfts/%s/%s"                // 以 EVM 方式查询 NFT 详情
-	QueryNFTHistory        = "/v3/evm/nft/nfts/%s/%s/history"        // 以 EVM 方式查询 NFT 历史记录
-	CreateNativeNFTClass   = "/v3/native/nft/classes"                // 以原生方式创建 NTF 类别
-	QueryNativeNFTClasses  = "/v3/native/nft/classes"                // 以原生方式查询 NTF 类别
-	QueryNativeNFTClass    = "/v3/native/nft/classes/%s"             // 以原生方式查询 NFT 类别详情
-	TransferNativeNFTClass = "/v3/native/nft/class-transfers/%s/%s"  // 以原生方式转让 NFT 类别
-	MintNativeNFT          = "/v3/native/nft/nfts/%s"                // 以原生方式发行 NFT
-	TransferNativeNFT      = "/v3/native/nft/nft-transfers/%s/%s/%s" // 以原生方式转让 NFT
-	EditNativeNFT          = "/v3/native/nft/nfts/%s/%s/%s"          // 以原生方式编辑 NFT
-	BurnNativeNFT          = "/v3/native/nft/nfts/%s/%s/%s"          // 以原生方式销毁 NFT
-	QueryNativeNFTs        = "/v3/native/nft/nfts"                   // 以原生方式查询 NFT
-	QueryNativeNFT         = "/v3/native/nft/nfts/%s/%s"             // 以原生方式查询 NFT 详情
-	QueryNativeNFTHistory  = "/v3/native/nft/nfts/%s/%s/history"     // 以原生方式查询 NFT 历史记录
+	CreateNFTClass         = "/v3/evm/nft/classes"                   // EVM 模块创建 NFT 类别
+	QueryNFTClasses        = "/v3/evm/nft/classes"                   // EVM 模块查询 NFT 类别
+	QueryNFTClass          = "/v3/evm/nft/classes/%s"                // EVM 模块查询 NFT 类别详情
+	TransferNFTClass       = "/v3/evm/nft/class-transfers/%s/%s"     // EVM 模块转让 NFT 类别
+	MintNFT                = "/v3/evm/nft/nfts/%s"                   // EVM 模块发行 NFT
+	TransferNFT            = "/v3/evm/nft/nft-transfers/%s/%s/%s"    // EVM 模块转让 NFT
+	EditNFT                = "/v3/evm/nft/nfts/%s/%s/%s"             // EVM 模块编辑 NFT
+	BurnNFT                = "/v3/evm/nft/nfts/%s/%s/%s"             // EVM 模块销毁 NFT
+	QueryNFTs              = "/v3/evm/nft/nfts"                      // EVM 模块查询 NFT
+	QueryNFT               = "/v3/evm/nft/nfts/%s/%s"                // EVM 模块查询 NFT 详情
+	QueryNFTHistory        = "/v3/evm/nft/nfts/%s/%s/history"        // EVM 模块查询 NFT 操作记录
+	CreateNativeNFTClass   = "/v3/native/nft/classes"                // 原生模块创建 NTF 类别
+	QueryNativeNFTClasses  = "/v3/native/nft/classes"                // 原生模块查询 NTF 类别
+	QueryNativeNFTClass    = "/v3/native/nft/classes/%s"             // 原生模块查询 NFT 类别详情
+	TransferNativeNFTClass = "/v3/native/nft/class-transfers/%s/%s"  // 原生模块转让 NFT 类别
+	MintNativeNFT          = "/v3/native/nft/nfts/%s"                // 原生模块发行 NFT
+	TransferNativeNFT      = "/v3/native/nft/nft-transfers/%s/%s/%s" // 原生模块转让 NFT
+	EditNativeNFT          = "/v3/native/nft/nfts/%s/%s/%s"          // 原生模块编辑 NFT
+	BurnNativeNFT          = "/v3/native/nft/nfts/%s/%s/%s"          // 原生模块销毁 NFT
+	QueryNativeNFTs        = "/v3/native/nft/nfts"                   // 原生模块查询 NFT
+	QueryNativeNFT         = "/v3/native/nft/nfts/%s/%s"             // 原生模块查询 NFT 详情
+	QueryNativeNFTHistory  = "/v3/native/nft/nfts/%s/%s/history"     // 原生模块查询 NFT 操作记录
 )
 
 // CreateNFTClassReq 创建 EVM 模块 NFT 类别请求参数
