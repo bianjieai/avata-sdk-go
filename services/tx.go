@@ -14,9 +14,9 @@ import (
 // TxService 交易结果查询接口
 type TxService interface {
 	QueryTxResult(operationID string) (*models.QueryTxResultRes, models.Error)             // 上链交易结果查询
-	QueryNativeTxResult(operationID string) (*models.QueryNativeTxResultRes, models.Error) // 上链交易结果查询(原生模块)
+	QueryNativeTxResult(operationID string) (*models.QueryNativeTxResultRes, models.Error) // 上链交易结果查询（原生模块）
 	QueryTxTypes() (*models.QueryTxTypesRes, models.Error)                                 // 查询枚举值列表
-	QueryNativeTxTypes() (*models.QueryNativeTxTypesRes, models.Error)                     // 查询枚举值列表(原生模块)
+	QueryNativeTxTypes() (*models.QueryNativeTxTypesRes, models.Error)                     // 查询枚举值列表（原生模块）
 }
 
 type txService struct {
@@ -32,8 +32,8 @@ func NewTxService(log loggers.Advanced, client utils.HttpClient) *txService {
 }
 
 /**
- * @description: 上链交易结果查询(原生模块)
- * @param {string} operationID ：操作id
+ * @description: 上链交易结果查询（原生模块）
+ * @param {string} operationID ：操作 ID
  * @return {*}
  */
 func (t txService) QueryNativeTxResult(operationID string) (*models.QueryNativeTxResultRes, models.Error) {
@@ -73,7 +73,7 @@ func (t txService) QueryNativeTxResult(operationID string) (*models.QueryNativeT
 
 /**
  * @description: 上链交易结果查询
- * @param {string} operationID ：操作id
+ * @param {string} operationID ：操作 ID
  * @return {*}
  */
 func (t txService) QueryTxResult(operationID string) (*models.QueryTxResultRes, models.Error) {
@@ -143,7 +143,7 @@ func (t txService) QueryTxTypes() (*models.QueryTxTypesRes, models.Error) {
 }
 
 /**
- * @description: 枚举值列表查询(原生模块)
+ * @description: 枚举值列表查询（原生模块）
  * @return {*}
  */
 func (t txService) QueryNativeTxTypes() (*models.QueryNativeTxTypesRes, models.Error) {

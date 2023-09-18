@@ -1,14 +1,14 @@
 package models
 
 const (
-	QueryTxResult       = "/v3/evm/tx/%s"            // 以 EVM 方式结果上链交易查询/evm
-	QueryNativeTxResult = "/v3/native/tx/%s"         // 以原生方式查询上链交易结果接口
-	QueryTxTypes        = "/v3/evm/dict/tx_types"    // 以 EVM 查询枚举值列表
-	QueryNativeTxTypes  = "/v3/native/dict/tx_types" // 以原生方式查询枚举值列表
+	QueryTxResult       = "/v3/evm/tx/%s"            // EVM 模块上链交易结果查询接口
+	QueryNativeTxResult = "/v3/native/tx/%s"         // 原生模块上链交易结果查询接口
+	QueryTxTypes        = "/v3/evm/dict/tx_types"    // EVM 模块查询枚举值列表接口
+	QueryNativeTxTypes  = "/v3/native/dict/tx_types" // 原生模块查询枚举值列表接口
 
 )
 
-// QueryTxResultRes 以 EVM 方式查询上链交易结果返回值
+// QueryTxResultRes EVM 模块上链交易结果查询接口返回值
 // 交易状态说明：
 // status 为 0（处理中），上链请求正在处理，请等待处理完成；
 // status 为 1（成功），交易已上链并执行成功；
@@ -46,7 +46,7 @@ type QueryTxResultRes struct {
 	} `json:"data"`
 }
 
-// QueryNativeTxResultRes 以原生方式查询上链交易结果返回值
+// QueryNativeTxResultRes 原生模块上链交易结果查询接口返回值
 type QueryNativeTxResultRes struct {
 	Data struct {
 		Module      int    `json:"module"`       // 交易模块；Enum: 1 nft  2 ns(域名)  3 record(存证)
@@ -71,22 +71,26 @@ type QueryNativeTxResultRes struct {
 	} `json:"data"`
 }
 
-// QueryTxTypesRes 查询枚举值列表返回值
+// QueryTxTypesRes 查询枚举值列表接口返回值
 type QueryTxTypesRes struct {
 	Data DataItem `json:"data"`
 }
 
-// QueryNativeTxTypesRes  以原生方式查询枚举值列表
-type QueryNativeTxTypesRes struct {
-	Data DataItem `json:"data"`
-}
-type DataItem struct {
-	Data []TxType `json:"data"`
-}
-type TxType struct {
-	Module      int64  `json:"module"`      // 交易模块：请通过 查询枚举值列表 接口查看
-	Operation   int64  `json:"operation"`   // 用户操作类型 请通过 查询枚举值列表 接口查看
-	Code        string `json:"code"`        // 标识
-	Name        string `json:"name"`        // 名称
-	Description string `json:"description"` // 描述
-}
+// QueryNativeTxTypesRes  原生模块查询枚举值列表接口返回值
+type (
+	QueryNativeTxTypesRes struct {
+		Data DataItem `json:"data"`
+	}
+
+	DataItem struct {
+		Data []TxType `json:"data"`
+	}
+
+	TxType struct {
+		Module      int64  `json:"module"`      // 交易模块：请通过 查询枚举值列表 接口查看
+		Operation   int64  `json:"operation"`   // 用户操作类型 请通过 查询枚举值列表 接口查看
+		Code        string `json:"code"`        // 标识
+		Name        string `json:"name"`        // 名称
+		Description string `json:"description"` // 描述
+	}
+)
