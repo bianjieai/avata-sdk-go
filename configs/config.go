@@ -6,7 +6,7 @@ import (
 	"github.com/siddontang/go-log/loggers"
 	log "github.com/sirupsen/logrus"
 
-	"github.com/bianjieai/avata-sdk-go/utils"
+	"github.com/bianjieai/avata-sdk-go/v3/utils"
 )
 
 const httpTimeout = 10

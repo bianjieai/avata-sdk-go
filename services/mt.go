@@ -7,8 +7,8 @@ import (
 
 	"github.com/siddontang/go-log/loggers"
 
-	"github.com/bianjieai/avata-sdk-go/models"
-	"github.com/bianjieai/avata-sdk-go/utils"
+	"github.com/bianjieai/avata-sdk-go/v3/models"
+	"github.com/bianjieai/avata-sdk-go/v3/utils"
 )
 
 // MTService MT 接口

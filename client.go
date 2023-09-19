@@ -1,10 +1,10 @@
 package sdk
 
 import (
-	"github.com/bianjieai/avata-sdk-go/configs"
-	"github.com/bianjieai/avata-sdk-go/models"
-	"github.com/bianjieai/avata-sdk-go/services"
-	"github.com/bianjieai/avata-sdk-go/utils"
+	"github.com/bianjieai/avata-sdk-go/v3/configs"
+	"github.com/bianjieai/avata-sdk-go/v3/models"
+	"github.com/bianjieai/avata-sdk-go/v3/services"
+	"github.com/bianjieai/avata-sdk-go/v3/utils"
 )
 
 type AvataClient struct {

@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/bianjieai/avata-sdk-go/models"
+	"github.com/bianjieai/avata-sdk-go/v3/models"
 )
 
 var operationID = fmt.Sprintf("orderID_%v", time.Now().Unix())

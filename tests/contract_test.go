@@ -3,8 +3,8 @@ package tests
 import (
 	"testing"
 
-	"github.com/bianjieai/avata-sdk-go/models"
-	"github.com/bianjieai/avata-sdk-go/utils"
+	"github.com/bianjieai/avata-sdk-go/v3/models"
+	"github.com/bianjieai/avata-sdk-go/v3/utils"
 )
 
 // 调用合约接口请求示例

@@ -3,7 +3,7 @@ package tests
 import (
 	"testing"
 
-	"github.com/bianjieai/avata-sdk-go/models"
+	"github.com/bianjieai/avata-sdk-go/v3/models"
 )
 
 // 注册域名接口请求示例

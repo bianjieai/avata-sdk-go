@@ -3,7 +3,7 @@ package tests
 import (
 	"testing"
 
-	"github.com/bianjieai/avata-sdk-go/models"
+	"github.com/bianjieai/avata-sdk-go/v3/models"
 )
 
 // 创建 EVM 模块 NFT 类别接口请求示例
