@@ -7,8 +7,8 @@ import (
 
 	"github.com/sirupsen/logrus"
 
-	sdk "github.com/bianjieai/avata-sdk-go"
-	"github.com/bianjieai/avata-sdk-go/configs"
+	sdk "github.com/bianjieai/avata-sdk-go/v3"
+	"github.com/bianjieai/avata-sdk-go/v3/configs"
 )
 
 var client *sdk.AvataClient

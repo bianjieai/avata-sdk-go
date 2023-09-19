@@ -1,4 +1,4 @@
-module github.com/bianjieai/avata-sdk-go
+module github.com/bianjieai/avata-sdk-go/v3
 
 go 1.17
 

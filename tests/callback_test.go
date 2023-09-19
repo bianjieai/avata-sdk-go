@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/bianjieai/avata-sdk-go/models"
-	"github.com/bianjieai/avata-sdk-go/utils"
+	"github.com/bianjieai/avata-sdk-go/v3/models"
+	"github.com/bianjieai/avata-sdk-go/v3/utils"
 )
 
 // 应用方接收回调实现示例
