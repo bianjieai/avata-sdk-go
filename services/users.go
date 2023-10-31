@@ -12,6 +12,7 @@ import (
 
 type UsersService interface {
 	CreateUsers(params *models.CreateUsersReq) (*models.CreateUsersRes, models.Error) // 创建钱包用户
+	KycUsers(params *models.KycUsersReq) (*models.TxRes, models.Error)                //认证钱包用户
 	EditUsers(params *models.EditUsersReq) (*models.TxRes, models.Error)              // 更新钱包用户
 	QueryUsers(params *models.QueryUsersReq) (*models.QueryUsersRes, models.Error)    // 查询钱包用户信息
 }
@@ -49,25 +50,9 @@ func (a usersService) CreateUsers(params *models.CreateUsersReq) (*models.Create
 		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
 		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "params"))
 	}
-	if params.UserType != 1 && params.UserType != 2 {
-		log.Debugln(fmt.Sprintf(models.ErrParam, "user_type"))
-		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "user_type"))
-	}
-	if params.Name == "" {
-		log.Debugln(fmt.Sprintf(models.ErrParam, "name"))
-		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "name"))
-	}
 	if params.PhoneNum == "" {
 		log.Debugln(fmt.Sprintf(models.ErrParam, "phone_num"))
 		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "phone_num"))
-	}
-	if params.UserType == 1 && params.CertificateNum == "" {
-		log.Debugln(fmt.Sprintf(models.ErrParam, "certificate_num"))
-		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "certificate_num"))
-	}
-	if params.UserType == 2 && params.RegistrationNum == "" {
-		log.Debugln(fmt.Sprintf(models.ErrParam, "registration_num"))
-		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "registration_num"))
 	}
 	bytesData, err := json.Marshal(params)
 	if err != nil {
@@ -89,6 +74,58 @@ func (a usersService) CreateUsers(params *models.CreateUsersReq) (*models.Create
 	}
 
 	log.Info("CreateUsers end")
+	return result, nil
+}
+
+/**
+ * @description: 认证钱包用户
+ * @param {*models.EditUsersReq} params
+ * @return {*}
+ */
+func (a usersService) KycUsers(params *models.KycUsersReq) (*models.TxRes, models.Error) {
+	log := a.Logger
+	log.Debugln(map[string]interface{}{
+		"module":   "Users",
+		"function": "KycUsers",
+		"params":   fmt.Sprintf("%v", params),
+	})
+	log.Info("KycUsers start")
+	nilRes := &models.TxRes{}
+	// 校验必填参数
+	if params == nil {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
+		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "params"))
+	}
+	if params.UserType != 1 && params.UserType != 2 {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "User_type"))
+		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "User_type"))
+	}
+	if params.UserID == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "user_id"))
+		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "user_id"))
+	}
+	if params.Name == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
+		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "name"))
+	}
+	bytesData, err := json.Marshal(params)
+	if err != nil {
+		log.Errorf("EditUsers Marshal Params: %s", err.Error())
+		return nilRes, models.NewSDKError(fmt.Sprintf("Marshal Params: %s", err.Error()))
+	}
+	body, errorRes := a.HttpClient.DoHttpRequest(http.MethodPost, models.KycUsers, bytesData, nil)
+	log.Debugf("KycUsers body: %s", string(body))
+	if errorRes != nil {
+		log.Errorf("KycUsers DoHttpRequest error: %s", errorRes.Error())
+		return nilRes, errorRes
+	}
+	result := &models.TxRes{}
+	if err = json.Unmarshal(body, &result); err != nil {
+		log.Errorf("KycUsers Unmarshal Params: %s", err.Error())
+		return nilRes, models.NewSDKError(fmt.Sprintf("Unmarshal Params: %s", err.Error()))
+	}
+
+	log.Info("KycUsers end")
 	return result, nil
 }
 
@@ -124,7 +161,7 @@ func (a usersService) EditUsers(params *models.EditUsersReq) (*models.TxRes, mod
 		log.Errorf("EditUsers Marshal Params: %s", err.Error())
 		return nilRes, models.NewSDKError(fmt.Sprintf("Marshal Params: %s", err.Error()))
 	}
-	body, errorRes := a.HttpClient.DoHttpRequest(http.MethodPost, models.EditUsers, bytesData, nil)
+	body, errorRes := a.HttpClient.DoHttpRequest(http.MethodPatch, models.EditUsers, bytesData, nil)
 	log.Debugf("EditUsers body: %s", string(body))
 	if errorRes != nil {
 		log.Errorf("EditUsers DoHttpRequest error: %s", errorRes.Error())
@@ -161,21 +198,18 @@ func (a usersService) QueryUsers(params *models.QueryUsersReq) (*models.QueryUse
 		log.Debugln(fmt.Sprintf(models.ErrParam, "params"))
 		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "params"))
 	}
-	if params.UserType == "" {
-		log.Debugln(fmt.Sprintf(models.ErrParam, "user_type"))
-		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "user_type"))
+	if params.PhoneNum == "" {
+		log.Debugln(fmt.Sprintf(models.ErrParam, "phone_num"))
+		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "phone_num"))
 	}
-	if params.Code == "" {
-		log.Debugln(fmt.Sprintf(models.ErrParam, "code"))
-		return nilRes, models.InvalidParam(fmt.Sprintf(models.ErrParam, "code"))
-	}
+
 	bytesData, err := json.Marshal(params)
 	if err != nil {
 		log.Errorf("QueryUsers Marshal Params: %s", err.Error())
 		return nilRes, models.NewSDKError(fmt.Sprintf("Marshal Params: %s", err.Error()))
 	}
 
-	body, errorRes := a.HttpClient.DoHttpRequest(http.MethodPost, models.QueryUsers, nil, bytesData)
+	body, errorRes := a.HttpClient.DoHttpRequest(http.MethodGet, models.QueryUsers, nil, bytesData)
 	log.Debugf("QueryUsers body: %s", string(body))
 	if errorRes != nil {
 		log.Errorf("QueryUsers DoHttpRequest error: %s", errorRes.Error())

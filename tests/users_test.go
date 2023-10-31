@@ -6,14 +6,10 @@ import (
 	"github.com/bianjieai/avata-sdk-go/v3/models"
 )
 
-// 创建钱包用户接口请求示例
+// 创建钱包用户接口请求示例  p2s3Y1a0H3w130Z8
 func TestCreateUsers(t *testing.T) {
 	params := &models.CreateUsersReq{
-		UserType:        1,
-		Name:            "创建用户",
-		PhoneNum:        "13875512645",
-		CertificateType: 1,
-		CertificateNum:  "341127199307262359",
+		PhoneNum: "",
 	}
 
 	result, err := client.Users.CreateUsers(params)
@@ -24,11 +20,27 @@ func TestCreateUsers(t *testing.T) {
 	t.Logf("%+v \n", result)
 }
 
+// 认证钱包用户接口请求示例
+func TestKycUsers(t *testing.T) {
+	params := &models.KycUsersReq{
+		UserType:       1,
+		UserID:         "",
+		Name:           "",
+		CertificateNum: "",
+	}
+	result, err := client.Users.KycUsers(params)
+	if err != nil {
+		t.Log(err)
+		return
+	}
+	t.Logf("%+v \n", result)
+}
+
 // 更新钱包用户接口请求示例
 func TestEditUsers(t *testing.T) {
 	params := &models.EditUsersReq{
-		UserID:   "31",
-		PhoneNum: "1231321",
+		UserID:   "",
+		PhoneNum: "",
 	}
 
 	result, err := client.Users.EditUsers(params)
@@ -41,9 +53,9 @@ func TestEditUsers(t *testing.T) {
 
 // 查询钱包用户信息接口请求示例
 func TestQueryUsers(t *testing.T) {
+
 	params := &models.QueryUsersReq{
-		UserType: "",
-		Code:     "",
+		PhoneNum: "",
 	}
 
 	result, err := client.Users.QueryUsers(params)

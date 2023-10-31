@@ -44,6 +44,8 @@ type BatchCreateAccountsRes struct {
 type QueryAccountsReq struct {
 	PageKey     string `json:"page_key,omitempty"`     // 分页数据的 Key，Avata 会根据该值进行上下页的查询， 该值请从返回的数据体中获取，首页查询可以不传该参数
 	Limit       string `json:"limit,omitempty"`        // 每页记录数，默认为 10，上限为 50
+	UserID      string `json:"user_id,omitempty"`      // 钱包应用项目在创建链账户地址时传入的字段，方便查询某一终端用户的链账户地址信息。该字段值由创建用户接口返回
+	PhoneNum    string `json:"phone_num,omitempty"`    // 钱包应用项目在创建用户时，填入的手机号 注意：参数需要进行 hash 操作，hash 算法为：sha-256
 	Account     string `json:"account,omitempty"`      // 链账户地址
 	Name        string `json:"name,omitempty"`         // 链账户名称，支持模糊查询
 	OperationID string `json:"operation_id,omitempty"` // 操作 ID。此操作 ID 需要填写在请求创建链账户/批量创建链账户接口时，返回的 Operation ID。
